@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>BROADCAST OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#ff1a1a;--red2:#cc0000;--red-g:rgba(255,26,26,.35);
+  --amber:#ffb700;--amber-g:rgba(255,183,0,.3);
+  --green:#00ff88;--green-g:rgba(0,255,136,.3);
+  --cyan:#00ccff;--cyan-g:rgba(0,204,255,.3);
+  --bg:#080808;--bg2:#111;--bg3:#181818;--bg4:#1e1e1e;
+  --b1:#222;--b2:#333;--b3:#444;
+  --t1:#f0f0f0;--t2:#999;--t3:#555;
+  --mono:'Share Tech Mono',monospace;
+  --bar:'Barlow Condensed',sans-serif;
+  --disp:'Orbitron',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--bar);overflow:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9999}
+
+/* ══ LOGIN ══ */
+#login{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900}
+#login.hide{display:none}
+.l-logo{font-family:var(--disp);font-size:9px;font-weight:900;letter-spacing:.5em;color:var(--red);text-shadow:0 0 24px var(--red-g);margin-bottom:6px}
+.l-sub{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.3em;margin-bottom:40px}
+.l-box{background:var(--bg2);border:1px solid var(--b2);width:340px;padding:28px 28px 24px;position:relative}
+.l-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
+.l-label{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.2em;display:block;margin-bottom:5px}
+.l-input{width:100%;background:var(--bg3);border:1px solid var(--b1);border-bottom:1px solid var(--b2);color:var(--t1);font-family:var(--mono);font-size:13px;padding:9px 11px;outline:none;margin-bottom:14px;transition:border-color .15s}
+.l-input:focus{border-color:var(--red)}
+.l-btn{width:100%;background:var(--red2);border:none;color:#fff;font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.3em;padding:13px;cursor:pointer;transition:background .15s;margin-top:4px}
+.l-btn:hover{background:var(--red)}
+.l-err{font-family:var(--mono);font-size:10px;color:var(--red);margin-top:10px;min-height:14px;text-align:center}
+
+/* MODE SELECT */
+#modeSelect{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:850;gap:12px}
+#modeSelect.show{display:flex}
+.ms-title{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.4em;color:var(--t2);margin-bottom:20px}
+.ms-btn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.25em;padding:18px 40px;border:1px solid;background:transparent;cursor:pointer;transition:all .15s;width:280px}
+.ms-btn.main{border-color:var(--red);color:var(--red)}
+.ms-btn.main:hover{background:rgba(255,26,26,.08);box-shadow:0 0 20px var(--red-g)}
+.ms-btn.sub{border-color:var(--cyan);color:var(--cyan)}
+.ms-btn.sub:hover{background:rgba(0,204,255,.08);box-shadow:0 0 20px var(--cyan-g)}
+.ms-note{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.15em;margin-top:6px}
+
+/* ══ MAIN APP ══ */
+#app{display:none;height:100vh;flex-direction:column}
+#app.on{display:flex}
+
+/* HEADER */
+.hdr{height:38px;background:var(--bg2);border-bottom:2px solid var(--b1);display:flex;align-items:center;padding:0 12px;gap:10px;flex-shrink:0}
+.hdr-logo{font-family:var(--disp);font-size:9px;font-weight:900;letter-spacing:.4em;color:var(--red);text-shadow:0 0 10px var(--red-g)}
+.hdr-div{width:1px;height:16px;background:var(--b2)}
+.badge{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.2em;padding:3px 9px;border:1px solid currentColor}
+.badge.offair{color:var(--t3);border-color:var(--b2)}
+.badge.standby{color:var(--amber);border-color:var(--amber);box-shadow:0 0 8px var(--amber-g)}
+.badge.live{color:var(--red);border-color:var(--red);box-shadow:0 0 12px var(--red-g);animation:blk 1s step-start infinite}
+.badge.cm{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px var(--cyan-g)}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
+.mode-tag{font-family:var(--mono);font-size:8px;letter-spacing:.2em;padding:2px 7px;border:1px solid var(--b2);color:var(--t3)}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.hdr-clock{font-family:var(--mono);font-size:14px;color:var(--t2);letter-spacing:.08em}
+.hdr-user{font-family:var(--mono);font-size:9px;color:var(--t3)}
+.xbtn{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.15em;padding:3px 9px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
+.xbtn:hover{border-color:var(--red);color:var(--red)}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green-g);animation:sp 2s ease-in-out infinite;flex-shrink:0}
+.sdot.off{background:var(--red);animation:none}
+@keyframes sp{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ══ MAIN MODE LAYOUT ══ */
+.main-body{flex:1;display:grid;grid-template-columns:1fr 300px;min-height:0;overflow:hidden}
+.main-left{display:flex;flex-direction:column;border-right:1px solid var(--b1);overflow:hidden}
+
+/* clock area */
+.clock-area{background:var(--bg);padding:16px 24px 12px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:28px;flex-shrink:0}
+.clk-block{display:flex;flex-direction:column;align-items:center;gap:3px}
+.clk-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.3em}
+.clk-wall{font-family:var(--disp);font-size:clamp(32px,4.5vw,58px);font-weight:700;color:var(--t1);letter-spacing:.04em;line-height:1}
+.clk-wall .cn{animation:cnb 1s step-start infinite;color:var(--t3)}
+@keyframes cnb{0%,100%{opacity:1}50%{opacity:0}}
+.clk-wall.zero{color:#fff;text-shadow:0 0 30px rgba(255,26,26,.7)}
+.clk-vdiv{width:1px;height:52px;background:var(--b2);flex-shrink:0}
+.clk-elapsed{font-family:var(--disp);font-size:clamp(24px,3.5vw,46px);font-weight:700;line-height:1;color:var(--red);text-shadow:0 0 14px var(--red-g)}
+.clk-elapsed.paused{color:var(--amber);text-shadow:0 0 14px var(--amber-g)}
+.clk-elapsed.off{color:var(--t3);text-shadow:none}
+.clk-ms{font-family:var(--mono);font-size:clamp(10px,1.3vw,16px);color:var(--t3);letter-spacing:.15em;margin-top:2px}
+
+/* schedule status in header */
+.sched-status{font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:.12em;display:none}
+.sched-status.show{display:block}
+
+/* cue bar */
+.cue-bar{display:flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
+.cue-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.25em;margin-right:4px}
+.cue-btn{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.08em;width:44px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .12s;flex-shrink:0}
+.cue-btn:hover{border-color:var(--b3);color:var(--t2)}
+.cue-btn.c-stby{border-color:var(--amber)!important;color:var(--amber)!important;box-shadow:0 0 10px var(--amber-g);background:rgba(255,183,0,.06)}
+.cue-btn.c-num{border-color:var(--red)!important;color:var(--red)!important;box-shadow:0 0 12px var(--red-g);background:rgba(255,26,26,.08);font-size:15px}
+.cue-btn.c-q{border-color:var(--green)!important;color:var(--green)!important;box-shadow:0 0 16px var(--green-g);background:rgba(0,255,136,.08);animation:qp .6s ease-in-out infinite alternate}
+@keyframes qp{from{box-shadow:0 0 8px var(--green-g)}to{box-shadow:0 0 24px rgba(0,255,136,.8)}}
+
+/* seg table */
+.seg-wrap{flex:1;overflow-y:auto;min-height:0}
+.seg-wrap::-webkit-scrollbar{width:3px}
+.seg-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
+.seg-hdr{display:grid;grid-template-columns:28px 1fr 60px 54px 68px;padding:6px 12px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--bg3);z-index:5}
+.seg-hdr span{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.2em}
+.seg-row{display:grid;grid-template-columns:28px 1fr 60px 54px 68px;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;align-items:center;transition:background .1s}
+.seg-row:hover{background:rgba(255,255,255,.03)}
+.seg-row.act{background:rgba(255,26,26,.05);border-bottom:1px solid rgba(255,26,26,.15)}
+.seg-row.auto-next{border-left:2px solid var(--amber)}
+.s-num{font-family:var(--mono);font-size:10px;color:var(--t3)}
+.s-name{font-family:var(--bar);font-size:14px;font-weight:600;color:var(--t1)}
+.seg-row.act .s-name{color:var(--red)}
+.s-t{font-family:var(--mono);font-size:10px;color:var(--t2)}
+.s-diff{font-family:var(--mono);font-size:10px}
+.s-diff.over{color:var(--red)}.s-diff.under{color:var(--green)}.s-diff.ok{color:var(--t3)}
+.auto-badge{font-family:var(--mono);font-size:7px;color:var(--amber);border:1px solid var(--amber);padding:1px 4px;letter-spacing:.1em;margin-left:4px;vertical-align:middle}
+.seg-add-row{padding:7px 12px;border-top:1px solid var(--b1)}
+.seg-add-btn{font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:6px;width:100%;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer}
+.seg-add-btn:hover{border-color:var(--b2);color:var(--t2)}
+
+/* right panel */
+.main-right{background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;padding:10px;gap:8px}
+.main-right::-webkit-scrollbar{width:3px}
+.main-right::-webkit-scrollbar-thumb{background:var(--b2)}
+.ctrl-box{border:1px solid var(--b1);background:var(--bg3);padding:9px 9px 7px}
+.ctrl-title{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.3em;text-transform:uppercase;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
+.cbtn{width:100%;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.16em;padding:10px 8px;border:1px solid;background:transparent;cursor:pointer;text-transform:uppercase;margin-bottom:5px;transition:all .12s;position:relative;overflow:hidden}
+.cbtn:last-child{margin-bottom:0}
+.cbtn:disabled{opacity:.25;cursor:not-allowed;pointer-events:none}
+.cbtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s}
+.cbtn:hover:not(:disabled)::after{opacity:.07}
+.cbtn.go{border-color:var(--red);color:var(--red)}
+.cbtn.go.active{background:var(--red2);color:#fff;box-shadow:0 0 16px var(--red-g)}
+.cbtn.stby{border-color:var(--amber);color:var(--amber)}
+.cbtn.pau{border-color:var(--amber);color:var(--amber)}
+.cbtn.cm{border-color:var(--cyan);color:var(--cyan)}
+.cbtn.rst{border-color:var(--b2);color:var(--t3)}
+.cbtn.sched-btn{border-color:var(--green);color:var(--green)}
+.sq-btn{width:100%;font-family:var(--mono);font-size:10px;padding:6px 8px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;text-align:left;transition:all .1s;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sq-btn:last-child{margin-bottom:0}
+.sq-btn:hover{border-color:var(--b2);color:var(--t1)}
+.sq-btn.act{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.06)}
+.sys-row{font-family:var(--mono);font-size:9px;color:var(--t3);display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.auto-toggle{display:flex;align-items:center;gap:8px;padding:6px 0}
+.toggle-lbl{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.1em}
+.tog{position:relative;width:36px;height:18px;cursor:pointer;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;inset:0;background:var(--b2);border:1px solid var(--b2);transition:.2s}
+.tog-sl::before{content:'';position:absolute;width:12px;height:12px;left:2px;top:2px;background:var(--t3);transition:.2s}
+.tog input:checked + .tog-sl{background:rgba(255,183,0,.15);border-color:var(--amber)}
+.tog input:checked + .tog-sl::before{transform:translateX(17px);background:var(--amber)}
+
+/* status bar */
+.sbar{height:26px;background:var(--bg2);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 14px;gap:18px;flex-shrink:0}
+.sinfo{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.15em}
+.sinfo span{color:var(--t2)}
+
+/* ══ SUB MODE LAYOUT ══ */
+.sub-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:20px;background:var(--bg);position:relative;overflow:hidden}
+
+/* countdown overlay */
+.cdown-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.92);z-index:10;opacity:0;pointer-events:none;transition:opacity .3s}
+.cdown-overlay.show{opacity:1;pointer-events:auto}
+.cdown-num{font-family:var(--disp);font-size:clamp(120px,25vw,240px);font-weight:900;line-height:1;animation:cdbig .4s ease-out}
+.cdown-num.stby-txt{font-size:clamp(60px,12vw,120px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
+.cdown-num.cnt{color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.cdown-num.q-txt{color:var(--green);text-shadow:0 0 60px var(--green-g)}
+.cdown-sub{font-family:var(--mono);font-size:14px;color:var(--t3);letter-spacing:.3em;margin-top:12px;text-align:center}
+@keyframes cdbig{from{transform:scale(1.3);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* sub info grid */
+.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;width:100%;max-width:900px;background:var(--b1)}
+.sub-cell{background:var(--bg2);padding:20px 24px;display:flex;flex-direction:column;gap:6px}
+.sub-cell.wide{grid-column:1/-1}
+.sub-cell-lbl{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.3em}
+.sub-cell-val{font-family:var(--disp);font-size:clamp(28px,4vw,52px);font-weight:700;line-height:1}
+.sub-cell-val.wall{color:var(--t1)}
+.sub-cell-val.elapsed{color:var(--red);text-shadow:0 0 12px var(--red-g)}
+.sub-cell-val.elapsed.paused{color:var(--amber)}
+.sub-cell-val.remain{color:var(--amber);text-shadow:0 0 10px var(--amber-g)}
+.sub-cell-val.nextseg{color:var(--cyan);text-shadow:0 0 10px var(--cyan-g);font-size:clamp(18px,2.5vw,30px)}
+.sub-seg-name{font-family:var(--bar);font-size:clamp(16px,2.5vw,28px);font-weight:700;color:var(--t1);margin-top:4px}
+.sub-next-name{font-family:var(--bar);font-size:clamp(13px,1.8vw,20px);font-weight:600;color:var(--t2);margin-top:2px}
+.sub-ms{font-family:var(--mono);font-size:14px;color:var(--t3);letter-spacing:.1em}
+
+/* ══ MODALS ══ */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:800}
+.moverlay.on{display:flex}
+.mbox{background:var(--bg2);border:1px solid var(--b2);padding:22px;width:360px;position:relative;max-height:90vh;overflow-y:auto}
+.mbox::-webkit-scrollbar{width:3px}
+.mbox::-webkit-scrollbar-thumb{background:var(--b2)}
+.mbox.wide{width:480px}
+.mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber)}
+.mbox.red::before{background:var(--red)}
+.mtitle{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.2em;margin-bottom:14px;color:var(--t1)}
+.mrow{display:flex;gap:6px;margin-top:10px}
+.mbtn{flex:1;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.2em;padding:10px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
+.mbtn:hover{background:rgba(255,255,255,.04)}
+.mbtn.ok{border-color:var(--amber);color:var(--amber)}
+.mbtn.red{border-color:var(--red);color:var(--red)}
+.mfield{margin-bottom:10px}
+.mfield label{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.2em;display:block;margin-bottom:4px}
+.minput{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:8px 9px;outline:none}
+.minput:focus{border-color:var(--amber)}
+.mselect{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:8px 9px;outline:none;cursor:pointer}
+.mselect:focus{border-color:var(--amber)}
+.msep{height:1px;background:var(--b1);margin:12px 0}
+.mcheck-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.mcheck-row label{font-family:var(--mono);font-size:10px;color:var(--t2);cursor:pointer}
+.mcheck-row input[type=checkbox]{width:14px;height:14px;accent-color:var(--amber);cursor:pointer}
+.mgrid3{display:grid;grid-template-columns:1fr 72px 64px;gap:6px;margin-bottom:4px}
+.mhlbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.15em;text-align:center;margin-bottom:8px}
+
+/* stby countdown bar */
+.stby-bar{height:4px;background:var(--red);transform-origin:left;transition:none;margin-top:2px}
+
+@media(max-width:700px){
+  .main-body{grid-template-columns:1fr}
+  .main-right{display:none}
+  .sub-grid{grid-template-columns:1fr}
+  .sub-cell.wide{grid-column:1}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="l-logo">BROADCAST OS</div>
+  <div class="l-sub">放送進行管理システム v2.1</div>
+  <div class="l-box">
+    <label class="l-label">EMAIL</label>
+    <input type="email" id="lEmail" class="l-input" placeholder="operator@school.ac.jp" autocomplete="email">
+    <label class="l-label">PASSWORD</label>
+    <input type="password" id="lPass" class="l-input" placeholder="••••••••" autocomplete="current-password">
+    <button class="l-btn" id="lBtn">AUTHENTICATE →</button>
+    <div class="l-err" id="lErr"></div>
+  </div>
+</div>
+
+<!-- MODE SELECT -->
+<div id="modeSelect">
+  <div class="ms-title">SELECT DISPLAY MODE</div>
+  <button class="ms-btn main" id="msMain">MAIN — 操作卓</button>
+  <div class="ms-note">放送進行・セグメント管理・全操作</div>
+  <div style="height:16px"></div>
+  <button class="ms-btn sub" id="msSub">SUB — サブモニター</button>
+  <div class="ms-note">時計・経過時間・カウントダウン表示専用</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- HEADER (shared) -->
+  <div class="hdr">
+    <div class="hdr-logo">BROADCAST OS</div>
+    <div class="hdr-div"></div>
+    <div class="badge offair" id="badge">OFF AIR</div>
+    <div class="mode-tag" id="modeTag">MAIN</div>
+    <div class="sdot" id="sdot"></div>
+    <div class="sched-status" id="schedStatus"></div>
+    <div class="hdr-r">
+      <div class="hdr-clock" id="hdrClk">--:--:--</div>
+      <div class="hdr-user" id="hdrUser"></div>
+      <button class="xbtn" id="switchModeBtn">SWITCH MODE</button>
+      <button class="xbtn" id="logoutBtn">LOGOUT</button>
+    </div>
+  </div>
+
+  <!-- ── MAIN MODE ── -->
+  <div class="main-body" id="mainBody">
+    <div class="main-left">
+      <!-- CLOCK -->
+      <div class="clock-area">
+        <div class="clk-block">
+          <div class="clk-lbl">WALL CLOCK</div>
+          <div class="clk-wall" id="clkWall">
+            <span id="cwH">--</span><span class="cn">:</span><span id="cwM">--</span><span class="cn">:</span><span id="cwS">--</span>
+          </div>
+        </div>
+        <div class="clk-vdiv"></div>
+        <div class="clk-block">
+          <div class="clk-lbl">ELAPSED</div>
+          <div class="clk-elapsed off" id="clkEl">--:--:--</div>
+          <div class="clk-ms" id="clkMs">.---</div>
+        </div>
+        <div class="clk-vdiv"></div>
+        <div class="clk-block">
+          <div class="clk-lbl">BROADCAST END</div>
+          <div class="clk-elapsed off" id="clkRemain" style="font-size:clamp(18px,2.5vw,34px)">--:--</div>
+          <div class="clk-lbl" style="margin-top:2px" id="clkEndAt"></div>
+        </div>
+      </div>
+      <!-- CUE -->
+      <div class="cue-bar">
+        <span class="cue-lbl">CUE</span>
+        <button class="cue-btn" data-cue="stby" id="cueBtnStby">STBY</button>
+        <button class="cue-btn" data-cue="5">5</button>
+        <button class="cue-btn" data-cue="4">4</button>
+        <button class="cue-btn" data-cue="3">3</button>
+        <button class="cue-btn" data-cue="2">2</button>
+        <button class="cue-btn" data-cue="1">1</button>
+        <button class="cue-btn" data-cue="q">Q</button>
+      </div>
+      <!-- SEGMENT TABLE -->
+      <div class="seg-wrap">
+        <div class="seg-hdr">
+          <span>#</span><span>SEGMENT</span><span>START</span><span>LEN</span><span>DIFF</span>
+        </div>
+        <div id="segRows"></div>
+        <div class="seg-add-row">
+          <button class="seg-add-btn" id="addSegBtn">＋ ADD SEGMENT</button>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT -->
+    <div class="main-right">
+      <div class="ctrl-box">
+        <div class="ctrl-title">BROADCAST CTRL</div>
+        <button class="cbtn go" id="btnGo">▶ GO ON AIR</button>
+        <button class="cbtn stby" id="btnStby">◈ STANDBY + CUE...</button>
+        <button class="cbtn pau" id="btnPau" disabled>⏸ PAUSE</button>
+        <button class="cbtn cm" id="btnCm" disabled>▷ CM BREAK</button>
+        <button class="cbtn rst" id="btnRst">⏹ RESET</button>
+      </div>
+      <div class="ctrl-box">
+        <div class="ctrl-title">SCHEDULE</div>
+        <button class="cbtn sched-btn" id="btnSched">⏰ BROADCAST SCHEDULE</button>
+        <div class="auto-toggle">
+          <label class="tog"><input type="checkbox" id="autoSegToggle"><span class="tog-sl"></span></label>
+          <span class="toggle-lbl">セグメント自動切替</span>
+        </div>
+        <div class="sys-row" id="schedInfo" style="font-size:9px;color:var(--t3)">スケジュール未設定</div>
+      </div>
+      <div class="ctrl-box">
+        <div class="ctrl-title">SEGMENTS</div>
+        <div id="sqList"></div>
+      </div>
+      <div class="ctrl-box">
+        <div class="ctrl-title">SYSTEM</div>
+        <div class="sys-row"><div class="sdot" id="sdot2"></div><span id="sLabel">FIRESTORE</span></div>
+        <div class="sys-row" id="sysOffset">OFFSET: --</div>
+        <div class="sys-row" id="sysUpd">UPDATED: --</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUB MODE ── -->
+  <div class="sub-body" id="subBody" style="display:none">
+    <!-- Countdown overlay -->
+    <div class="cdown-overlay" id="cdownOverlay">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="cdown-num" id="cdownNum">STBY</div>
+        <div class="cdown-sub" id="cdownSub"></div>
+      </div>
+    </div>
+    <!-- Info grid -->
+    <div class="sub-grid">
+      <div class="sub-cell">
+        <div class="sub-cell-lbl">WALL CLOCK</div>
+        <div class="sub-cell-val wall" id="subWall">--:--:--</div>
+      </div>
+      <div class="sub-cell">
+        <div class="sub-cell-lbl">BROADCAST ELAPSED</div>
+        <div class="sub-cell-val elapsed" id="subElapsed">--:--:--</div>
+        <div class="sub-ms" id="subMs">.---</div>
+      </div>
+      <div class="sub-cell">
+        <div class="sub-cell-lbl">放送終了まで</div>
+        <div class="sub-cell-val remain" id="subRemain">--:--</div>
+      </div>
+      <div class="sub-cell">
+        <div class="sub-cell-lbl">次のセグメントまで</div>
+        <div class="sub-cell-val nextseg" id="subNextTime">--:--</div>
+        <div class="sub-next-name" id="subNextName">--</div>
+      </div>
+      <div class="sub-cell wide">
+        <div class="sub-cell-lbl">NOW — 現在のセグメント</div>
+        <div class="sub-seg-name" id="subSegName">--</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="sbar">
+    <div class="sinfo">SEG: <span id="bSeg">--</span></div>
+    <div class="sinfo">ELAPSED: <span id="bEl">--:--:--</span></div>
+    <div class="sinfo">STATUS: <span id="bSt">OFF AIR</span></div>
+    <div class="sinfo" style="margin-left:auto">BROADCAST OS 2.1</div>
+  </div>
+</div>
+
+<!-- STBY CUE MODAL -->
+<div class="moverlay" id="stbyModal">
+  <div class="mbox red">
+    <div class="mtitle">STANDBY / CUE 設定</div>
+    <div class="mfield">
+      <label>カウントダウン開始</label>
+      <select class="mselect" id="stbyCount">
+        <option value="5">5 → 4 → 3 → 2 → 1 → Q</option>
+        <option value="3">3 → 2 → 1 → Q</option>
+        <option value="0">カウントなし（STBYのみ）</option>
+      </select>
+    </div>
+    <div class="mfield">
+      <label>Q後のアクション</label>
+      <select class="mselect" id="stbyAction">
+        <option value="live">LIVE に切り替え</option>
+        <option value="nextseg">次のセグメントへ + LIVE</option>
+        <option value="cm">CM BREAK に切り替え</option>
+        <option value="none">何もしない（キューのみ）</option>
+      </select>
+    </div>
+    <div class="mrow">
+      <button class="mbtn red" id="stbyStart">▶ STBY START</button>
+      <button class="mbtn" id="stbyCancel">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SEGMENT MODAL -->
+<div class="moverlay" id="addSegModal">
+  <div class="mbox">
+    <div class="mtitle">ADD SEGMENT</div>
+    <div class="mgrid3">
+      <input class="minput" id="mName" placeholder="セグメント名">
+      <input class="minput" id="mStart" placeholder="00:00">
+      <input class="minput" id="mLen" placeholder="05:00">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 72px 64px;gap:6px;margin-bottom:12px">
+      <div class="mhlbl">NAME</div><div class="mhlbl">START</div><div class="mhlbl">LENGTH</div>
+    </div>
+    <div class="mrow">
+      <button class="mbtn ok" id="mOk">ADD</button>
+      <button class="mbtn" id="mCancel">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE MODAL -->
+<div class="moverlay" id="schedModal">
+  <div class="mbox wide">
+    <div class="mtitle">放送スケジュール設定</div>
+    <div class="mfield">
+      <label>放送開始時刻（自動ON AIR）</label>
+      <input class="minput" type="time" id="schedStart" step="1">
+    </div>
+    <div class="mfield">
+      <label>放送終了時刻（自動OFF AIR）</label>
+      <input class="minput" type="time" id="schedEnd" step="1">
+    </div>
+    <div class="msep"></div>
+    <div class="mcheck-row">
+      <input type="checkbox" id="schedAutoStart" checked>
+      <label for="schedAutoStart">開始時刻に自動 ON AIR</label>
+    </div>
+    <div class="mcheck-row">
+      <input type="checkbox" id="schedAutoEnd" checked>
+      <label for="schedAutoEnd">終了時刻に自動 OFF AIR</label>
+    </div>
+    <div class="msep"></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.7">
+      ・開始前は「放送開始まで XX:XX」と表示されます<br>
+      ・セグメント自動切替をONにすると、START時刻に合わせて自動で進みます<br>
+      ・スケジュールをクリアするには両欄を空にしてSAVEしてください
+    </div>
+    <div class="mrow">
+      <button class="mbtn ok" id="schedSave">SAVE</button>
+      <button class="mbtn" id="schedCancel">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+const cfg = {
+  apiKey:"AIzaSyArN55s79iTSsmtGNjKMXzm6BuLdlbUitY",
+  authDomain:"broadcast-d1581.firebaseapp.com",
+  projectId:"broadcast-d1581",
+  storageBucket:"broadcast-d1581.firebasestorage.app",
+  messagingSenderId:"695136212605",
+  appId:"1:695136212605:web:f9ad30187e31967fd98314"
+};
+const fbApp = initializeApp(cfg);
+const db    = getFirestore(fbApp);
+const auth  = getAuth(fbApp);
+const BDOC  = doc(db, "broadcast", "main");
+
+// ── State ───────────────────────────────────────────────────────
+let S = {
+  status:"offair", startedAt:null, paused:false,
+  pausedAt:null, pauseAccum:0, currentSegment:0,
+  cue:null, segments:[], updatedAt:null,
+  schedule:{ startTime:"", endTime:"", autoStart:true, autoEnd:true },
+  autoSeg:false
+};
+
+const DEF_SEGS = [
+  {name:"オープニング",   start:"00:00",len:"03:00"},
+  {name:"校長挨拶",       start:"03:00",len:"05:00"},
+  {name:"生徒会報告",     start:"08:00",len:"10:00"},
+  {name:"CM BREAK",      start:"18:00",len:"02:00"},
+  {name:"クラブ活動報告", start:"20:00",len:"08:00"},
+  {name:"エンディング",   start:"28:00",len:"02:00"},
+];
+
+let mode = "main"; // "main" | "sub"
+let tOffset = 0, tSamples = [];
+let unsub = null, raf = null;
+
+// Countdown state
+let cdTimer = null;  // setInterval id
+let cdRunning = false;
+
+// Schedule checker
+let schedChecker = null;
+
+// ── Time offset ──────────────────────────────────────────────────
+function applyOffset(sMs) {
+  if (!sMs) return;
+  tSamples.push(sMs - Date.now());
+  if (tSamples.length > 8) tSamples.shift();
+  const s = [...tSamples].sort((a,b)=>a-b);
+  tOffset = s[Math.floor(s.length/2)];
+  const el = document.getElementById("sysOffset");
+  if (el) el.textContent = `OFFSET: ${tOffset>=0?"+":""}${Math.round(tOffset)}ms`;
+}
+function sNow() { return Date.now() + tOffset; }
+
+// ── Helpers ──────────────────────────────────────────────────────
+function parseMmSs(str) {
+  const p = (str||"00:00").split(":").map(Number);
+  return (p[0]||0)*60+(p[1]||0);
+}
+function fmtMmSs(s) {
+  s = Math.max(0, Math.floor(s));
+  return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
+}
+function fmtHhMmSs(ms) {
+  const s = Math.floor(Math.max(0,ms)/1000);
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60;
+  if(h>0) return `${h}:${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+  return `${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+}
+
+// Time string "HH:MM" → today's Date ms
+function timeStrToMs(str) {
+  if (!str) return null;
+  const [h,m] = str.split(":").map(Number);
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  return d.getTime();
+}
+
+function getElapsedMs() {
+  if (!S.startedAt) return 0;
+  if (S.paused && S.pausedAt) return Math.max(0, S.pausedAt - S.startedAt - S.pauseAccum);
+  return Math.max(0, sNow() - S.startedAt - S.pauseAccum);
+}
+
+// ── Save ─────────────────────────────────────────────────────────
+async function save(patch) {
+  try { await setDoc(BDOC, {...patch, updatedAt:serverTimestamp()}, {merge:true}); }
+  catch(e){ console.error(e); }
+}
+
+// ── Listener ─────────────────────────────────────────────────────
+function startListener() {
+  if (unsub) { unsub(); unsub = null; }
+  unsub = onSnapshot(BDOC, snap => {
+    setSyncUI(true);
+    if (!snap.exists()) { initDoc(); return; }
+    const d = snap.data();
+    const sMs = d.updatedAt?.toMillis?.();
+    if (sMs) applyOffset(sMs);
+
+    S.status         = d.status         || "offair";
+    S.startedAt      = d.startedAt?.toMillis?.() || null;
+    S.paused         = d.paused         || false;
+    S.pausedAt       = d.pausedAt?.toMillis?.() || null;
+    S.pauseAccum     = d.pauseAccum     || 0;
+    S.currentSegment = d.currentSegment ?? 0;
+    S.cue            = d.cue            || null;
+    S.segments       = d.segments?.length ? d.segments : DEF_SEGS;
+    S.schedule       = d.schedule       || {startTime:"",endTime:"",autoStart:true,autoEnd:true};
+    S.autoSeg        = d.autoSeg        || false;
+    S.updatedAt      = sMs || null;
+
+    const u = document.getElementById("sysUpd");
+    if (u && sMs) u.textContent = `UPDATED: ${new Date(sMs).toLocaleTimeString("ja-JP")}`;
+
+    // sync autoSeg toggle
+    const tog = document.getElementById("autoSegToggle");
+    if (tog) tog.checked = S.autoSeg;
+
+    renderAll();
+    startSchedChecker();
+  }, err => { console.error(err); setSyncUI(false); });
+}
+
+function stopListener() { if (unsub) { unsub(); unsub=null; } }
+
+async function initDoc() {
+  await save({
+    status:"offair",startedAt:null,paused:false,pausedAt:null,
+    pauseAccum:0,currentSegment:0,cue:null,segments:DEF_SEGS,
+    schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false
+  });
+}
+
+// ── Schedule checker ─────────────────────────────────────────────
+function startSchedChecker() {
+  if (schedChecker) { clearInterval(schedChecker); schedChecker=null; }
+  schedChecker = setInterval(checkSchedule, 1000);
+}
+
+let didAutoStart = false, didAutoEnd = false;
+
+function checkSchedule() {
+  const sch = S.schedule;
+  if (!sch) return;
+
+  const now = new Date();
+  const nowMs = now.getTime();
+  const startMs = timeStrToMs(sch.startTime);
+  const endMs   = timeStrToMs(sch.endTime);
+
+  // Show schedule status in header
+  const el = document.getElementById("schedStatus");
+  if (startMs && S.status === "offair") {
+    const diff = startMs - nowMs;
+    if (diff > 0 && diff < 3600000) {
+      el.textContent = `放送開始まで ${fmtMmSs(diff/1000)}`;
+      el.classList.add("show");
+    } else { el.classList.remove("show"); }
+  } else { el.classList.remove("show"); }
+
+  // schedInfo in right panel
+  const si = document.getElementById("schedInfo");
+  if (si) {
+    if (sch.startTime || sch.endTime) {
+      si.textContent = `${sch.startTime||"--:--"} → ${sch.endTime||"--:--"}`;
+    } else { si.textContent = "スケジュール未設定"; }
+  }
+
+  // Auto start
+  if (sch.autoStart && sch.startTime && S.status === "offair") {
+    if (!didAutoStart && startMs) {
+      const diff = Math.abs(nowMs - startMs);
+      if (diff < 1500) {
+        didAutoStart = true;
+        save({status:"live", startedAt:serverTimestamp(), paused:false, pausedAt:null, pauseAccum:0});
+      }
+    }
+  } else if (S.status !== "offair") { didAutoStart = false; }
+
+  // Auto end
+  if (sch.autoEnd && sch.endTime && (S.status === "live" || S.status === "cm")) {
+    if (!didAutoEnd && endMs) {
+      const diff = nowMs - endMs;
+      if (diff >= 0 && diff < 1500) {
+        didAutoEnd = true;
+        save({status:"offair", paused:false});
+      }
+    }
+  } else if (S.status === "offair") { didAutoEnd = false; }
+
+  // Auto segment switching
+  if (S.autoSeg && S.status === "live" && S.startedAt) {
+    const elapsed = getElapsedMs() / 1000;
+    const segs = S.segments;
+    for (let i = segs.length-1; i >= 0; i--) {
+      const segStart = parseMmSs(segs[i].start);
+      if (elapsed >= segStart && i !== S.currentSegment) {
+        save({currentSegment: i});
+        break;
+      }
+    }
+  }
+}
+
+// ── STBY Countdown ───────────────────────────────────────────────
+function stopCountdown() {
+  if (cdTimer) { clearInterval(cdTimer); cdTimer=null; }
+  cdRunning = false;
+  document.getElementById("cdownOverlay").classList.remove("show");
+  // clear cue
+  save({cue:null});
+}
+
+function startCountdown(countFrom, action) {
+  if (cdRunning) stopCountdown();
+  cdRunning = true;
+
+  const overlay = document.getElementById("cdownOverlay");
+  const numEl   = document.getElementById("cdownNum");
+  const subEl   = document.getElementById("cdownSub");
+
+  const actionLabels = {
+    live:"→ LIVE", nextseg:"→ 次セグ + LIVE", cm:"→ CM BREAK", none:""
+  };
+
+  // Show STBY first
+  save({cue:"stby"});
+  overlay.classList.add("show");
+  numEl.className = "cdown-num stby-txt";
+  numEl.textContent = "STBY";
+  subEl.textContent = actionLabels[action] || "";
+
+  if (countFrom === 0) {
+    // No count, just STBY then Q
+    setTimeout(() => {
+      numEl.className = "cdown-num q-txt";
+      numEl.textContent = "Q";
+      save({cue:"q"});
+      setTimeout(() => { doAction(action); stopCountdown(); }, 1000);
+    }, 2000);
+    return;
+  }
+
+  let cur = countFrom;
+  // Wait 2s on STBY then start count
+  setTimeout(() => {
+    save({cue: String(cur)});
+    numEl.className = "cdown-num cnt";
+    numEl.textContent = String(cur);
+    subEl.textContent = actionLabels[action]||"";
+
+    cdTimer = setInterval(() => {
+      cur--;
+      if (cur > 0) {
+        numEl.className = "cdown-num cnt";
+        numEl.textContent = String(cur);
+        save({cue: String(cur)});
+      } else if (cur === 0) {
+        numEl.className = "cdown-num q-txt";
+        numEl.textContent = "Q";
+        save({cue:"q"});
+      } else {
+        clearInterval(cdTimer); cdTimer=null;
+        doAction(action);
+        stopCountdown();
+      }
+    }, 1000);
+  }, 2000);
+}
+
+async function doAction(action) {
+  if (action === "live") {
+    if (S.status !== "live") {
+      await save({status:"live", startedAt:serverTimestamp(), paused:false, pausedAt:null, pauseAccum:0});
+    }
+  } else if (action === "nextseg") {
+    const next = S.currentSegment + 1;
+    const patch = {currentSegment: Math.min(next, S.segments.length-1)};
+    if (S.status !== "live") {
+      patch.status = "live";
+      patch.startedAt = serverTimestamp();
+      patch.paused = false; patch.pausedAt = null; patch.pauseAccum = 0;
+    }
+    await save(patch);
+  } else if (action === "cm") {
+    await save({status:"cm"});
+  }
+}
+
+// ── Render ───────────────────────────────────────────────────────
+function renderAll() {
+  renderBadge();
+  renderButtons();
+  renderCue();
+  renderSegs();
+  renderSqList();
+  const cur = S.segments[S.currentSegment];
+  document.getElementById("bSeg").textContent = cur ? cur.name : "--";
+}
+
+const BCLS = {offair:"offair",standby:"standby",live:"live",cm:"cm"};
+const BLBL = {offair:"OFF AIR",standby:"STANDBY",live:"● LIVE",cm:"CM BREAK"};
+
+function renderBadge() {
+  const el = document.getElementById("badge");
+  el.className = "badge "+(BCLS[S.status]||"offair");
+  el.textContent = BLBL[S.status]||"OFF AIR";
+  document.getElementById("bSt").textContent = BLBL[S.status]||"OFF AIR";
+}
+
+function renderButtons() {
+  const go  = document.getElementById("btnGo");
+  const pau = document.getElementById("btnPau");
+  const cm  = document.getElementById("btnCm");
+  const st  = S.status;
+  go.disabled = false;
+  pau.disabled = (st !== "live");
+  cm.disabled  = (st !== "live" && st !== "standby");
+  if (S.paused) { go.textContent="▶ RESUME"; go.className="cbtn go"; }
+  else if (st==="live") { go.textContent="● ON AIR"; go.className="cbtn go active"; }
+  else { go.textContent="▶ GO ON AIR"; go.className="cbtn go"; }
+  pau.textContent = S.paused ? "▶ RESUME" : "⏸ PAUSE";
+}
+
+function renderCue() {
+  document.querySelectorAll(".cue-btn").forEach(b => {
+    const c = b.dataset.cue;
+    b.className = "cue-btn";
+    if (S.cue === c) {
+      if (c==="stby") b.classList.add("c-stby");
+      else if (c==="q") b.classList.add("c-q");
+      else b.classList.add("c-num");
+    }
+  });
+}
+
+function renderSegs() {
+  const wrap = document.getElementById("segRows");
+  wrap.innerHTML = "";
+  S.segments.forEach((seg,i) => {
+    const isAct = i===S.currentSegment;
+    const row = document.createElement("div");
+    row.className = "seg-row"+(isAct?" act":"");
+
+    let diffStr="—", diffCls="ok";
+    if ((S.status==="live"||S.status==="cm") && isAct) {
+      const el = getElapsedMs()/1000;
+      const d  = el - parseMmSs(seg.start) - parseMmSs(seg.len);
+      if (Math.abs(d)<5) { diffStr="±0"; diffCls="ok"; }
+      else if (d>0) { diffStr="+"+fmtMmSs(d); diffCls="over"; }
+      else { diffStr="-"+fmtMmSs(-d); diffCls="under"; }
+    }
+    const autoLabel = S.autoSeg ? '<span class="auto-badge">AUTO</span>' : "";
+    row.innerHTML = `
+      <span class="s-num">${String(i+1).padStart(2,"0")}</span>
+      <span class="s-name">${seg.name}${isAct?autoLabel:""}</span>
+      <span class="s-t">${seg.start}</span>
+      <span class="s-t">${seg.len}</span>
+      <span class="s-diff ${diffCls}">${diffStr}</span>`;
+    row.addEventListener("click", () => {
+      if (S.autoSeg) { if(!confirm("自動切替をOFFにしてセグメントを切り替えますか？")) return; save({autoSeg:false, currentSegment:i}); }
+      else save({currentSegment:i});
+    });
+    wrap.appendChild(row);
+  });
+}
+
+function renderSqList() {
+  const wrap = document.getElementById("sqList");
+  wrap.innerHTML = "";
+  S.segments.forEach((seg,i)=>{
+    const b = document.createElement("button");
+    b.className="sq-btn"+(i===S.currentSegment?" act":"");
+    b.textContent=`${String(i+1).padStart(2,"0")} ${seg.name}`;
+    b.addEventListener("click",()=>save({currentSegment:i, autoSeg:false}));
+    wrap.appendChild(b);
+  });
+}
+
+function setSyncUI(ok) {
+  ["sdot","sdot2"].forEach(id=>{const el=document.getElementById(id);if(el)el.className="sdot"+(ok?"":" off");});
+  const lb=document.getElementById("sLabel"); if(lb)lb.textContent=ok?"FIRESTORE SYNC":"DISCONNECTED";
+}
+
+// ── RAF loop ─────────────────────────────────────────────────────
+function clockLoop() {
+  const now = new Date();
+  const h=String(now.getHours()).padStart(2,"0");
+  const m=String(now.getMinutes()).padStart(2,"0");
+  const s=String(now.getSeconds()).padStart(2,"0");
+
+  document.getElementById("cwH").textContent=h;
+  document.getElementById("cwM").textContent=m;
+  document.getElementById("cwS").textContent=s;
+  document.getElementById("hdrClk").textContent=`${h}:${m}:${s}`;
+  document.getElementById("subWall").textContent=`${h}:${m}:${s}`;
+
+  const wall=document.getElementById("clkWall");
+  now.getSeconds()===0?wall.classList.add("zero"):wall.classList.remove("zero");
+
+  const isActive = S.status==="live"||S.status==="cm"||(S.paused&&S.startedAt);
+  const elEl=document.getElementById("clkEl");
+  const msEl=document.getElementById("clkMs");
+
+  if (isActive) {
+    const eMs=getElapsedMs();
+    const es=Math.floor(eMs/1000), ms=Math.floor(eMs%1000);
+    const hh=Math.floor(es/3600), mm=Math.floor((es%3600)/60), ss=es%60;
+    const str=hh>0?`${hh}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+    elEl.textContent=str;
+    msEl.textContent=`.${String(ms).padStart(3,"0")}`;
+    elEl.className="clk-elapsed"+(S.paused?" paused":"");
+    document.getElementById("bEl").textContent=str;
+    document.getElementById("subElapsed").textContent=str;
+    document.getElementById("subElapsed").className="sub-cell-val elapsed"+(S.paused?" paused":"");
+    document.getElementById("subMs").textContent=`.${String(ms).padStart(3,"0")}`;
+  } else {
+    elEl.textContent="--:--:--"; elEl.className="clk-elapsed off";
+    msEl.textContent=".---"; document.getElementById("bEl").textContent="--:--:--";
+    document.getElementById("subElapsed").textContent="--:--:--";
+    document.getElementById("subMs").textContent=".---";
+  }
+
+  // Broadcast remain time
+  const sch = S.schedule;
+  const endMs = timeStrToMs(sch?.endTime);
+  const remEl = document.getElementById("clkRemain");
+  const remSubEl = document.getElementById("subRemain");
+  if (endMs && (S.status==="live"||S.status==="standby"||S.status==="cm")) {
+    const rem = endMs - Date.now();
+    const remStr = rem > 0 ? fmtMmSs(rem/1000) : "00:00";
+    if (remEl) { remEl.textContent=remStr; remEl.className="clk-elapsed"+(rem<300000?" paused":""); }
+    if (remSubEl) remSubEl.textContent = remStr;
+    const ea = document.getElementById("clkEndAt");
+    if (ea) ea.textContent = sch.endTime;
+  } else {
+    if (remEl) { remEl.textContent="--:--"; remEl.className="clk-elapsed off"; }
+    if (remSubEl) remSubEl.textContent="--:--";
+    const ea=document.getElementById("clkEndAt"); if(ea)ea.textContent="";
+  }
+
+  // Next segment time (sub)
+  const nTimeEl=document.getElementById("subNextTime");
+  const nNameEl=document.getElementById("subNextName");
+  const nSeg = S.segments[S.currentSegment+1];
+  if (nSeg && S.startedAt) {
+    const nextStart = parseMmSs(nSeg.start);
+    const elapsed   = getElapsedMs()/1000;
+    const toNext    = nextStart - elapsed;
+    nTimeEl.textContent = toNext > 0 ? fmtMmSs(toNext) : "NOW";
+    nNameEl.textContent = nSeg.name;
+  } else {
+    nTimeEl.textContent="--"; nNameEl.textContent=nSeg?"(最終セグメント)":"--";
+  }
+
+  // Current seg (sub)
+  const cur = S.segments[S.currentSegment];
+  document.getElementById("subSegName").textContent = cur ? cur.name : "--";
+
+  raf = requestAnimationFrame(clockLoop);
+}
+
+// ── Event handlers ───────────────────────────────────────────────
+document.getElementById("btnGo").addEventListener("click", async ()=>{
+  if (S.paused && S.pausedAt) {
+    const added = sNow()-S.pausedAt;
+    await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});
+  } else if (S.status!=="live") {
+    await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});
+  }
+});
+
+document.getElementById("btnStby").addEventListener("click",()=>{
+  document.getElementById("stbyModal").classList.add("on");
+});
+
+document.getElementById("btnPau").addEventListener("click", async ()=>{
+  if (S.paused) {
+    const added=sNow()-S.pausedAt;
+    await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});
+  } else {
+    await save({status:"live",paused:true,pausedAt:serverTimestamp()});
+  }
+});
+
+document.getElementById("btnCm").addEventListener("click",()=>save({status:"cm"}));
+
+document.getElementById("btnRst").addEventListener("click", async ()=>{
+  if (!confirm("放送をリセットしますか？")) return;
+  stopCountdown();
+  await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null});
+});
+
+// STBY Modal
+document.getElementById("stbyStart").addEventListener("click",()=>{
+  const count  = parseInt(document.getElementById("stbyCount").value);
+  const action = document.getElementById("stbyAction").value;
+  document.getElementById("stbyModal").classList.remove("on");
+  save({status:"standby"});
+  startCountdown(count, action);
+});
+document.getElementById("stbyCancel").addEventListener("click",()=>{
+  document.getElementById("stbyModal").classList.remove("on");
+});
+
+// CUE buttons (manual)
+document.querySelectorAll(".cue-btn").forEach(b=>{
+  b.addEventListener("click",()=>{
+    if (cdRunning) return; // ignore during auto countdown
+    const c=b.dataset.cue;
+    save({cue:S.cue===c?null:c});
+  });
+});
+
+// Auto seg toggle
+document.getElementById("autoSegToggle").addEventListener("change", e=>{
+  save({autoSeg: e.target.checked});
+});
+
+// Schedule modal
+document.getElementById("btnSched").addEventListener("click",()=>{
+  const sch=S.schedule||{};
+  document.getElementById("schedStart").value=sch.startTime||"";
+  document.getElementById("schedEnd").value=sch.endTime||"";
+  document.getElementById("schedAutoStart").checked=sch.autoStart!==false;
+  document.getElementById("schedAutoEnd").checked=sch.autoEnd!==false;
+  document.getElementById("schedModal").classList.add("on");
+});
+document.getElementById("schedSave").addEventListener("click",()=>{
+  const sched={
+    startTime: document.getElementById("schedStart").value,
+    endTime:   document.getElementById("schedEnd").value,
+    autoStart: document.getElementById("schedAutoStart").checked,
+    autoEnd:   document.getElementById("schedAutoEnd").checked,
+  };
+  save({schedule:sched});
+  document.getElementById("schedModal").classList.remove("on");
+  didAutoStart=false; didAutoEnd=false;
+});
+document.getElementById("schedCancel").addEventListener("click",()=>{
+  document.getElementById("schedModal").classList.remove("on");
+});
+
+// Add segment
+document.getElementById("addSegBtn").addEventListener("click",()=>document.getElementById("addSegModal").classList.add("on"));
+document.getElementById("mCancel").addEventListener("click",()=>document.getElementById("addSegModal").classList.remove("on"));
+document.getElementById("mOk").addEventListener("click", async()=>{
+  const name=document.getElementById("mName").value.trim()||"Untitled";
+  const start=document.getElementById("mStart").value.trim()||"00:00";
+  const len=document.getElementById("mLen").value.trim()||"05:00";
+  await save({segments:[...S.segments,{name,start,len}]});
+  document.getElementById("addSegModal").classList.remove("on");
+  document.getElementById("mName").value="";
+  document.getElementById("mStart").value="";
+  document.getElementById("mLen").value="";
+});
+
+// Close modals on overlay click
+["stbyModal","addSegModal","schedModal"].forEach(id=>{
+  document.getElementById(id).addEventListener("click",e=>{
+    if(e.target===e.currentTarget) e.currentTarget.classList.remove("on");
+  });
+});
+
+// ── Mode switching ────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  sessionStorage.setItem("bcastMode", m);
+  document.getElementById("mainBody").style.display = m==="main" ? "" : "none";
+  document.getElementById("subBody").style.display  = m==="sub"  ? "" : "none";
+  document.getElementById("modeTag").textContent = m==="main"?"MAIN":"SUB";
+  document.getElementById("modeSelect").classList.remove("show");
+}
+
+document.getElementById("msMain").addEventListener("click",()=>setMode("main"));
+document.getElementById("msSub").addEventListener("click",()=>setMode("sub"));
+document.getElementById("switchModeBtn").addEventListener("click",()=>{
+  document.getElementById("modeSelect").classList.add("show");
+});
+
+// ── Auth ──────────────────────────────────────────────────────────
+document.getElementById("lBtn").addEventListener("click", async()=>{
+  const e=document.getElementById("lEmail").value.trim();
+  const p=document.getElementById("lPass").value;
+  const err=document.getElementById("lErr");
+  err.textContent="";
+  try { await signInWithEmailAndPassword(auth,e,p); }
+  catch(ex){
+    const m={"auth/user-not-found":"ユーザーが見つかりません","auth/wrong-password":"パスワードが違います",
+      "auth/invalid-email":"メールアドレスの形式が違います","auth/invalid-credential":"認証情報が無効です",
+      "auth/too-many-requests":"試行回数が多すぎます。しばらく待ってください"};
+    err.textContent=m[ex.code]||`エラー: ${ex.message}`;
+  }
+});
+document.getElementById("lPass").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("lBtn").click();});
+document.getElementById("logoutBtn").addEventListener("click",()=>signOut(auth));
+
+onAuthStateChanged(auth, user=>{
+  if (user) {
+    document.getElementById("login").classList.add("hide");
+    document.getElementById("app").classList.add("on");
+    document.getElementById("hdrUser").textContent=user.email;
+    startListener();
+    if (!raf) clockLoop();
+    // Restore mode or show selector
+    const saved = sessionStorage.getItem("bcastMode");
+    if (saved) setMode(saved);
+    else document.getElementById("modeSelect").classList.add("show");
+  } else {
+    document.getElementById("login").classList.remove("hide");
+    document.getElementById("app").classList.remove("on");
+    document.getElementById("modeSelect").classList.remove("show");
+    stopListener();
+    stopCountdown();
+    if (schedChecker){clearInterval(schedChecker);schedChecker=null;}
+    if (raf){cancelAnimationFrame(raf);raf=null;}
+    setSyncUI(false);
+    S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],updatedAt:null,schedule:{},autoSeg:false};
+  }
+});
+
+// F = fullscreen
+document.addEventListener("keydown",e=>{
+  if(e.key==="f"||e.key==="F"){
+    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});
+  }
+  if(e.key==="Escape"&&cdRunning){stopCountdown();}
+});
+</script>
+</body>
+</html>
