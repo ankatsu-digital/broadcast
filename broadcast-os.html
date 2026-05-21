@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BROADCAST OS — 放送進行システム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #ff2020;
+    --red-dim: #8b0000;
+    --red-glow: rgba(255,32,32,0.4);
+    --amber: #ffb300;
+    --amber-glow: rgba(255,179,0,0.3);
+    --green: #00ff88;
+    --green-glow: rgba(0,255,136,0.3);
+    --cyan: #00d4ff;
+    --cyan-glow: rgba(0,212,255,0.3);
+    --bg: #050505;
+    --bg2: #0d0d0d;
+    --bg3: #141414;
+    --bg4: #1a1a1a;
+    --border: #2a2a2a;
+    --border-bright: #404040;
+    --text: #e8e8e8;
+    --text-dim: #707070;
+    --text-muted: #404040;
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Rajdhani', sans-serif;
+    --display: 'Orbitron', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    height: 100%;
+    overflow: hidden;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── SCAN LINE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── LOGIN SCREEN ─── */
+  #loginScreen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    gap: 0;
+  }
+
+  .login-logo {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.4em;
+    color: var(--red);
+    text-shadow: 0 0 20px var(--red-glow);
+    margin-bottom: 8px;
+  }
+  .login-subtitle {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.3em;
+    margin-bottom: 48px;
+  }
+
+  .login-box {
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    padding: 36px 40px;
+    width: 380px;
+    position: relative;
+  }
+
+  .login-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    box-shadow: 0 0 10px var(--red-glow);
+  }
+
+  .login-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .login-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-bright);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    padding: 10px 12px;
+    outline: none;
+    margin-bottom: 18px;
+    transition: border-color 0.2s;
+  }
+
+  .login-input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 8px var(--red-glow);
+  }
+
+  .login-btn {
+    width: 100%;
+    background: var(--red);
+    border: none;
+    color: #fff;
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    padding: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.15s, box-shadow 0.15s;
+    margin-top: 6px;
+  }
+
+  .login-btn:hover {
+    background: #ff4444;
+    box-shadow: 0 0 20px var(--red-glow);
+  }
+
+  .login-error {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 12px;
+    min-height: 16px;
+    text-align: center;
+  }
+
+  /* ─── MAIN APP ─── */
+  #app {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  #app.visible { display: flex; }
+
+  /* ─── HEADER BAR ─── */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    height: 40px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-logo {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.35em;
+    color: var(--red);
+    text-shadow: 0 0 10px var(--red-glow);
+  }
+
+  .header-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+  }
+
+  .status-badge {
+    font-family: var(--display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    padding: 3px 10px;
+    border: 1px solid currentColor;
+    transition: all 0.3s;
+  }
+
+  .status-badge.offair { color: var(--text-dim); border-color: var(--border); }
+  .status-badge.standby { color: var(--amber); border-color: var(--amber); box-shadow: 0 0 8px var(--amber-glow); }
+  .status-badge.live { color: var(--red); border-color: var(--red); box-shadow: 0 0 12px var(--red-glow); animation: blink-live 1s step-start infinite; }
+  .status-badge.cm { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 8px var(--cyan-glow); }
+
+  @keyframes blink-live {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .header-time {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .header-user {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .btn-sm {
+    font-family: var(--display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-sm:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ─── CLOCK PANEL ─── */
+  .clock-panel {
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .clock-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red-dim), transparent);
+  }
+
+  .clock-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  .clock-wall {
+    font-family: var(--display);
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(232,232,232,0.15);
+  }
+
+  .clock-wall .colon {
+    display: inline-block;
+    animation: colon-blink 1s step-start infinite;
+    color: var(--text-dim);
+  }
+
+  @keyframes colon-blink {
+    0%, 100% { opacity: 1; } 50% { opacity: 0; }
+  }
+
+  .clock-wall.zero-second {
+    text-shadow: 0 0 40px rgba(255,32,32,0.6);
+    color: #fff;
+  }
+
+  .clock-divider {
+    width: 120px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .elapsed-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--text-muted);
+  }
+
+  .clock-elapsed {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    color: var(--red);
+    text-shadow: 0 0 20px var(--red-glow);
+    transition: color 0.3s;
+  }
+
+  .clock-elapsed.paused { color: var(--amber); text-shadow: 0 0 20px var(--amber-glow); }
+  .clock-elapsed.stopped { color: var(--text-muted); text-shadow: none; }
+
+  .clock-ms {
+    font-family: var(--mono);
+    font-size: clamp(14px, 2vw, 22px);
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+  }
+
+  /* ─── CUE PANEL ─── */
+  .cue-panel {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .cue-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.3em;
+    margin-right: 4px;
+  }
+
+  .cue-item {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .cue-item:hover { border-color: var(--border-bright); color: var(--text-dim); }
+
+  .cue-item.active-stby { border-color: var(--amber); color: var(--amber); box-shadow: 0 0 12px var(--amber-glow); background: rgba(255,179,0,0.08); }
+  .cue-item.active-count { border-color: var(--red); color: var(--red); box-shadow: 0 0 16px var(--red-glow); background: rgba(255,32,32,0.12); font-size: 20px; }
+  .cue-item.active-q { border-color: var(--green); color: var(--green); box-shadow: 0 0 20px var(--green-glow); background: rgba(0,255,136,0.12); animation: q-pulse 0.5s ease-in-out infinite alternate; }
+
+  @keyframes q-pulse {
+    from { box-shadow: 0 0 12px var(--green-glow); }
+    to { box-shadow: 0 0 28px rgba(0,255,136,0.7); }
+  }
+
+  /* ─── SEGMENT TABLE ─── */
+  .segment-panel {
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+  }
+
+  .segment-panel::-webkit-scrollbar { width: 4px; }
+  .segment-panel::-webkit-scrollbar-track { background: var(--bg); }
+  .segment-panel::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .seg-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 80px 70px 80px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg2);
+    z-index: 10;
+  }
+
+  .seg-header span {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .seg-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 80px 70px 80px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--bg3);
+    cursor: pointer;
+    transition: background 0.1s;
+    align-items: center;
+  }
+
+  .seg-row:hover { background: var(--bg3); }
+
+  .seg-row.active {
+    background: rgba(255,32,32,0.06);
+    border-bottom: 1px solid rgba(255,32,32,0.2);
+  }
+
+  .seg-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .seg-name {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .seg-row.active .seg-name { color: var(--red); }
+
+  .seg-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .seg-len {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .seg-diff {
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .seg-diff.over { color: var(--red); }
+  .seg-diff.under { color: var(--green); }
+  .seg-diff.ok { color: var(--text-dim); }
+
+  .seg-status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  /* ─── CONTROL PANEL ─── */
+  .control-panel {
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+  }
+
+  .control-panel::-webkit-scrollbar { width: 3px; }
+  .control-panel::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .ctrl-section {
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    padding: 12px;
+  }
+
+  .ctrl-section-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .btn-control {
+    width: 100%;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 12px;
+    border: 1px solid;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    margin-bottom: 8px;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-control:last-child { margin-bottom: 0; }
+
+  .btn-control::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+    background: currentColor;
+  }
+
+  .btn-control:hover::before { opacity: 0.08; }
+
+  .btn-go {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .btn-go.active {
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 0 20px var(--red-glow);
+  }
+
+  .btn-pause { border-color: var(--amber); color: var(--amber); }
+  .btn-reset { border-color: var(--border-bright); color: var(--text-dim); }
+  .btn-standby { border-color: var(--amber); color: var(--amber); }
+  .btn-cm { border-color: var(--cyan); color: var(--cyan); }
+
+  .btn-control:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Segment quick select */
+  .seg-quick {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .seg-quick-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .seg-quick-btn:hover { border-color: var(--red); color: var(--red); }
+  .seg-quick-btn.active { border-color: var(--red); color: var(--red); background: rgba(255,32,32,0.08); }
+
+  /* sync indicator */
+  .sync-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+  }
+
+  .sync-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green-glow);
+    animation: sync-pulse 2s ease-in-out infinite;
+  }
+
+  .sync-dot.disconnected { background: var(--red); box-shadow: 0 0 6px var(--red-glow); animation: none; }
+
+  @keyframes sync-pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+  }
+
+  /* ─── BOTTOM INFO BAR ─── */
+  .bottom-bar {
+    height: 28px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .bottom-info {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+  }
+
+  .bottom-info span { color: var(--text-dim); }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+  }
+
+  .modal-overlay.visible { display: flex; }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    padding: 24px;
+    width: 360px;
+    position: relative;
+  }
+
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--amber);
+  }
+
+  .modal-title {
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .modal-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  .modal-input:focus { border-color: var(--amber); }
+
+  .modal-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .modal-btn.confirm { border-color: var(--amber); color: var(--amber); }
+  .modal-btn:hover { background: rgba(255,255,255,0.05); }
+
+  /* ADD SEGMENT form */
+  .add-seg-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 70px;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .offset-display {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .main-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto 1fr;
+    }
+    .control-panel {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════ LOGIN SCREEN ══ -->
+<div id="loginScreen">
+  <div class="login-logo">BROADCAST OS</div>
+  <div class="login-subtitle">放送進行管理システム — v1.0</div>
+  <div class="login-box">
+    <label class="login-label">EMAIL ADDRESS</label>
+    <input type="email" id="loginEmail" class="login-input" placeholder="operator@school.ac.jp" autocomplete="email">
+    <label class="login-label">PASSWORD</label>
+    <input type="password" id="loginPassword" class="login-input" placeholder="••••••••" autocomplete="current-password">
+    <button class="login-btn" id="loginBtn">AUTHENTICATE →</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ MAIN APP ══ -->
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-logo">BROADCAST OS</div>
+      <div class="header-sep"></div>
+      <div class="status-badge offair" id="statusBadge">OFF AIR</div>
+      <div class="sync-indicator">
+        <div class="sync-dot" id="syncDot"></div>
+        <span id="syncLabel">SYNC</span>
+        <span id="offsetDisplay" style="font-size:8px; color: var(--text-muted); margin-left:4px;"></span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-time" id="headerTime">--:--:--</div>
+      <div class="header-user" id="headerUser">--</div>
+      <button class="btn-sm" id="logoutBtn">LOGOUT</button>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
+
+    <!-- CLOCK PANEL (top-left) -->
+    <div class="clock-panel">
+      <div class="clock-label">WALL CLOCK</div>
+      <div class="clock-wall" id="clockWall">
+        <span id="cwH">--</span><span class="colon">:</span><span id="cwM">--</span><span class="colon">:</span><span id="cwS">--</span>
+      </div>
+      <div class="clock-divider"></div>
+      <div class="elapsed-label">BROADCAST ELAPSED</div>
+      <div class="clock-elapsed stopped" id="clockElapsed">--:--:--</div>
+      <div class="clock-ms" id="clockMs">.---</div>
+    </div>
+
+    <!-- CUE PANEL (top-right via grid placement) -->
+    <!-- Placed in segment area header -->
+
+    <!-- SEGMENT PANEL -->
+    <div class="segment-panel" id="segmentPanel">
+      <!-- CUE bar -->
+      <div class="cue-panel">
+        <span class="cue-label">CUE</span>
+        <div class="cue-item" id="cue-stby" data-cue="stby">STBY</div>
+        <div class="cue-item" id="cue-5" data-cue="5">5</div>
+        <div class="cue-item" id="cue-4" data-cue="4">4</div>
+        <div class="cue-item" id="cue-3" data-cue="3">3</div>
+        <div class="cue-item" id="cue-2" data-cue="2">2</div>
+        <div class="cue-item" id="cue-1" data-cue="1">1</div>
+        <div class="cue-item" id="cue-q" data-cue="q">Q</div>
+      </div>
+
+      <!-- Table header -->
+      <div class="seg-header">
+        <span>#</span>
+        <span>SEGMENT</span>
+        <span>START</span>
+        <span>LEN</span>
+        <span>STATUS</span>
+      </div>
+
+      <!-- Rows injected by JS -->
+      <div id="segRows"></div>
+
+      <!-- Add segment button -->
+      <div style="padding:10px 12px; border-top:1px solid var(--border)">
+        <button class="btn-sm" id="addSegBtn" style="width:100%; padding:8px;">+ ADD SEGMENT</button>
+      </div>
+    </div>
+
+    <!-- CONTROL PANEL -->
+    <div class="control-panel">
+
+      <!-- Broadcast Controls -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-title">BROADCAST CTRL</div>
+        <button class="btn-control btn-go" id="btnGo">▶ GO ON AIR</button>
+        <button class="btn-control btn-standby" id="btnStandby">◈ STANDBY</button>
+        <button class="btn-control btn-pause" id="btnPause" disabled>⏸ PAUSE</button>
+        <button class="btn-control btn-cm" id="btnCm" disabled>▷ CM BREAK</button>
+        <button class="btn-control btn-reset" id="btnReset">⏹ RESET</button>
+      </div>
+
+      <!-- Segment Quick Nav -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-title">SEGMENTS</div>
+        <div class="seg-quick" id="segQuick"></div>
+      </div>
+
+      <!-- System info -->
+      <div class="ctrl-section">
+        <div class="ctrl-section-title">SYSTEM</div>
+        <div class="sync-indicator" style="margin-bottom:8px">
+          <div class="sync-dot" id="syncDot2"></div>
+          <span id="syncLabel2">FIRESTORE SYNC</span>
+        </div>
+        <div class="offset-display" id="systemOffset">TIME OFFSET: calculating...</div>
+        <div class="offset-display" id="systemUpdated">LAST UPDATE: --</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-info">SEG: <span id="barSeg">--</span></div>
+    <div class="bottom-info">ELAPSED: <span id="barElapsed">--:--:--</span></div>
+    <div class="bottom-info">STATUS: <span id="barStatus">OFF AIR</span></div>
+    <div class="bottom-info" style="margin-left:auto">BROADCAST OS 1.0 — 学校放送システム</div>
+  </div>
+
+</div>
+
+<!-- ADD SEGMENT MODAL -->
+<div class="modal-overlay" id="addSegModal">
+  <div class="modal">
+    <div class="modal-title">ADD SEGMENT</div>
+    <div class="add-seg-grid">
+      <input type="text" class="modal-input" id="segNameInput" placeholder="セグメント名" style="margin-bottom:0">
+      <input type="text" class="modal-input" id="segStartInput" placeholder="00:00" style="margin-bottom:0">
+      <input type="text" class="modal-input" id="segLenInput" placeholder="05:00" style="margin-bottom:0">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px">
+      <span class="login-label" style="text-align:center">NAME</span>
+      <span class="login-label" style="text-align:center">START (mm:ss)</span>
+      <span class="login-label" style="text-align:center">LEN (mm:ss)</span>
+    </div>
+    <div class="modal-row">
+      <button class="modal-btn confirm" id="segAddConfirm">ADD</button>
+      <button class="modal-btn" id="segAddCancel">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════ FIREBASE + APP LOGIC ══ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import {
+  getFirestore, doc, onSnapshot, setDoc, serverTimestamp, getDoc
+} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import {
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+// ── Firebase config ──────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyArN55s79iTSsmtGNjKMXzm6BuLdlbUitY",
+  authDomain: "broadcast-d1581.firebaseapp.com",
+  projectId: "broadcast-d1581",
+  storageBucket: "broadcast-d1581.firebasestorage.app",
+  messagingSenderId: "695136212605",
+  appId: "1:695136212605:web:f9ad30187e31967fd98314",
+  measurementId: "G-M2VM79YQF2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+const auth = getAuth(app);
+const broadcastDoc = doc(db, "broadcast", "main");
+
+// ── State ────────────────────────────────────────────────────
+let broadcastState = {
+  status: "offair",
+  startedAt: null,
+  paused: false,
+  pausedAt: null,
+  pauseAccum: 0,      // accumulated paused ms (stored locally for offset calc)
+  currentSegment: 0,
+  cue: null,
+  segments: [],
+  updatedAt: null,
+};
+
+// Time offset between local clock and Firestore server clock
+let serverTimeOffset = 0; // local + offset = server time
+let offsetSamples = [];
+let syncConnected = false;
+
+// ── Default segments ─────────────────────────────────────────
+const defaultSegments = [
+  { name: "オープニング",    start: "00:00", len: "03:00" },
+  { name: "校長挨拶",        start: "03:00", len: "05:00" },
+  { name: "生徒会報告",      start: "08:00", len: "10:00" },
+  { name: "CM BREAK",        start: "18:00", len: "02:00" },
+  { name: "クラブ活動報告",  start: "20:00", len: "08:00" },
+  { name: "エンディング",    start: "28:00", len: "02:00" },
+];
+
+let segments = [...defaultSegments];
+
+// ── Helpers ──────────────────────────────────────────────────
+function parseMmSs(str) {
+  const parts = (str || "00:00").split(":").map(Number);
+  return (parts[0] || 0) * 60 + (parts[1] || 0);
+}
+
+function fmtMmSs(totalSec) {
+  const m = Math.floor(totalSec / 60);
+  const s = Math.floor(totalSec % 60);
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+
+function fmtHhMmSs(totalSec) {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = Math.floor(totalSec % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+
+function serverNow() {
+  return Date.now() + serverTimeOffset;
+}
+
+// ── Time offset calibration using write-round-trip ───────────
+async function calibrateOffset() {
+  try {
+    const localBefore = Date.now();
+    // Write a ping doc then read serverTimestamp back
+    const pingDoc = doc(db, "broadcast", "_ping");
+    await setDoc(pingDoc, { t: serverTimestamp() });
+    const snap = await getDoc(pingDoc);
+    const localAfter = Date.now();
+    const serverMs = snap.data()?.t?.toMillis?.();
+    if (serverMs) {
+      const localMid = (localBefore + localAfter) / 2;
+      const sample = serverMs - localMid;
+      offsetSamples.push(sample);
+      if (offsetSamples.length > 5) offsetSamples.shift();
+      // Median
+      const sorted = [...offsetSamples].sort((a,b) => a-b);
+      serverTimeOffset = sorted[Math.floor(sorted.length/2)];
+      document.getElementById("systemOffset").textContent =
+        `TIME OFFSET: ${serverTimeOffset >= 0 ? "+" : ""}${Math.round(serverTimeOffset)}ms`;
+    }
+  } catch(e) {
+    console.warn("Calibration failed:", e);
+  }
+}
+
+// ── Firestore listener ────────────────────────────────────────
+let unsubscribe = null;
+
+function startListener() {
+  unsubscribe = onSnapshot(broadcastDoc, (snap) => {
+    syncConnected = true;
+    updateSyncUI(true);
+
+    if (!snap.exists()) {
+      // Init doc
+      initBroadcastDoc();
+      return;
+    }
+
+    const d = snap.data();
+    broadcastState.status        = d.status || "offair";
+    broadcastState.startedAt     = d.startedAt?.toMillis?.() || null;
+    broadcastState.paused        = d.paused || false;
+    broadcastState.pausedAt      = d.pausedAt?.toMillis?.() || null;
+    broadcastState.pauseAccum    = d.pauseAccum || 0;
+    broadcastState.currentSegment = d.currentSegment ?? 0;
+    broadcastState.cue           = d.cue || null;
+    broadcastState.segments      = d.segments || segments;
+    if (broadcastState.segments.length > 0) segments = broadcastState.segments;
+
+    broadcastState.updatedAt = d.updatedAt?.toMillis?.() || null;
+
+    const updEl = document.getElementById("systemUpdated");
+    if (updEl && broadcastState.updatedAt) {
+      const dt = new Date(broadcastState.updatedAt);
+      updEl.textContent = `LAST UPDATE: ${dt.toLocaleTimeString("ja-JP")}`;
+    }
+
+    updateControlUI();
+    renderSegments();
+    renderCue();
+    renderSegQuick();
+  }, (err) => {
+    console.error("Firestore error:", err);
+    syncConnected = false;
+    updateSyncUI(false);
+  });
+}
+
+async function initBroadcastDoc() {
+  await setDoc(broadcastDoc, {
+    status: "offair",
+    startedAt: null,
+    paused: false,
+    pausedAt: null,
+    pauseAccum: 0,
+    currentSegment: 0,
+    cue: null,
+    segments: defaultSegments,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+// ── Save to Firestore ────────────────────────────────────────
+async function saveState(patch) {
+  await setDoc(broadcastDoc, { ...patch, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+// ── Control handlers ──────────────────────────────────────────
+document.getElementById("btnGo").addEventListener("click", async () => {
+  if (broadcastState.status === "live") {
+    // Already live — do nothing
+    return;
+  }
+  if (broadcastState.paused && broadcastState.pausedAt) {
+    // Resume from pause
+    const pauseDuration = serverNow() - broadcastState.pausedAt;
+    const newAccum = (broadcastState.pauseAccum || 0) + pauseDuration;
+    await saveState({
+      status: "live",
+      paused: false,
+      pausedAt: null,
+      pauseAccum: newAccum,
+    });
+  } else {
+    // Fresh start
+    await saveState({
+      status: "live",
+      startedAt: serverTimestamp(),
+      paused: false,
+      pausedAt: null,
+      pauseAccum: 0,
+    });
+  }
+});
+
+document.getElementById("btnStandby").addEventListener("click", async () => {
+  await saveState({ status: "standby", paused: false });
+});
+
+document.getElementById("btnPause").addEventListener("click", async () => {
+  if (broadcastState.paused) {
+    // Unpause (same as GO)
+    const pauseDuration = serverNow() - broadcastState.pausedAt;
+    const newAccum = (broadcastState.pauseAccum || 0) + pauseDuration;
+    await saveState({ status: "live", paused: false, pausedAt: null, pauseAccum: newAccum });
+  } else {
+    await saveState({ status: "live", paused: true, pausedAt: serverTimestamp() });
+  }
+});
+
+document.getElementById("btnCm").addEventListener("click", async () => {
+  await saveState({ status: "cm" });
+});
+
+document.getElementById("btnReset").addEventListener("click", async () => {
+  if (!confirm("放送をリセットしますか？")) return;
+  await saveState({
+    status: "offair",
+    startedAt: null,
+    paused: false,
+    pausedAt: null,
+    pauseAccum: 0,
+    currentSegment: 0,
+    cue: null,
+  });
+});
+
+// CUE buttons
+document.querySelectorAll(".cue-item").forEach(el => {
+  el.addEventListener("click", async () => {
+    const cue = el.dataset.cue;
+    const current = broadcastState.cue;
+    await saveState({ cue: current === cue ? null : cue });
+  });
+});
+
+// ── Segment rendering ─────────────────────────────────────────
+function renderSegments() {
+  const container = document.getElementById("segRows");
+  container.innerHTML = "";
+  const segs = broadcastState.segments.length ? broadcastState.segments : segments;
+
+  segs.forEach((seg, i) => {
+    const isActive = i === broadcastState.currentSegment;
+    const row = document.createElement("div");
+    row.className = "seg-row" + (isActive ? " active" : "");
+
+    const startSec = parseMmSs(seg.start);
+    const lenSec   = parseMmSs(seg.len);
+
+    // Elapsed-based diff calculation
+    let diffStr = "—";
+    let diffClass = "ok";
+
+    if (broadcastState.status === "live" || broadcastState.status === "cm") {
+      const elapsed = getElapsedMs() / 1000;
+      if (i === broadcastState.currentSegment) {
+        const segElapsed = elapsed - startSec;
+        const diff = segElapsed - lenSec;
+        if (Math.abs(diff) < 5) { diffStr = "±0"; diffClass = "ok"; }
+        else if (diff > 0) { diffStr = `+${fmtMmSs(diff)}`; diffClass = "over"; }
+        else { diffStr = `-${fmtMmSs(-diff)}`; diffClass = "under"; }
+      }
+    }
+
+    row.innerHTML = `
+      <span class="seg-num">${String(i+1).padStart(2,"0")}</span>
+      <span class="seg-name">${seg.name}</span>
+      <span class="seg-time">${seg.start}</span>
+      <span class="seg-len">${seg.len}</span>
+      <span class="seg-diff ${diffClass}">${diffStr}</span>
+    `;
+
+    row.addEventListener("click", async () => {
+      await saveState({ currentSegment: i });
+    });
+
+    container.appendChild(row);
+  });
+
+  // Bottom bar
+  const segsRef = broadcastState.segments.length ? broadcastState.segments : segments;
+  const curSeg = segsRef[broadcastState.currentSegment];
+  document.getElementById("barSeg").textContent = curSeg ? curSeg.name : "--";
+}
+
+function renderSegQuick() {
+  const container = document.getElementById("segQuick");
+  container.innerHTML = "";
+  const segs = broadcastState.segments.length ? broadcastState.segments : segments;
+  segs.forEach((seg, i) => {
+    const btn = document.createElement("button");
+    btn.className = "seg-quick-btn" + (i === broadcastState.currentSegment ? " active" : "");
+    btn.textContent = `${String(i+1).padStart(2,"0")} ${seg.name}`;
+    btn.addEventListener("click", async () => {
+      await saveState({ currentSegment: i });
+    });
+    container.appendChild(btn);
+  });
+}
+
+function renderCue() {
+  const cueIds = ["stby","5","4","3","2","1","q"];
+  cueIds.forEach(id => {
+    const el = document.getElementById(`cue-${id}`);
+    el.className = "cue-item";
+    if (broadcastState.cue === id) {
+      if (id === "stby") el.classList.add("active-stby");
+      else if (id === "q") el.classList.add("active-q");
+      else el.classList.add("active-count");
+    }
+  });
+}
+
+// ── Elapsed calculation ───────────────────────────────────────
+function getElapsedMs() {
+  if (!broadcastState.startedAt) return 0;
+  if (broadcastState.paused && broadcastState.pausedAt) {
+    const elapsed = broadcastState.pausedAt - broadcastState.startedAt - (broadcastState.pauseAccum || 0);
+    return Math.max(0, elapsed);
+  }
+  const now = serverNow();
+  const elapsed = now - broadcastState.startedAt - (broadcastState.pauseAccum || 0);
+  return Math.max(0, elapsed);
+}
+
+// ── UI update ─────────────────────────────────────────────────
+function updateControlUI() {
+  const st = broadcastState.status;
+  const badges = { offair:"offair", standby:"standby", live:"live", cm:"cm" };
+  const badge = document.getElementById("statusBadge");
+  badge.className = "status-badge " + (badges[st] || "offair");
+  const labels = { offair:"OFF AIR", standby:"STANDBY", live:"● LIVE", cm:"CM BREAK" };
+  badge.textContent = labels[st] || "OFF AIR";
+
+  document.getElementById("barStatus").textContent = labels[st] || "OFF AIR";
+
+  // Button states
+  const btnGo    = document.getElementById("btnGo");
+  const btnPause = document.getElementById("btnPause");
+  const btnCm    = document.getElementById("btnCm");
+
+  btnGo.disabled    = false;
+  btnPause.disabled = (st !== "live");
+  btnCm.disabled    = (st !== "live" && st !== "standby");
+
+  btnGo.textContent = (broadcastState.paused) ? "▶ RESUME" :
+                      (st === "live") ? "● ON AIR" : "▶ GO ON AIR";
+  btnGo.className = "btn-control btn-go" + (st === "live" && !broadcastState.paused ? " active" : "");
+
+  btnPause.textContent = broadcastState.paused ? "▶ RESUME" : "⏸ PAUSE";
+}
+
+function updateSyncUI(connected) {
+  ["syncDot","syncDot2"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.className = "sync-dot" + (connected ? "" : " disconnected");
+    }
+  });
+  ["syncLabel","syncLabel2"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = connected ? "SYNC" : "DISCONNECTED";
+  });
+}
+
+// ── RAF clock loop ────────────────────────────────────────────
+let rafId = null;
+
+function clockLoop() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,"0");
+  const m = String(now.getMinutes()).padStart(2,"0");
+  const s = String(now.getSeconds()).padStart(2,"0");
+
+  document.getElementById("cwH").textContent = h;
+  document.getElementById("cwM").textContent = m;
+  document.getElementById("cwS").textContent = s;
+  document.getElementById("headerTime").textContent = `${h}:${m}:${s}`;
+
+  // Zero-second flash
+  const clockWall = document.getElementById("clockWall");
+  if (now.getSeconds() === 0) clockWall.classList.add("zero-second");
+  else clockWall.classList.remove("zero-second");
+
+  // Elapsed
+  const elapsedEl = document.getElementById("clockElapsed");
+  const msEl = document.getElementById("clockMs");
+
+  if (broadcastState.status === "live" || broadcastState.status === "cm" || broadcastState.paused) {
+    const elapsedMs = getElapsedMs();
+    const totalSec  = Math.floor(elapsedMs / 1000);
+    const ms        = Math.floor(elapsedMs % 1000);
+
+    const hh = Math.floor(totalSec / 3600);
+    const mm = Math.floor((totalSec % 3600) / 60);
+    const ss = totalSec % 60;
+    const timeStr = hh > 0
+      ? `${hh}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`
+      : `${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+
+    elapsedEl.textContent = timeStr;
+    msEl.textContent = `.${String(ms).padStart(3,"0")}`;
+    document.getElementById("barElapsed").textContent = timeStr;
+
+    if (broadcastState.paused) {
+      elapsedEl.className = "clock-elapsed paused";
+    } else {
+      elapsedEl.className = "clock-elapsed";
+    }
+  } else {
+    elapsedEl.textContent = "--:--:--";
+    elapsedEl.className = "clock-elapsed stopped";
+    msEl.textContent = ".---";
+    document.getElementById("barElapsed").textContent = "--:--:--";
+  }
+
+  rafId = requestAnimationFrame(clockLoop);
+}
+
+// ── Add Segment modal ─────────────────────────────────────────
+document.getElementById("addSegBtn").addEventListener("click", () => {
+  document.getElementById("addSegModal").classList.add("visible");
+});
+
+document.getElementById("segAddCancel").addEventListener("click", () => {
+  document.getElementById("addSegModal").classList.remove("visible");
+});
+
+document.getElementById("segAddConfirm").addEventListener("click", async () => {
+  const name  = document.getElementById("segNameInput").value.trim() || "Untitled";
+  const start = document.getElementById("segStartInput").value.trim() || "00:00";
+  const len   = document.getElementById("segLenInput").value.trim() || "05:00";
+  const newSegments = [...(broadcastState.segments.length ? broadcastState.segments : segments), { name, start, len }];
+  await saveState({ segments: newSegments });
+  document.getElementById("addSegModal").classList.remove("visible");
+  document.getElementById("segNameInput").value = "";
+  document.getElementById("segStartInput").value = "";
+  document.getElementById("segLenInput").value = "";
+});
+
+// ── Auth ──────────────────────────────────────────────────────
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim();
+  const pass  = document.getElementById("loginPassword").value;
+  const errEl = document.getElementById("loginError");
+  errEl.textContent = "";
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    const msgs = {
+      "auth/user-not-found": "ユーザーが見つかりません",
+      "auth/wrong-password": "パスワードが違います",
+      "auth/invalid-email": "メールアドレスの形式が違います",
+      "auth/invalid-credential": "認証情報が無効です",
+    };
+    errEl.textContent = msgs[e.code] || `エラー: ${e.message}`;
+  }
+});
+
+document.getElementById("loginPassword").addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("loginBtn").click();
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").classList.add("visible");
+    document.getElementById("headerUser").textContent = user.email;
+    // Start everything
+    calibrateOffset();
+    setInterval(calibrateOffset, 30000);
+    if (!unsubscribe) startListener();
+    if (!rafId) clockLoop();
+  } else {
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("app").classList.remove("visible");
+    if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    syncConnected = false;
+    updateSyncUI(false);
+  }
+});
+
+// Close modal on overlay click
+document.getElementById("addSegModal").addEventListener("click", function(e) {
+  if (e.target === this) this.classList.remove("visible");
+});
+
+// Fullscreen shortcut (F key)
+document.addEventListener("keydown", e => {
+  if (e.key === "f" || e.key === "F") {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+    else document.exitFullscreen();
+  }
+});
+
+</script>
+</body>
+</html>
