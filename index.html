@@ -12,8 +12,7 @@
   --amber:#ffb700;--amber-g:rgba(255,183,0,.3);
   --green:#00ff88;--green-g:rgba(0,255,136,.3);
   --cyan:#00ccff;--cyan-g:rgba(0,204,255,.3);
-  --purple:#cc44ff;--purple-g:rgba(204,68,255,.3);
-  --bg:#080808;--bg2:#111;--bg3:#181818;--bg4:#1e1e1e;
+  --bg:#080808;--bg2:#111;--bg3:#181818;
   --b1:#222;--b2:#333;--b3:#444;
   --t1:#f0f0f0;--t2:#999;--t3:#555;
   --mono:'Share Tech Mono',monospace;
@@ -23,308 +22,322 @@
 html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--bar);overflow:hidden;-webkit-font-smoothing:antialiased}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9998}
 
-/* ══ LOGIN ══ */
+/* LOGIN */
 #login{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900}
 #login.hide{display:none}
 .l-logo{font-family:var(--disp);font-size:9px;font-weight:900;letter-spacing:.5em;color:var(--red);text-shadow:0 0 24px var(--red-g);margin-bottom:6px}
-.l-sub{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.3em;margin-bottom:40px}
-.l-box{background:var(--bg2);border:1px solid var(--b2);width:340px;padding:28px 28px 24px;position:relative}
+.l-sub{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.3em;margin-bottom:36px}
+.l-box{background:var(--bg2);border:1px solid var(--b2);width:340px;padding:26px 26px 22px;position:relative}
 .l-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
-.l-label{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.2em;display:block;margin-bottom:5px}
-.l-input{width:100%;background:var(--bg3);border:1px solid var(--b1);border-bottom:1px solid var(--b2);color:var(--t1);font-family:var(--mono);font-size:13px;padding:9px 11px;outline:none;margin-bottom:14px;transition:border-color .15s}
+.l-label{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.2em;display:block;margin-bottom:4px}
+.l-input{width:100%;background:var(--bg3);border:1px solid var(--b1);border-bottom:1px solid var(--b2);color:var(--t1);font-family:var(--mono);font-size:13px;padding:8px 10px;outline:none;margin-bottom:12px;transition:border-color .15s}
 .l-input:focus{border-color:var(--red)}
-.l-btn{width:100%;background:var(--red2);border:none;color:#fff;font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.3em;padding:13px;cursor:pointer;transition:background .15s;margin-top:4px}
+.l-btn{width:100%;background:var(--red2);border:none;color:#fff;font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.3em;padding:12px;cursor:pointer;margin-top:2px}
 .l-btn:hover{background:var(--red)}
-.l-err{font-family:var(--mono);font-size:10px;color:var(--red);margin-top:10px;min-height:14px;text-align:center}
+.l-err{font-family:var(--mono);font-size:10px;color:var(--red);margin-top:8px;min-height:14px;text-align:center}
 
 /* MODE SELECT */
 #modeSelect{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:850;gap:10px}
 #modeSelect.show{display:flex}
-.ms-title{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.4em;color:var(--t2);margin-bottom:20px}
-.ms-btn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.25em;padding:16px 40px;border:1px solid;background:transparent;cursor:pointer;transition:all .15s;width:280px}
-.ms-btn.main{border-color:var(--red);color:var(--red)}
-.ms-btn.main:hover{background:rgba(255,26,26,.08)}
-.ms-btn.sub{border-color:var(--cyan);color:var(--cyan)}
-.ms-btn.sub:hover{background:rgba(0,204,255,.08)}
+.ms-title{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.4em;color:var(--t2);margin-bottom:18px}
+.ms-btn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.22em;padding:15px 38px;border:1px solid;background:transparent;cursor:pointer;transition:all .15s;width:270px}
+.ms-btn.main{border-color:var(--red);color:var(--red)}.ms-btn.main:hover{background:rgba(255,26,26,.08)}
+.ms-btn.sub{border-color:var(--cyan);color:var(--cyan)}.ms-btn.sub:hover{background:rgba(0,204,255,.08)}
 .ms-note{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.12em}
 
-/* ══ APP ══ */
+/* APP */
 #app{display:none;height:100vh;flex-direction:column}
 #app.on{display:flex}
 
 /* HEADER */
-.hdr{height:38px;background:var(--bg2);border-bottom:2px solid var(--b1);display:flex;align-items:center;padding:0 10px;gap:8px;flex-shrink:0;overflow:hidden}
-.hdr-logo{font-family:var(--disp);font-size:8px;font-weight:900;letter-spacing:.4em;color:var(--red);text-shadow:0 0 10px var(--red-g);white-space:nowrap}
+.hdr{height:38px;background:var(--bg2);border-bottom:2px solid var(--b1);display:flex;align-items:center;padding:0 10px;gap:7px;flex-shrink:0;overflow:hidden}
+.hdr-logo{font-family:var(--disp);font-size:8px;font-weight:900;letter-spacing:.38em;color:var(--red);text-shadow:0 0 10px var(--red-g);white-space:nowrap}
 .hdr-div{width:1px;height:16px;background:var(--b2);flex-shrink:0}
-.badge{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.2em;padding:3px 8px;border:1px solid currentColor;white-space:nowrap}
+.badge{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.18em;padding:3px 8px;border:1px solid currentColor;white-space:nowrap;flex-shrink:0}
 .badge.offair{color:var(--t3);border-color:var(--b2)}
 .badge.standby{color:var(--amber);border-color:var(--amber);box-shadow:0 0 8px var(--amber-g)}
 .badge.live{color:var(--red);border-color:var(--red);box-shadow:0 0 12px var(--red-g);animation:blk 1s step-start infinite}
 .badge.cm{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px var(--cyan-g)}
-.badge.emergency{color:#fff;background:var(--red);border-color:var(--red);box-shadow:0 0 20px var(--red-g);animation:blk .5s step-start infinite}
+.badge.emergency{color:#fff;background:var(--red);border-color:var(--red);animation:blk .4s step-start infinite}
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
-.mode-tag{font-family:var(--mono);font-size:8px;letter-spacing:.2em;padding:2px 6px;border:1px solid var(--b2);color:var(--t3);white-space:nowrap}
-.hdr-r{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hdr-clock{font-family:var(--mono);font-size:13px;color:var(--t2);letter-spacing:.06em;white-space:nowrap}
-.hdr-user{font-family:var(--mono);font-size:9px;color:var(--t3);white-space:nowrap}
-.xbtn{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;white-space:nowrap}
+.mode-tag{font-family:var(--mono);font-size:8px;letter-spacing:.18em;padding:2px 6px;border:1px solid var(--b2);color:var(--t3);white-space:nowrap;flex-shrink:0}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:7px;flex-shrink:0}
+.hdr-clock{font-family:var(--mono);font-size:13px;color:var(--t2);letter-spacing:.05em;white-space:nowrap}
+.hdr-user{font-family:var(--mono);font-size:8px;color:var(--t3);white-space:nowrap}
+.xbtn{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.1em;padding:3px 7px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;white-space:nowrap}
 .xbtn:hover{border-color:var(--red);color:var(--red)}
 .xbtn.emg{border-color:var(--red);color:var(--red)}
-.xbtn.emg:hover{background:var(--red);color:#fff}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green-g);animation:sp 2s ease-in-out infinite;flex-shrink:0}
 .sdot.off{background:var(--red);animation:none}
 @keyframes sp{0%,100%{opacity:1}50%{opacity:.3}}
-.sched-status{font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:.1em;white-space:nowrap;display:none}
+.sched-status{font-family:var(--mono);font-size:9px;color:var(--amber);white-space:nowrap;display:none}
 .sched-status.show{display:block}
 
-/* ══ PRE-BROADCAST ALERT OVERLAY ══ */
-#preAlert{position:fixed;inset:0;z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.96);pointer-events:none;opacity:0;transition:opacity .4s}
-#preAlert.show{opacity:1}
-.pre-label{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.4em;margin-bottom:16px}
-.pre-num{font-family:var(--disp);font-size:clamp(80px,18vw,180px);font-weight:900;color:var(--amber);text-shadow:0 0 60px var(--amber-g);line-height:1;transition:all .3s}
-.pre-num.red{color:var(--red);text-shadow:0 0 60px var(--red-g)}
-.pre-sub{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.3em;margin-top:12px}
-.pre-bar{width:300px;height:3px;background:var(--b2);margin-top:20px;overflow:hidden}
-.pre-bar-fill{height:100%;background:var(--amber);transition:width 1s linear}
-
-/* ══ MAIN LAYOUT ══ */
-.main-body{flex:1;display:grid;grid-template-columns:1fr 290px;min-height:0;overflow:hidden}
+/* MAIN LAYOUT */
+.main-body{flex:1;display:grid;grid-template-columns:1fr 285px;min-height:0;overflow:hidden}
 .main-left{display:flex;flex-direction:column;overflow:hidden}
 
 /* TABS */
 .tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
-.tab{font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:7px 14px;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab:hover{color:var(--t2)}
-.tab.active{color:var(--t1);border-bottom-color:var(--red)}
+.tab{font-family:var(--mono);font-size:9px;letter-spacing:.18em;padding:7px 13px;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:var(--t2)}.tab.active{color:var(--t1);border-bottom-color:var(--red)}
 
-/* ── BROADCAST TAB ── */
+/* BROADCAST TAB */
 #tabBroadcast{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0}
 
-/* clock area */
-.clock-area{background:var(--bg);padding:12px 16px 10px;border-bottom:1px solid var(--b1);display:flex;align-items:stretch;gap:0;flex-shrink:0}
-.clk-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16px;border-right:1px solid var(--b1)}
-.clk-cell:first-child{padding-left:0}
-.clk-cell:last-child{border-right:none}
-.clk-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em}
-.clk-wall{font-family:var(--disp);font-size:clamp(28px,4vw,52px);font-weight:700;color:var(--t1);letter-spacing:.03em;line-height:1}
+/* CLOCK AREA */
+.clock-area{background:var(--bg);padding:10px 14px 8px;border-bottom:1px solid var(--b1);display:flex;align-items:stretch;gap:0;flex-shrink:0}
+.clk-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 14px;border-right:1px solid var(--b1)}
+.clk-cell:first-child{padding-left:0}.clk-cell:last-child{border-right:none}
+.clk-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.25em}
+.clk-wall{font-family:var(--disp);font-size:clamp(24px,3.5vw,48px);font-weight:700;color:var(--t1);letter-spacing:.03em;line-height:1}
 .clk-wall .cn{animation:cnb 1s step-start infinite;color:var(--t3)}
 @keyframes cnb{0%,100%{opacity:1}50%{opacity:0}}
 .clk-wall.zero{color:#fff;text-shadow:0 0 30px rgba(255,26,26,.7)}
-.clk-val{font-family:var(--disp);font-size:clamp(22px,3vw,40px);font-weight:700;line-height:1}
-.clk-val.elapsed{color:var(--red);text-shadow:0 0 12px var(--red-g)}
-.clk-val.paused{color:var(--amber);text-shadow:0 0 12px var(--amber-g)}
-.clk-val.off{color:var(--t3);text-shadow:none}
-.clk-val.remain{color:var(--amber)}
-.clk-val.warn{color:var(--red);text-shadow:0 0 12px var(--red-g);animation:blk .8s step-start infinite}
-.clk-ms{font-family:var(--mono);font-size:12px;color:var(--t3);letter-spacing:.1em}
+.clk-val{font-family:var(--disp);font-size:clamp(18px,2.5vw,36px);font-weight:700;line-height:1}
+.clk-val.elapsed{color:var(--red);text-shadow:0 0 10px var(--red-g)}
+.clk-val.paused{color:var(--amber)}.clk-val.off{color:var(--t3);text-shadow:none}
+.clk-val.remain{color:var(--amber)}.clk-val.warn{color:var(--red);animation:blk .8s step-start infinite}
+.clk-ms{font-family:var(--mono);font-size:11px;color:var(--t3)}
 
 /* TALK CLOCK */
-.talk-clock{background:var(--bg2);border-bottom:1px solid var(--b1);padding:8px 16px;display:flex;align-items:center;gap:16px;flex-shrink:0}
-.talk-seg-name{font-family:var(--bar);font-size:16px;font-weight:700;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.talk-block{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:80px}
-.talk-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.2em}
-.talk-val{font-family:var(--disp);font-size:20px;font-weight:700;line-height:1}
-.talk-val.elapsed{color:var(--green)}
-.talk-val.remain{color:var(--amber)}
-.talk-val.over{color:var(--red);animation:blk .5s step-start infinite}
-.talk-bar-wrap{flex:1;height:6px;background:var(--b1);min-width:60px;max-width:200px}
+.talk-clock{background:var(--bg2);border-bottom:1px solid var(--b1);padding:6px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.talk-seg-name{font-family:var(--bar);font-size:15px;font-weight:700;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.talk-block{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:72px}
+.talk-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.18em}
+.talk-val{font-family:var(--disp);font-size:18px;font-weight:700;line-height:1}
+.talk-val.te{color:var(--green)}.talk-val.tr{color:var(--amber)}.talk-val.over{color:var(--red);animation:blk .5s step-start infinite}
+.talk-bar-wrap{flex:1;height:5px;background:var(--b1);min-width:40px;max-width:160px}
 .talk-bar{height:100%;background:var(--green);transition:width .5s linear;max-width:100%}
-.talk-bar.warn{background:var(--amber)}
-.talk-bar.over{background:var(--red)}
+.talk-bar.warn{background:var(--amber)}.talk-bar.over{background:var(--red)}
+.cm-badge{font-family:var(--mono);font-size:8px;color:var(--cyan);border:1px solid var(--cyan);padding:2px 6px;letter-spacing:.15em;flex-shrink:0}
 
-/* cue bar */
-.cue-bar{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
-.cue-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.22em;margin-right:3px}
-.cue-btn{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.08em;width:42px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .12s}
+/* CUE BAR */
+.cue-bar{display:flex;align-items:center;gap:4px;padding:5px 11px;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
+.cue-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.2em;margin-right:3px}
+.cue-btn{font-family:var(--disp);font-size:9px;font-weight:700;width:40px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .1s}
 .cue-btn:hover{border-color:var(--b3);color:var(--t2)}
-.cue-btn.c-stby{border-color:var(--amber)!important;color:var(--amber)!important;box-shadow:0 0 10px var(--amber-g);background:rgba(255,183,0,.06)}
-.cue-btn.c-num{border-color:var(--red)!important;color:var(--red)!important;box-shadow:0 0 12px var(--red-g);background:rgba(255,26,26,.08);font-size:14px}
-.cue-btn.c-q{border-color:var(--green)!important;color:var(--green)!important;box-shadow:0 0 16px var(--green-g);background:rgba(0,255,136,.08);animation:qp .6s ease-in-out infinite alternate}
-@keyframes qp{from{box-shadow:0 0 8px var(--green-g)}to{box-shadow:0 0 24px rgba(0,255,136,.8)}}
+.cue-btn.c-stby{border-color:var(--amber)!important;color:var(--amber)!important;box-shadow:0 0 8px var(--amber-g);background:rgba(255,183,0,.05)}
+.cue-btn.c-num{border-color:var(--red)!important;color:var(--red)!important;box-shadow:0 0 10px var(--red-g);background:rgba(255,26,26,.07);font-size:13px}
+.cue-btn.c-q{border-color:var(--green)!important;color:var(--green)!important;animation:qp .6s ease-in-out infinite alternate}
+@keyframes qp{from{box-shadow:0 0 6px var(--green-g)}to{box-shadow:0 0 20px rgba(0,255,136,.8)}}
 
-/* seg table */
+/* SEG TABLE */
 .seg-wrap{flex:1;overflow-y:auto;min-height:0}
-.seg-wrap::-webkit-scrollbar{width:3px}
-.seg-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
-.seg-hdr{display:grid;grid-template-columns:24px 1fr 56px 50px 62px 72px;padding:5px 10px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--bg3);z-index:5}
-.seg-hdr span{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.18em}
-.seg-row{display:grid;grid-template-columns:24px 1fr 56px 50px 62px 72px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;align-items:center;transition:background .1s;position:relative}
-.seg-row:hover{background:rgba(255,255,255,.025)}
-.seg-row.act{background:rgba(255,26,26,.05);border-bottom:1px solid rgba(255,26,26,.12)}
+.seg-wrap::-webkit-scrollbar{width:3px}.seg-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
+.seg-hdr{display:grid;grid-template-columns:22px 1fr 50px 46px 48px 56px 68px;padding:5px 10px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--bg3);z-index:5}
+.seg-hdr span{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.15em}
+.seg-row{display:grid;grid-template-columns:22px 1fr 50px 46px 48px 56px 68px;padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;align-items:center;transition:background .1s}
+.seg-row:hover{background:rgba(255,255,255,.02)}.seg-row.act{background:rgba(255,26,26,.05);border-bottom:1px solid rgba(255,26,26,.1)}
+.seg-row.type-cm{border-left:2px solid var(--cyan)}
+.seg-row.type-opening{border-left:2px solid var(--green)}
+.seg-row.type-ending{border-left:2px solid var(--purple,#cc44ff)}
 .s-num{font-family:var(--mono);font-size:9px;color:var(--t3)}
 .s-name{font-family:var(--bar);font-size:13px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .seg-row.act .s-name{color:var(--red)}
 .s-t{font-family:var(--mono);font-size:9px;color:var(--t2)}
+.s-type{font-family:var(--mono);font-size:7px;padding:1px 4px;border:1px solid;letter-spacing:.1em}
+.s-type.normal{color:var(--t3);border-color:var(--b2)}
+.s-type.cm{color:var(--cyan);border-color:var(--cyan)}
+.s-type.opening{color:var(--green);border-color:var(--green)}
+.s-type.ending{color:#cc44ff;border-color:#cc44ff}
 .s-diff{font-family:var(--mono);font-size:9px}
 .s-diff.over{color:var(--red)}.s-diff.under{color:var(--green)}.s-diff.ok{color:var(--t3)}
-.s-actions{display:flex;gap:3px;justify-content:flex-end}
-.s-act-btn{font-family:var(--mono);font-size:8px;padding:2px 5px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .1s}
+.s-acts{display:flex;gap:2px;justify-content:flex-end}
+.s-act-btn{font-family:var(--mono);font-size:7px;padding:2px 4px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
 .s-act-btn:hover{border-color:var(--amber);color:var(--amber)}
 .s-act-btn.del:hover{border-color:var(--red);color:var(--red)}
-.seg-add-row{padding:7px 10px;border-top:1px solid var(--b1);display:flex;gap:6px}
-.seg-add-btn{font-family:var(--mono);font-size:9px;letter-spacing:.18em;padding:5px;flex:1;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer}
+.seg-add-row{padding:6px 10px;border-top:1px solid var(--b1)}
+.seg-add-btn{font-family:var(--mono);font-size:9px;letter-spacing:.15em;padding:5px;width:100%;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer}
 .seg-add-btn:hover{border-color:var(--b2);color:var(--t2)}
 
-/* ── TIMELINE TAB ── */
-#tabTimeline{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;padding:12px}
+/* TIMELINE TAB */
+#tabTimeline{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;padding:10px}
 #tabTimeline.show{display:flex}
-.tl-wrap{flex:1;overflow-x:auto;overflow-y:hidden;position:relative;background:var(--bg);border:1px solid var(--b1)}
-.tl-wrap::-webkit-scrollbar{height:4px}
-.tl-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
+.tl-info{font-family:var(--mono);font-size:9px;color:var(--t3);padding:4px 0;letter-spacing:.12em}
+.tl-wrap{flex:1;overflow-x:auto;overflow-y:hidden;background:var(--bg);border:1px solid var(--b1)}
+.tl-wrap::-webkit-scrollbar{height:4px}.tl-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
 .tl-canvas-area{position:relative;height:100%;min-width:100%}
-/* ruler */
-.tl-ruler{position:sticky;top:0;height:24px;background:var(--bg3);border-bottom:1px solid var(--b1);display:flex;align-items:center;z-index:2}
-.tl-ruler-tick{position:absolute;height:100%;border-left:1px solid var(--b2);display:flex;align-items:center;padding-left:4px;font-family:var(--mono);font-size:8px;color:var(--t3)}
-/* seg blocks */
-.tl-seg{position:absolute;top:30px;height:50px;border:1px solid;display:flex;align-items:center;padding:0 6px;overflow:hidden;cursor:pointer;transition:filter .1s}
+.tl-ruler{position:sticky;top:0;height:22px;background:var(--bg3);border-bottom:1px solid var(--b1);display:flex;align-items:center;z-index:2}
+.tl-ruler-tick{position:absolute;height:100%;border-left:1px solid var(--b2);display:flex;align-items:center;padding-left:3px;font-family:var(--mono);font-size:7px;color:var(--t3)}
+.tl-seg{position:absolute;top:28px;height:48px;border:1px solid;display:flex;align-items:center;padding:0 5px;overflow:hidden;cursor:pointer}
 .tl-seg:hover{filter:brightness(1.2)}
 .tl-seg-name{font-family:var(--bar);font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tl-seg-len{font-family:var(--mono);font-size:8px;opacity:.7;margin-top:2px}
-/* playhead */
-.tl-playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--red);box-shadow:0 0 8px var(--red-g);z-index:3;pointer-events:none}
-.tl-playhead::before{content:'▼';position:absolute;top:0;left:-5px;font-size:10px;color:var(--red)}
-.tl-info{font-family:var(--mono);font-size:9px;color:var(--t3);padding:6px 0;letter-spacing:.15em}
+.tl-seg-len{font-family:var(--mono);font-size:7px;opacity:.7}
+.tl-playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--red);box-shadow:0 0 6px var(--red-g);z-index:3;pointer-events:none}
+.tl-playhead::before{content:'▼';position:absolute;top:0;left:-5px;font-size:9px;color:var(--red)}
 
-/* ── LOG TAB ── */
+/* LOG TAB */
 #tabLog{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
 #tabLog.show{display:flex}
-.log-hdr{display:flex;align-items:center;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);gap:10px;flex-shrink:0}
-.log-hdr-title{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.2em}
-.log-clear-btn{font-family:var(--mono);font-size:8px;padding:3px 8px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;margin-left:auto}
+.log-hdr{display:flex;align-items:center;padding:7px 11px;background:var(--bg2);border-bottom:1px solid var(--b1);gap:8px;flex-shrink:0}
+.log-hdr-title{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.18em}
+.log-clear-btn{font-family:var(--mono);font-size:8px;padding:2px 7px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;margin-left:auto}
 .log-clear-btn:hover{border-color:var(--red);color:var(--red)}
-.log-body{flex:1;overflow-y:auto;padding:8px 0}
-.log-body::-webkit-scrollbar{width:3px}
-.log-body::-webkit-scrollbar-thumb{background:var(--b2)}
-.log-row{display:grid;grid-template-columns:90px 80px 1fr;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.03);align-items:center}
+.log-body{flex:1;overflow-y:auto}
+.log-body::-webkit-scrollbar{width:3px}.log-body::-webkit-scrollbar-thumb{background:var(--b2)}
+.log-row{display:grid;grid-template-columns:85px 78px 1fr;padding:5px 11px;border-bottom:1px solid rgba(255,255,255,.03);align-items:center}
 .log-time{font-family:var(--mono);font-size:9px;color:var(--t3)}
-.log-type{font-family:var(--mono);font-size:8px;letter-spacing:.15em;padding:2px 5px;border:1px solid currentColor}
-.log-type.on-air{color:var(--red);border-color:var(--red)}
-.log-type.off-air{color:var(--t3);border-color:var(--b2)}
-.log-type.seg{color:var(--cyan);border-color:var(--cyan)}
-.log-type.pause{color:var(--amber);border-color:var(--amber)}
-.log-type.cm{color:var(--cyan);border-color:var(--cyan)}
-.log-type.emergency{color:var(--red);border-color:var(--red);background:rgba(255,26,26,.1)}
-.log-type.stby{color:var(--amber);border-color:var(--amber)}
-.log-msg{font-family:var(--bar);font-size:12px;color:var(--t2);padding-left:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.log-empty{font-family:var(--mono);font-size:10px;color:var(--t3);text-align:center;padding:40px;letter-spacing:.2em}
+.log-type{font-family:var(--mono);font-size:7px;letter-spacing:.13em;padding:2px 4px;border:1px solid currentColor}
+.log-type.on-air{color:var(--red)}.log-type.off-air{color:var(--t3)}.log-type.seg{color:var(--cyan)}
+.log-type.pause{color:var(--amber)}.log-type.cm{color:var(--cyan)}.log-type.emergency{color:var(--red);background:rgba(255,26,26,.1)}
+.log-type.stby{color:var(--amber)}.log-type.sched{color:var(--green)}
+.log-msg{font-family:var(--bar);font-size:12px;color:var(--t2);padding-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-empty{font-family:var(--mono);font-size:10px;color:var(--t3);text-align:center;padding:36px;letter-spacing:.18em}
 
 /* RIGHT PANEL */
-.main-right{background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;padding:8px;gap:7px;border-left:1px solid var(--b1)}
-.main-right::-webkit-scrollbar{width:3px}
-.main-right::-webkit-scrollbar-thumb{background:var(--b2)}
-.ctrl-box{border:1px solid var(--b1);background:var(--bg3);padding:8px 8px 6px}
-.ctrl-title{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
-.cbtn{width:100%;font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.15em;padding:9px 6px;border:1px solid;background:transparent;cursor:pointer;text-transform:uppercase;margin-bottom:4px;transition:all .12s;position:relative;overflow:hidden}
-.cbtn:last-child{margin-bottom:0}
-.cbtn:disabled{opacity:.25;cursor:not-allowed;pointer-events:none}
-.cbtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s}
+.main-right{background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;padding:7px;gap:6px;border-left:1px solid var(--b1)}
+.main-right::-webkit-scrollbar{width:3px}.main-right::-webkit-scrollbar-thumb{background:var(--b2)}
+.ctrl-box{border:1px solid var(--b1);background:var(--bg3);padding:7px 7px 5px}
+.ctrl-title{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.25em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
+.cbtn{width:100%;font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.13em;padding:8px 5px;border:1px solid;background:transparent;cursor:pointer;text-transform:uppercase;margin-bottom:4px;transition:all .1s;position:relative;overflow:hidden}
+.cbtn:last-child{margin-bottom:0}.cbtn:disabled{opacity:.25;cursor:not-allowed;pointer-events:none}
+.cbtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .1s}
 .cbtn:hover:not(:disabled)::after{opacity:.07}
-.cbtn.go{border-color:var(--red);color:var(--red)}
-.cbtn.go.active{background:var(--red2);color:#fff;box-shadow:0 0 14px var(--red-g)}
-.cbtn.stby{border-color:var(--amber);color:var(--amber)}
-.cbtn.pau{border-color:var(--amber);color:var(--amber)}
-.cbtn.cm{border-color:var(--cyan);color:var(--cyan)}
-.cbtn.rst{border-color:var(--b2);color:var(--t3)}
+.cbtn.go{border-color:var(--red);color:var(--red)}.cbtn.go.active{background:var(--red2);color:#fff;box-shadow:0 0 12px var(--red-g)}
+.cbtn.stby{border-color:var(--amber);color:var(--amber)}.cbtn.pau{border-color:var(--amber);color:var(--amber)}
+.cbtn.cm{border-color:var(--cyan);color:var(--cyan)}.cbtn.rst{border-color:var(--b2);color:var(--t3)}
 .cbtn.sched-btn{border-color:var(--green);color:var(--green)}
-.cbtn.emg-btn{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.05)}
-.cbtn.emg-btn.active{background:var(--red);color:#fff;animation:blk .5s step-start infinite}
-.sq-btn{width:100%;font-family:var(--mono);font-size:9px;padding:5px 7px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;text-align:left;transition:all .1s;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sq-btn:last-child{margin-bottom:0}
-.sq-btn:hover{border-color:var(--b2);color:var(--t1)}
-.sq-btn.act{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.06)}
+.cbtn.emg-btn{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.04)}
+.cbtn.emg-btn.active{background:var(--red);color:#fff;animation:blk .4s step-start infinite}
+.sq-btn{width:100%;font-family:var(--mono);font-size:9px;padding:5px 6px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;text-align:left;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sq-btn:last-child{margin-bottom:0}.sq-btn:hover{border-color:var(--b2);color:var(--t1)}.sq-btn.act{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.05)}
+.sq-btn.cm-type{border-left:2px solid var(--cyan)}
 .sys-row{font-family:var(--mono);font-size:9px;color:var(--t3);display:flex;align-items:center;gap:5px;margin-bottom:3px}
-.auto-toggle{display:flex;align-items:center;gap:7px;padding:4px 0}
-.toggle-lbl{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.08em}
-.tog{position:relative;width:34px;height:17px;cursor:pointer;flex-shrink:0}
+.auto-toggle{display:flex;align-items:center;gap:6px;padding:3px 0}
+.toggle-lbl{font-family:var(--mono);font-size:9px;color:var(--t2)}
+.tog{position:relative;width:32px;height:16px;cursor:pointer;flex-shrink:0}
 .tog input{opacity:0;width:0;height:0}
 .tog-sl{position:absolute;inset:0;background:var(--b2);border:1px solid var(--b2);transition:.2s}
-.tog-sl::before{content:'';position:absolute;width:11px;height:11px;left:2px;top:2px;background:var(--t3);transition:.2s}
+.tog-sl::before{content:'';position:absolute;width:10px;height:10px;left:2px;top:2px;background:var(--t3);transition:.2s}
 .tog input:checked+.tog-sl{background:rgba(255,183,0,.15);border-color:var(--amber)}
-.tog input:checked+.tog-sl::before{transform:translateX(16px);background:var(--amber)}
+.tog input:checked+.tog-sl::before{transform:translateX(15px);background:var(--amber)}
 
 /* STATUS BAR */
-.sbar{height:24px;background:var(--bg2);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 12px;gap:16px;flex-shrink:0}
-.sinfo{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.13em}
+.sbar{height:24px;background:var(--bg2);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 11px;gap:14px;flex-shrink:0}
+.sinfo{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.12em}
 .sinfo span{color:var(--t2)}
 
 /* ══ SUB MODE ══ */
-.sub-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;background:var(--bg);position:relative;overflow:hidden}
+.sub-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;background:var(--bg);position:relative;overflow:hidden}
 .sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;width:100%;max-width:860px;background:var(--b1)}
-.sub-cell{background:var(--bg2);padding:16px 20px;display:flex;flex-direction:column;gap:4px}
+.sub-cell{background:var(--bg2);padding:14px 18px;display:flex;flex-direction:column;gap:3px}
 .sub-cell.wide{grid-column:1/-1}
-.sub-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em}
-.sub-val{font-family:var(--disp);font-size:clamp(24px,3.5vw,48px);font-weight:700;line-height:1}
-.sub-val.wall{color:var(--t1)}
-.sub-val.elapsed{color:var(--red);text-shadow:0 0 10px var(--red-g)}
-.sub-val.elapsed.paused{color:var(--amber)}
-.sub-val.remain{color:var(--amber)}
-.sub-val.nextseg{color:var(--cyan);font-size:clamp(16px,2.3vw,28px)}
-.sub-ms{font-family:var(--mono);font-size:12px;color:var(--t3)}
-.sub-seg-name{font-family:var(--bar);font-size:clamp(14px,2.2vw,26px);font-weight:700;color:var(--t1);margin-top:3px}
-.sub-next-name{font-family:var(--bar);font-size:clamp(12px,1.6vw,18px);color:var(--t2);margin-top:2px}
+.sub-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.25em}
+.sub-val{font-family:var(--disp);font-size:clamp(22px,3.2vw,44px);font-weight:700;line-height:1}
+.sub-val.wall{color:var(--t1)}.sub-val.elapsed{color:var(--red);text-shadow:0 0 10px var(--red-g)}
+.sub-val.elapsed.paused{color:var(--amber)}.sub-val.remain{color:var(--amber)}
+.sub-val.nextseg{color:var(--cyan);font-size:clamp(14px,2vw,26px)}
+.sub-ms{font-family:var(--mono);font-size:11px;color:var(--t3)}
+.sub-seg-name{font-family:var(--bar);font-size:clamp(13px,2vw,24px);font-weight:700;color:var(--t1);margin-top:2px}
+.sub-next-name{font-family:var(--bar);font-size:clamp(11px,1.5vw,17px);color:var(--t2);margin-top:1px}
 
-/* ══ COUNTDOWN / ALERT OVERLAY ══ */
-#cdOverlay{position:fixed;inset:0;z-index:850;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.95);opacity:0;pointer-events:none;transition:opacity .3s}
-#cdOverlay.show{opacity:1;pointer-events:auto}
-.cd-label{font-family:var(--mono);font-size:11px;letter-spacing:.4em;margin-bottom:14px}
-.cd-label.amber{color:var(--amber)}
-.cd-label.red{color:var(--red)}
-.cd-num{font-family:var(--disp);font-weight:900;line-height:1;animation:cdbig .35s ease-out}
-.cd-num.stby{font-size:clamp(60px,12vw,120px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
-.cd-num.cnt{font-size:clamp(100px,20vw,200px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
-.cd-num.q{font-size:clamp(100px,20vw,200px);color:var(--green);text-shadow:0 0 60px var(--green-g)}
-.cd-num.pre60{font-size:clamp(60px,10vw,100px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
-.cd-num.pre30{font-size:clamp(80px,14vw,140px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
-.cd-sub{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.28em;margin-top:10px}
-.cd-bar{width:280px;height:3px;background:var(--b2);margin-top:18px;overflow:hidden}
-.cd-bar-fill{height:100%;transition:width 1s linear}
-.cd-bar-fill.amber{background:var(--amber)}
-.cd-bar-fill.red{background:var(--red)}
-@keyframes cdbig{from{transform:scale(1.25);opacity:0}to{transform:scale(1);opacity:1}}
+/* SUB CONTROLS */
+.sub-ctrl{width:100%;max-width:860px;margin-top:1px;background:var(--b1);display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.sub-ctrl-btn{background:var(--bg2);font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.12em;padding:10px 5px;border:none;cursor:pointer;transition:all .12s;color:var(--t3)}
+.sub-ctrl-btn:hover{background:var(--bg3)}
+.sub-ctrl-btn.go{color:var(--red)}.sub-ctrl-btn.go.active{background:rgba(255,26,26,.15)}
+.sub-ctrl-btn.emg{color:var(--red)}.sub-ctrl-btn.emg.active{background:var(--red);color:#fff;animation:blk .4s step-start infinite}
+.sub-ctrl-btn.cm{color:var(--cyan)}.sub-ctrl-btn.rst{color:var(--t3)}
 
-/* EMERGENCY OVERLAY */
-#emgOverlay{position:fixed;inset:0;z-index:870;background:rgba(180,0,0,.96);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+/* ══ EMERGENCY OVERLAY ══ */
+#emgOverlay{position:fixed;inset:0;z-index:870;display:none;flex-direction:column;background:#0a0000}
 #emgOverlay.show{display:flex}
-.emg-title{font-family:var(--disp);font-size:clamp(28px,5vw,60px);font-weight:900;color:#fff;letter-spacing:.2em;text-shadow:0 0 40px rgba(255,255,255,.5);animation:blk .4s step-start infinite}
-.emg-sub{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.7);letter-spacing:.3em}
-.emg-cancel{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.25em;padding:12px 32px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer;margin-top:20px}
-.emg-cancel:hover{background:rgba(255,255,255,.15)}
 
-/* ══ MODALS ══ */
+/* EAS ticker */
+.emg-ticker-bar{background:#cc0000;height:40px;display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.emg-ticker-label{font-family:var(--mono);font-size:10px;font-weight:700;color:#fff;letter-spacing:.25em;white-space:nowrap;animation:blk .6s step-start infinite}
+.emg-ticker-text{font-family:var(--bar);font-size:16px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+
+/* News-style layout */
+.emg-main{flex:1;display:grid;grid-template-columns:1fr 280px;min-height:0}
+.emg-center{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:16px;border-right:2px solid #cc0000}
+.emg-center-icon{font-size:clamp(48px,8vw,80px);line-height:1}
+.emg-center-title{font-family:var(--disp);font-size:clamp(18px,3vw,32px);font-weight:900;color:#fff;letter-spacing:.2em;text-align:center}
+.emg-center-subtitle{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.3em;text-align:center}
+.emg-message{font-family:var(--bar);font-size:clamp(16px,2.5vw,28px);font-weight:700;color:#ffcccc;text-align:center;max-width:500px;line-height:1.4}
+.emg-time-block{display:flex;flex-direction:column;align-items:center;gap:4px}
+.emg-time-lbl{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.25em}
+.emg-time-val{font-family:var(--disp);font-size:clamp(22px,3.5vw,40px);font-weight:700;color:#fff}
+.emg-elapsed-val{font-family:var(--disp);font-size:clamp(16px,2.5vw,28px);font-weight:700;color:#ff8888}
+
+/* EAS right panel */
+.emg-side{display:flex;flex-direction:column;padding:16px;gap:12px;background:#0d0000}
+.emg-side-title{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.25em;border-bottom:1px solid #330000;padding-bottom:6px}
+.emg-level-row{display:flex;gap:6px}
+.emg-level-btn{flex:1;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;padding:8px 4px;border:1px solid;background:transparent;cursor:pointer;transition:all .1s}
+.emg-level-btn.info{border-color:#0066ff;color:#0066ff}.emg-level-btn.info.active{background:#0066ff;color:#fff}
+.emg-level-btn.warning{border-color:var(--amber);color:var(--amber)}.emg-level-btn.warning.active{background:var(--amber);color:#000}
+.emg-level-btn.critical{border-color:var(--red);color:var(--red)}.emg-level-btn.critical.active{background:var(--red);color:#fff}
+.emg-msg-input{width:100%;background:#1a0000;border:1px solid #440000;color:#ffcccc;font-family:var(--bar);font-size:14px;padding:8px;outline:none;resize:none;height:80px}
+.emg-msg-input:focus{border-color:#cc0000}
+.emg-timer-row{display:flex;gap:6px;align-items:center}
+.emg-timer-input{flex:1;background:#1a0000;border:1px solid #440000;color:#ffcccc;font-family:var(--mono);font-size:12px;padding:6px 8px;outline:none}
+.emg-timer-btn{font-family:var(--mono);font-size:8px;padding:6px 8px;border:1px solid #440000;background:transparent;color:rgba(255,255,255,.5);cursor:pointer}
+.emg-timer-btn:hover{border-color:#cc0000;color:#fff}
+.emg-auto-label{font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.4);text-align:center}
+.emg-auto-remain{font-family:var(--disp);font-size:20px;font-weight:700;color:var(--amber);text-align:center}
+.emg-cancel-btn{width:100%;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.2em;padding:11px;border:1px solid #cc0000;background:transparent;color:#ff6666;cursor:pointer;margin-top:auto}
+.emg-cancel-btn:hover{background:#cc0000;color:#fff}
+
+/* L字テロップ (bottom bar) */
+.emg-lbar{height:44px;background:#cc0000;display:flex;align-items:center;overflow:hidden;flex-shrink:0;position:relative}
+.emg-lbar-tag{font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;letter-spacing:.2em;background:#880000;padding:0 12px;height:100%;display:flex;align-items:center;flex-shrink:0}
+.emg-lbar-scroll{font-family:var(--bar);font-size:20px;font-weight:700;color:#fff;white-space:nowrap;animation:scroll-ticker 20s linear infinite}
+@keyframes scroll-ticker{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+
+/* ══ COUNTDOWN OVERLAY ══ */
+#cdOverlay{position:fixed;inset:0;z-index:860;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.95);opacity:0;pointer-events:none;transition:opacity .3s}
+#cdOverlay.show{opacity:1;pointer-events:auto}
+.cd-label{font-family:var(--mono);font-size:11px;letter-spacing:.38em;margin-bottom:12px}
+.cd-label.amber{color:var(--amber)}.cd-label.red{color:var(--red)}
+.cd-num{font-family:var(--disp);font-weight:900;line-height:1;animation:cdbig .3s ease-out}
+.cd-num.stby{font-size:clamp(56px,11vw,110px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
+.cd-num.cnt{font-size:clamp(90px,18vw,180px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.cd-num.q{font-size:clamp(90px,18vw,180px);color:var(--green);text-shadow:0 0 60px var(--green-g)}
+.cd-num.pre60{font-size:clamp(56px,9vw,96px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
+.cd-num.pre30{font-size:clamp(72px,13vw,130px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.cd-sub{font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.25em;margin-top:8px}
+.cd-bar{width:260px;height:3px;background:var(--b2);margin-top:16px;overflow:hidden}
+.cd-bar-fill{height:100%;transition:width 1s linear}
+.cd-bar-fill.amber{background:var(--amber)}.cd-bar-fill.red{background:var(--red)}
+@keyframes cdbig{from{transform:scale(1.22);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* RESUME OVERLAY */
+#resumeOverlay{position:fixed;inset:0;z-index:875;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.96)}
+#resumeOverlay.show{display:flex}
+.resume-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.35em;margin-bottom:14px}
+.resume-num{font-family:var(--disp);font-size:clamp(80px,16vw,160px);font-weight:900;color:var(--green);text-shadow:0 0 50px var(--green-g);line-height:1;animation:cdbig .35s ease-out}
+.resume-sub{font-family:var(--mono);font-size:10px;color:var(--t3);letter-spacing:.28em;margin-top:10px}
+
+/* MODALS */
 .moverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:800}
 .moverlay.on{display:flex}
-.mbox{background:var(--bg2);border:1px solid var(--b2);padding:20px;width:360px;position:relative;max-height:88vh;overflow-y:auto}
-.mbox::-webkit-scrollbar{width:3px}
-.mbox::-webkit-scrollbar-thumb{background:var(--b2)}
-.mbox.wide{width:460px}
+.mbox{background:var(--bg2);border:1px solid var(--b2);padding:20px;width:350px;position:relative;max-height:88vh;overflow-y:auto}
+.mbox::-webkit-scrollbar{width:3px}.mbox::-webkit-scrollbar-thumb{background:var(--b2)}
+.mbox.wide{width:440px}
 .mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.mbox.amber::before{background:var(--amber)}
-.mbox.red::before{background:var(--red)}
-.mbox.green::before{background:var(--green)}
-.mtitle{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.2em;margin-bottom:14px;color:var(--t1)}
-.mfield{margin-bottom:9px}
-.mfield label{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.18em;display:block;margin-bottom:3px}
+.mbox.amber::before{background:var(--amber)}.mbox.red::before{background:var(--red)}.mbox.green::before{background:var(--green)}
+.mtitle{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.18em;margin-bottom:12px;color:var(--t1)}
+.mfield{margin-bottom:8px}
+.mfield label{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.16em;display:block;margin-bottom:3px}
 .minput{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:7px 8px;outline:none}
 .minput:focus{border-color:var(--amber)}
 .mselect{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:7px 8px;outline:none;cursor:pointer}
 .mselect:focus{border-color:var(--amber)}
-.msep{height:1px;background:var(--b1);margin:10px 0}
-.mcheck-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.msep{height:1px;background:var(--b1);margin:9px 0}
+.mcheck-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
 .mcheck-row label{font-family:var(--mono);font-size:10px;color:var(--t2);cursor:pointer}
 .mcheck-row input[type=checkbox]{width:13px;height:13px;accent-color:var(--amber);cursor:pointer}
-.mrow{display:flex;gap:6px;margin-top:10px}
-.mbtn{flex:1;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.18em;padding:9px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
-.mbtn:hover{background:rgba(255,255,255,.04)}
-.mbtn.ok{border-color:var(--amber);color:var(--amber)}
-.mbtn.red{border-color:var(--red);color:var(--red)}
-.mgrid3{display:grid;grid-template-columns:1fr 68px 60px;gap:5px;margin-bottom:3px}
-.mhlbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.13em;text-align:center;margin-bottom:8px}
+.mrow{display:flex;gap:5px;margin-top:9px}
+.mbtn{flex:1;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.16em;padding:9px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
+.mbtn:hover{background:rgba(255,255,255,.03)}.mbtn.ok{border-color:var(--amber);color:var(--amber)}.mbtn.red{border-color:var(--red);color:var(--red)}
 
 @media(max-width:700px){
-  .main-body{grid-template-columns:1fr}
-  .main-right{display:none}
-  .sub-grid{grid-template-columns:1fr}
-  .sub-cell.wide{grid-column:1}
+  .main-body{grid-template-columns:1fr}.main-right{display:none}
+  .sub-grid{grid-template-columns:1fr}.sub-cell.wide{grid-column:1}
+  .sub-ctrl{grid-template-columns:repeat(2,1fr)}
+  .emg-main{grid-template-columns:1fr}.emg-side{display:none}
 }
 </style>
 </head>
@@ -333,7 +346,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- LOGIN -->
 <div id="login">
   <div class="l-logo">BROADCAST OS</div>
-  <div class="l-sub">Professional Broadcast Management System v3.0</div>
+  <div class="l-sub">Professional Broadcast Management System v4.0</div>
   <div class="l-box">
     <label class="l-label">EMAIL</label>
     <input type="email" id="lEmail" class="l-input" placeholder="operator@broadcaster.co.jp" autocomplete="email">
@@ -349,14 +362,13 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="ms-title">SELECT DISPLAY MODE</div>
   <button class="ms-btn main" id="msMain">MAIN — 操作卓</button>
   <div class="ms-note">全操作・タイムライン・ログ管理</div>
-  <div style="height:14px"></div>
+  <div style="height:12px"></div>
   <button class="ms-btn sub" id="msSub">SUB — サブモニター</button>
-  <div class="ms-note">時計・経過・次セグ・カウントダウン専用</div>
+  <div class="ms-note">時計・経過・次セグ・緊急操作</div>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-logo">BROADCAST OS</div>
     <div class="hdr-div"></div>
@@ -367,7 +379,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hdr-r">
       <div class="hdr-clock" id="hdrClk">--:--:--</div>
       <div class="hdr-user" id="hdrUser"></div>
-      <button class="xbtn emg" id="emgBtn">⚠ EMERGENCY</button>
+      <button class="xbtn emg" id="emgBtn">⚠ EMG</button>
       <button class="xbtn" id="switchModeBtn">MODE</button>
       <button class="xbtn" id="logoutBtn">LOGOUT</button>
     </div>
@@ -376,7 +388,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <!-- MAIN MODE -->
   <div class="main-body" id="mainBody">
     <div class="main-left">
-      <!-- TABS -->
       <div class="tab-bar">
         <div class="tab active" data-tab="broadcast">BROADCAST</div>
         <div class="tab" data-tab="timeline">TIMELINE</div>
@@ -385,13 +396,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <!-- BROADCAST TAB -->
       <div id="tabBroadcast">
-        <!-- CLOCKS -->
         <div class="clock-area">
           <div class="clk-cell">
             <div class="clk-lbl">WALL CLOCK</div>
-            <div class="clk-wall" id="clkWall">
-              <span id="cwH">--</span><span class="cn">:</span><span id="cwM">--</span><span class="cn">:</span><span id="cwS">--</span>
-            </div>
+            <div class="clk-wall" id="clkWall"><span id="cwH">--</span><span class="cn">:</span><span id="cwM">--</span><span class="cn">:</span><span id="cwS">--</span></div>
           </div>
           <div class="clk-cell">
             <div class="clk-lbl">ELAPSED</div>
@@ -399,27 +407,26 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
             <div class="clk-ms" id="clkMs">.---</div>
           </div>
           <div class="clk-cell">
-            <div class="clk-lbl">BROADCAST END</div>
+            <div class="clk-lbl">END REMAIN</div>
             <div class="clk-val remain off" id="clkRemain">--:--</div>
-            <div class="clk-lbl" id="clkEndAt" style="margin-top:2px"></div>
+            <div class="clk-lbl" id="clkEndAt" style="margin-top:1px"></div>
           </div>
         </div>
 
-        <!-- TALK CLOCK -->
         <div class="talk-clock" id="talkClock">
           <div class="talk-seg-name" id="talkSegName">-- SELECT SEGMENT --</div>
+          <div class="cm-badge" id="cmBadge" style="display:none">CM</div>
           <div class="talk-block">
             <div class="talk-lbl">SEG ELAPSED</div>
-            <div class="talk-val elapsed" id="talkElapsed">--:--</div>
+            <div class="talk-val te" id="talkElapsed">--:--</div>
           </div>
           <div class="talk-bar-wrap"><div class="talk-bar" id="talkBar" style="width:0%"></div></div>
           <div class="talk-block">
             <div class="talk-lbl">SEG REMAIN</div>
-            <div class="talk-val remain" id="talkRemain">--:--</div>
+            <div class="talk-val tr" id="talkRemain">--:--</div>
           </div>
         </div>
 
-        <!-- CUE BAR -->
         <div class="cue-bar">
           <span class="cue-lbl">CUE</span>
           <button class="cue-btn" data-cue="stby">STBY</button>
@@ -431,10 +438,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <button class="cue-btn" data-cue="q">Q</button>
         </div>
 
-        <!-- SEGMENT TABLE -->
         <div class="seg-wrap">
           <div class="seg-hdr">
-            <span>#</span><span>SEGMENT</span><span>START</span><span>LEN</span><span>DIFF</span><span>ACTIONS</span>
+            <span>#</span><span>SEGMENT</span><span>START</span><span>LEN</span><span>TYPE</span><span>DIFF</span><span>ACTIONS</span>
           </div>
           <div id="segRows"></div>
           <div class="seg-add-row">
@@ -445,10 +451,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <!-- TIMELINE TAB -->
       <div id="tabTimeline">
-        <div class="tl-info" id="tlInfo">ズーム: タイムライン幅 = 全セグメント時間</div>
-        <div class="tl-wrap" id="tlWrap">
-          <div class="tl-canvas-area" id="tlCanvas"></div>
-        </div>
+        <div class="tl-info" id="tlInfo">クリックでセグメント切替 / 赤線=現在位置</div>
+        <div class="tl-wrap" id="tlWrap"><div class="tl-canvas-area" id="tlCanvas"></div></div>
       </div>
 
       <!-- LOG TAB -->
@@ -457,9 +461,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <div class="log-hdr-title">BROADCAST LOG</div>
           <button class="log-clear-btn" id="logClearBtn">CLEAR</button>
         </div>
-        <div class="log-body" id="logBody">
-          <div class="log-empty" id="logEmpty">NO LOG ENTRIES</div>
-        </div>
+        <div class="log-body" id="logBody"><div class="log-empty" id="logEmpty">NO LOG ENTRIES</div></div>
       </div>
     </div>
 
@@ -484,7 +486,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <label class="tog"><input type="checkbox" id="autoSegToggle"><span class="tog-sl"></span></label>
           <span class="toggle-lbl">セグメント自動切替</span>
         </div>
-        <div class="sys-row" id="schedInfo" style="font-size:9px">スケジュール未設定</div>
+        <div class="sys-row" id="schedInfo" style="font-size:8px">スケジュール未設定</div>
       </div>
       <div class="ctrl-box">
         <div class="ctrl-title">SEGMENTS</div>
@@ -521,13 +523,19 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="sub-next-name" id="subNextName">--</div>
       </div>
       <div class="sub-cell wide">
-        <div class="sub-lbl">NOW — 現在のセグメント</div>
+        <div class="sub-lbl">NOW</div>
         <div class="sub-seg-name" id="subSegName">--</div>
       </div>
     </div>
+    <!-- Sub controls -->
+    <div class="sub-ctrl">
+      <button class="sub-ctrl-btn go" id="subBtnGo">▶ GO / RESUME</button>
+      <button class="sub-ctrl-btn stby" id="subBtnStby" style="color:var(--amber)">◈ STANDBY</button>
+      <button class="sub-ctrl-btn cm" id="subBtnCm">▷ CM</button>
+      <button class="sub-ctrl-btn emg" id="subBtnEmg">⚠ EMERGENCY</button>
+    </div>
   </div>
 
-  <!-- STATUS BAR -->
   <div class="sbar">
     <div class="sinfo">SEG: <span id="bSeg">--</span></div>
     <div class="sinfo">ELAPSED: <span id="bEl">--:--:--</span></div>
@@ -536,7 +544,70 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   </div>
 </div>
 
-<!-- PRE-BROADCAST ALERT -->
+<!-- EMERGENCY OVERLAY -->
+<div id="emgOverlay">
+  <!-- Ticker -->
+  <div class="emg-ticker-bar">
+    <div class="emg-ticker-label">⚠ EMERGENCY</div>
+    <div class="emg-ticker-text" id="emgTickerText">通常放送を休止しています — EMERGENCY BROADCAST</div>
+  </div>
+  <!-- Main -->
+  <div class="emg-main">
+    <div class="emg-center">
+      <div class="emg-center-icon" id="emgIcon">⚠</div>
+      <div class="emg-center-title" id="emgLevelTitle">EMERGENCY</div>
+      <div class="emg-center-subtitle">通常放送を休止しています</div>
+      <div class="emg-message" id="emgMsgDisplay">緊急放送中</div>
+      <div style="display:flex;gap:28px;margin-top:8px">
+        <div class="emg-time-block">
+          <div class="emg-time-lbl">現在時刻</div>
+          <div class="emg-time-val" id="emgClock">--:--:--</div>
+        </div>
+        <div class="emg-time-block">
+          <div class="emg-time-lbl">緊急経過</div>
+          <div class="emg-elapsed-val" id="emgElapsed">--:--</div>
+        </div>
+      </div>
+      <div class="emg-time-block" id="emgAutoBlock" style="display:none">
+        <div class="emg-time-lbl">自動復帰まで</div>
+        <div class="emg-auto-remain" id="emgAutoRemain">--:--</div>
+      </div>
+    </div>
+    <!-- Side controls -->
+    <div class="emg-side">
+      <div class="emg-side-title">EMERGENCY CONTROL</div>
+      <div>
+        <div style="font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);margin-bottom:4px;letter-spacing:.15em">LEVEL</div>
+        <div class="emg-level-row">
+          <button class="emg-level-btn info" data-level="info">INFO</button>
+          <button class="emg-level-btn warning" data-level="warning">WARN</button>
+          <button class="emg-level-btn critical active" data-level="critical">CRIT</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);margin-bottom:4px;letter-spacing:.15em">MESSAGE</div>
+        <textarea class="emg-msg-input" id="emgMsgInput" placeholder="緊急メッセージを入力..."></textarea>
+        <button class="emg-timer-btn" style="width:100%;margin-top:4px" id="emgMsgSend">SEND MESSAGE</button>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:8px;color:rgba(255,255,255,.3);margin-bottom:4px;letter-spacing:.15em">自動復帰タイマー（分）</div>
+        <div class="emg-timer-row">
+          <input class="emg-timer-input" type="number" id="emgAutoMin" placeholder="0=なし" min="0" max="60" value="0">
+          <button class="emg-timer-btn" id="emgAutoSet">SET</button>
+        </div>
+        <div class="emg-auto-label" id="emgAutoLabel">タイマー未設定</div>
+      </div>
+      <button class="emg-cancel-btn" id="emgCancelBtn">▶ 放送再開 RESUME BROADCAST</button>
+    </div>
+  </div>
+  <!-- L字テロップ -->
+  <div class="emg-lbar">
+    <div class="emg-lbar-tag">⚠ EMERGENCY</div>
+    <div class="emg-lbar-scroll" id="emgLbarScroll">通常放送を休止しています — ただいま緊急放送をお送りしています — EMERGENCY BROADCAST IN PROGRESS</div>
+  </div>
+</div>
+
+<!-- COUNTDOWN OVERLAY -->
 <div id="cdOverlay">
   <div class="cd-label amber" id="cdLabel">放送開始まで</div>
   <div class="cd-num stby" id="cdNum">--</div>
@@ -544,63 +615,45 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div class="cd-bar"><div class="cd-bar-fill amber" id="cdBarFill" style="width:100%"></div></div>
 </div>
 
-<!-- EMERGENCY OVERLAY -->
-<div id="emgOverlay">
-  <div class="emg-title">⚠ EMERGENCY</div>
-  <div class="emg-sub">緊急放送モード — 通常放送を中断しています</div>
-  <button class="emg-cancel" id="emgCancelBtn">CANCEL EMERGENCY</button>
+<!-- RESUME OVERLAY -->
+<div id="resumeOverlay">
+  <div class="resume-label">放送を再開します</div>
+  <div class="resume-num" id="resumeNum">5</div>
+  <div class="resume-sub">RESUMING BROADCAST</div>
 </div>
 
 <!-- STBY MODAL -->
 <div class="moverlay" id="stbyModal">
   <div class="mbox red">
     <div class="mtitle">STANDBY / CUE 設定</div>
-    <div class="mfield">
-      <label>カウントダウン</label>
-      <select class="mselect" id="stbyCount">
-        <option value="5">5→4→3→2→1→Q</option>
-        <option value="3">3→2→1→Q</option>
-        <option value="0">カウントなし（STBYのみ）</option>
-      </select>
+    <div class="mfield"><label>カウントダウン</label>
+      <select class="mselect" id="stbyCount"><option value="5">5→4→3→2→1→Q</option><option value="3">3→2→1→Q</option><option value="0">なし（STBYのみ）</option></select>
     </div>
-    <div class="mfield">
-      <label>Q後のアクション</label>
-      <select class="mselect" id="stbyAction">
-        <option value="live">LIVE に切り替え</option>
-        <option value="nextseg">次のセグメントへ + LIVE</option>
-        <option value="cm">CM BREAK</option>
-        <option value="none">何もしない</option>
-      </select>
+    <div class="mfield"><label>Q後のアクション</label>
+      <select class="mselect" id="stbyAction"><option value="live">LIVE に切り替え</option><option value="nextseg">次のセグメントへ + LIVE</option><option value="cm">CM BREAK</option><option value="none">何もしない</option></select>
     </div>
-    <div class="mrow">
-      <button class="mbtn red" id="stbyStart">▶ START</button>
-      <button class="mbtn" id="stbyCancel">CANCEL</button>
-    </div>
+    <div class="mrow"><button class="mbtn red" id="stbyStart">▶ START</button><button class="mbtn" id="stbyCancel">CANCEL</button></div>
   </div>
 </div>
 
-<!-- ADD/EDIT SEGMENT MODAL -->
+<!-- SEG MODAL -->
 <div class="moverlay" id="segModal">
   <div class="mbox amber">
     <div class="mtitle" id="segModalTitle">ADD SEGMENT</div>
-    <div class="mfield">
-      <label>セグメント名</label>
-      <input class="minput" id="segName" placeholder="オープニング">
-    </div>
+    <div class="mfield"><label>セグメント名</label><input class="minput" id="segName" placeholder="オープニング"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      <div class="mfield">
-        <label>開始時刻 (mm:ss)</label>
-        <input class="minput" id="segStart" placeholder="00:00">
-      </div>
-      <div class="mfield">
-        <label>長さ (mm:ss)</label>
-        <input class="minput" id="segLen" placeholder="05:00">
-      </div>
+      <div class="mfield"><label>開始 (mm:ss)</label><input class="minput" id="segStart" placeholder="00:00"></div>
+      <div class="mfield"><label>長さ (mm:ss)</label><input class="minput" id="segLen" placeholder="05:00"></div>
     </div>
-    <div class="mrow">
-      <button class="mbtn ok" id="segSave">SAVE</button>
-      <button class="mbtn" id="segModalCancel">CANCEL</button>
+    <div class="mfield"><label>タイプ</label>
+      <select class="mselect" id="segType">
+        <option value="normal">NORMAL</option>
+        <option value="opening">OPENING</option>
+        <option value="cm">CM（自動CM BREAK）</option>
+        <option value="ending">ENDING</option>
+      </select>
     </div>
+    <div class="mrow"><button class="mbtn ok" id="segSave">SAVE</button><button class="mbtn" id="segModalCancel">CANCEL</button></div>
   </div>
 </div>
 
@@ -608,27 +661,18 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div class="moverlay" id="schedModal">
   <div class="mbox wide green">
     <div class="mtitle">放送スケジュール設定</div>
-    <div class="mfield">
-      <label>放送開始時刻</label>
-      <input class="minput" type="time" id="schedStart" step="1">
-    </div>
-    <div class="mfield">
-      <label>放送終了時刻</label>
-      <input class="minput" type="time" id="schedEnd" step="1">
-    </div>
+    <div class="mfield"><label>放送開始時刻</label><input class="minput" type="time" id="schedStart" step="1"></div>
+    <div class="mfield"><label>放送終了時刻</label><input class="minput" type="time" id="schedEnd" step="1"></div>
     <div class="msep"></div>
     <div class="mcheck-row"><input type="checkbox" id="schedAutoStart" checked><label for="schedAutoStart">開始時刻に自動 ON AIR</label></div>
     <div class="mcheck-row"><input type="checkbox" id="schedAutoEnd" checked><label for="schedAutoEnd">終了時刻に自動 OFF AIR</label></div>
     <div class="msep"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.8">
-      ・1分前: 大きく予告表示（一度）<br>
-      ・30秒前〜開始まで: 常時カウントダウン表示<br>
-      ・空にしてSAVEでスケジュールをクリア
+    <div style="font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.9">
+      ・1分前: 大きく予告表示（約4秒）<br>
+      ・30秒前〜開始まで: 常時カウントダウン<br>
+      ・空欄でSAVEするとスケジュールをクリア
     </div>
-    <div class="mrow">
-      <button class="mbtn ok" id="schedSave">SAVE</button>
-      <button class="mbtn" id="schedCancel">CANCEL</button>
-    </div>
+    <div class="mrow"><button class="mbtn ok" id="schedSave">SAVE</button><button class="mbtn" id="schedCancel">CANCEL</button></div>
   </div>
 </div>
 
@@ -645,14 +689,60 @@ const db=getFirestore(fbApp);
 const auth=getAuth(fbApp);
 const BDOC=doc(db,"broadcast","main");
 
+// ── Audio ─────────────────────────────────────────────────────
+let audioCtx=null;
+function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+function beep(freq,dur,vol=0.4,type='square'){
+  try{
+    const ctx=getAudio();
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type;o.frequency.value=freq;
+    g.gain.setValueAtTime(vol,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
+    o.start(ctx.currentTime);o.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+
+function playEAS(){
+  // EAS-style: 853Hz + 960Hz sweep
+  try{
+    const ctx=getAudio();
+    const t=ctx.currentTime;
+    [853,960,853].forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='square';o.frequency.value=f;
+      g.gain.setValueAtTime(0.25,t+i*0.3);
+      g.gain.setValueAtTime(0,t+i*0.3+0.25);
+      o.start(t+i*0.3);o.stop(t+i*0.3+0.3);
+    });
+    setTimeout(()=>{
+      [853,960,853,960].forEach((f,i)=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='sawtooth';o.frequency.value=f;
+        g.gain.setValueAtTime(0.15,ctx.currentTime+i*0.2);
+        g.gain.setValueAtTime(0,ctx.currentTime+i*0.2+0.15);
+        o.start(ctx.currentTime+i*0.2);o.stop(ctx.currentTime+i*0.2+0.2);
+      });
+    },1100);
+  }catch(e){}
+}
+
+function playResumeBeep(n){beep(n===0?880:660,0.15,0.3,'sine');}
+
 // ── State ─────────────────────────────────────────────────────
-let S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false};
+let S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false,emgLevel:"critical",emgMessage:"緊急放送中",emgStartedAt:null,emgAutoMin:0};
+
 const DEF_SEGS=[
-  {name:"オープニング",start:"00:00",len:"03:00"},
-  {name:"メインコーナー",start:"03:00",len:"10:00"},
-  {name:"CM BREAK",start:"13:00",len:"02:00"},
-  {name:"特集",start:"15:00",len:"10:00"},
-  {name:"エンディング",start:"25:00",len:"05:00"},
+  {name:"オープニング",start:"00:00",len:"03:00",type:"opening"},
+  {name:"メインコーナー",start:"03:00",len:"10:00",type:"normal"},
+  {name:"CM BREAK",start:"13:00",len:"02:00",type:"cm"},
+  {name:"特集",start:"15:00",len:"10:00",type:"normal"},
+  {name:"CM BREAK 2",start:"25:00",len:"02:00",type:"cm"},
+  {name:"エンディング",start:"27:00",len:"03:00",type:"ending"},
 ];
 
 let mode="main";
@@ -662,9 +752,12 @@ let cdTimer=null,cdRunning=false;
 let schedChecker=null;
 let didAutoStart=false,didAutoEnd=false;
 let did60=false,did30=false;
-let isEmergency=false;
-
-// Local log (not Firestore to avoid writes)
+let preAlertMode=null,preAlertTimeout=null;
+let prevEmg=false;
+let emgAutoTimer=null;
+let resumeTimer=null;
+let prevSegIdx=-1;
+let prevStatus="";
 let broadcastLog=[];
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -672,32 +765,26 @@ function parseMmSs(str){const p=(str||"00:00").split(":").map(Number);return(p[0
 function fmtMmSs(s){s=Math.max(0,Math.floor(s));return`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
 function fmtHhMmSs(ms){const s=Math.floor(Math.max(0,ms)/1000);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?`${h}:${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;}
 function timeStrToMs(str){if(!str)return null;const[h,m]=str.split(":").map(Number);const d=new Date();d.setHours(h,m,0,0);return d.getTime();}
-function applyOffset(sMs){if(!sMs)return;tSamples.push(sMs-Date.now());if(tSamples.length>8)tSamples.shift();const s=[...tSamples].sort((a,b)=>a-b);tOffset=s[Math.floor(s.length/2)];const el=document.getElementById("sysOffset");if(el)el.textContent=`OFFSET: ${tOffset>=0?"+":""}${Math.round(tOffset)}ms`;}
+function applyOffset(sMs){if(!sMs)return;tSamples.push(sMs-Date.now());if(tSamples.length>8)tSamples.shift();const sorted=[...tSamples].sort((a,b)=>a-b);tOffset=sorted[Math.floor(sorted.length/2)];const el=document.getElementById("sysOffset");if(el)el.textContent=`OFFSET: ${tOffset>=0?"+":""}${Math.round(tOffset)}ms`;}
 function sNow(){return Date.now()+tOffset;}
 function getElapsedMs(){if(!S.startedAt)return 0;if(S.paused&&S.pausedAt)return Math.max(0,S.pausedAt-S.startedAt-S.pauseAccum);return Math.max(0,sNow()-S.startedAt-S.pauseAccum);}
 
 // ── Log ───────────────────────────────────────────────────────
 function addLog(type,msg){
   const now=new Date();
-  const timeStr=now.toLocaleTimeString("ja-JP",{hour12:false});
-  const elapsed=S.startedAt?fmtHhMmSs(getElapsedMs()):"--:--:--";
-  broadcastLog.unshift({time:timeStr,elapsed,type,msg});
-  if(broadcastLog.length>200)broadcastLog.pop();
+  broadcastLog.unshift({time:now.toLocaleTimeString("ja-JP",{hour12:false}),elapsed:S.startedAt?fmtHhMmSs(getElapsedMs()):"--:--:--",type,msg});
+  if(broadcastLog.length>300)broadcastLog.pop();
   renderLog();
-  const lc=document.getElementById("bLogCount");
-  if(lc)lc.textContent=`LOG: ${broadcastLog.length}`;
+  const lc=document.getElementById("bLogCount");if(lc)lc.textContent=`LOG: ${broadcastLog.length}`;
 }
-
 function renderLog(){
-  const body=document.getElementById("logBody");
-  const empty=document.getElementById("logEmpty");
-  if(broadcastLog.length===0){if(empty)empty.style.display="block";if(body){body.querySelectorAll(".log-row").forEach(r=>r.remove());}return;}
+  const body=document.getElementById("logBody"),empty=document.getElementById("logEmpty");
+  if(broadcastLog.length===0){if(empty)empty.style.display="block";return;}
   if(empty)empty.style.display="none";
   body.innerHTML="";
   broadcastLog.forEach(e=>{
-    const row=document.createElement("div");
-    row.className="log-row";
-    row.innerHTML=`<span class="log-time">${e.time}<br><span style="font-size:8px;color:var(--t3)">${e.elapsed}</span></span><span class="log-type ${e.type}">${e.type.toUpperCase()}</span><span class="log-msg">${e.msg}</span>`;
+    const row=document.createElement("div");row.className="log-row";
+    row.innerHTML=`<span class="log-time">${e.time}<br><span style="font-size:7px;color:var(--t3)">${e.elapsed}</span></span><span class="log-type ${e.type}">${e.type.toUpperCase()}</span><span class="log-msg">${e.msg}</span>`;
     body.appendChild(row);
   });
 }
@@ -714,8 +801,9 @@ function startListener(){
     const d=snap.data();
     const sMs=d.updatedAt?.toMillis?.();
     if(sMs)applyOffset(sMs);
-    const prevStatus=S.status;
-    const prevSeg=S.currentSegment;
+
+    const prevS=S.status,prevI=S.currentSegment,prevE=S.emergency;
+
     S.status=d.status||"offair";
     S.startedAt=d.startedAt?.toMillis?.()||null;
     S.paused=d.paused||false;
@@ -727,35 +815,118 @@ function startListener(){
     S.schedule=d.schedule||{startTime:"",endTime:"",autoStart:true,autoEnd:true};
     S.autoSeg=d.autoSeg||false;
     S.emergency=d.emergency||false;
-    S.updatedAt=sMs||null;
-    const u=document.getElementById("sysUpd");
-    if(u&&sMs)u.textContent=`UPDATED: ${new Date(sMs).toLocaleTimeString("ja-JP")}`;
-    const tog=document.getElementById("autoSegToggle");
-    if(tog)tog.checked=S.autoSeg;
+    S.emgLevel=d.emgLevel||"critical";
+    S.emgMessage=d.emgMessage||"緊急放送中";
+    S.emgStartedAt=d.emgStartedAt?.toMillis?.()||null;
+    S.emgAutoMin=d.emgAutoMin||0;
+
+    const u=document.getElementById("sysUpd");if(u&&sMs)u.textContent=`UPDATED: ${new Date(sMs).toLocaleTimeString("ja-JP")}`;
+    const tog=document.getElementById("autoSegToggle");if(tog)tog.checked=S.autoSeg;
+
     // Log status changes
-    if(prevStatus!==S.status){
+    if(prevS!==S.status){
       const msgs={live:"ON AIR 開始",offair:"OFF AIR",standby:"STANDBY",cm:"CM BREAK 開始"};
       addLog(S.status==="live"?"on-air":S.status==="offair"?"off-air":S.status,msgs[S.status]||S.status);
     }
-    if(prevSeg!==S.currentSegment&&S.segments[S.currentSegment]){
+    if(prevI!==S.currentSegment&&S.segments[S.currentSegment]){
       addLog("seg",`セグメント → ${S.segments[S.currentSegment].name}`);
     }
-    // Emergency
-    if(S.emergency!==isEmergency){
-      isEmergency=S.emergency;
-      document.getElementById("emgOverlay").className=isEmergency?"show":"";
-      if(isEmergency)addLog("emergency","緊急放送モード 開始");
-      else addLog("emergency","緊急放送モード 解除");
+
+    // Emergency state change
+    if(prevE!==S.emergency){
+      if(S.emergency){
+        // Entering emergency
+        prevEmg=true;
+        playEAS();
+        document.getElementById("emgOverlay").classList.add("show");
+        updateEmgUI();
+        addLog("emergency","緊急放送モード 開始");
+      } else {
+        // Leaving emergency - show resume countdown
+        prevEmg=false;
+        document.getElementById("emgOverlay").classList.remove("show");
+        if(emgAutoTimer){clearInterval(emgAutoTimer);emgAutoTimer=null;}
+        startResumeCountdown();
+        addLog("emergency","緊急放送モード 解除 → 放送再開");
+      }
     }
+    if(S.emergency)updateEmgUI();
+
+    // CM auto-switch: when segment changes to CM type, set status to cm; when leaves CM, restore live
+    if(S.autoSeg&&S.status==="live"&&S.segments[S.currentSegment]){
+      const seg=S.segments[S.currentSegment];
+      if(seg.type==="cm"&&prevI!==S.currentSegment){
+        save({status:"cm"});
+      }
+    }
+    // Auto-restore from CM when seg changes away from CM type
+    if(S.status==="cm"&&S.segments[S.currentSegment]?.type!=="cm"&&prevI!==S.currentSegment){
+      save({status:"live"});
+    }
+
     renderAll();
     startSchedChecker();
   },err=>{console.error(err);setSyncUI(false);});
 }
 function stopListener(){if(unsub){unsub();unsub=null;}}
 
-async function initDoc(){await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:DEF_SEGS,schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false});}
+async function initDoc(){await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:DEF_SEGS,schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false,emgLevel:"critical",emgMessage:"緊急放送中",emgStartedAt:null,emgAutoMin:0});}
 
-// ── Schedule / pre-alert ──────────────────────────────────────
+// ── Emergency UI ──────────────────────────────────────────────
+function updateEmgUI(){
+  const level=S.emgLevel||"critical";
+  const icons={info:"ℹ️",warning:"⚠️",critical:"🚨"};
+  const titles={info:"INFORMATION",warning:"WARNING",critical:"EMERGENCY"};
+  const msgEl=document.getElementById("emgMsgDisplay");
+  const iconEl=document.getElementById("emgIcon");
+  const titleEl=document.getElementById("emgLevelTitle");
+  if(msgEl)msgEl.textContent=S.emgMessage||"緊急放送中";
+  if(iconEl)iconEl.textContent=icons[level]||"⚠";
+  if(titleEl)titleEl.textContent=titles[level]||"EMERGENCY";
+  // Level buttons
+  document.querySelectorAll(".emg-level-btn").forEach(b=>{b.classList.toggle("active",b.dataset.level===level);});
+  // Ticker
+  const ticker=document.getElementById("emgTickerText");
+  if(ticker)ticker.textContent=`通常放送を休止しています — ${S.emgMessage||"緊急放送中"} — EMERGENCY BROADCAST`;
+  const lbar=document.getElementById("emgLbarScroll");
+  if(lbar)lbar.textContent=`通常放送を休止しています — ${S.emgMessage||"緊急放送中"} — EMERGENCY BROADCAST IN PROGRESS — `;
+  // Auto timer display
+  const autoBlock=document.getElementById("emgAutoBlock");
+  if(S.emgAutoMin>0&&S.emgStartedAt){autoBlock.style.display="flex";}
+  else{autoBlock.style.display="none";}
+  // Sub emg button
+  const subEmg=document.getElementById("subBtnEmg");
+  if(subEmg){subEmg.className="sub-ctrl-btn emg"+(S.emergency?" active":"");subEmg.textContent=S.emergency?"⚠ CANCEL EMG":"⚠ EMERGENCY";}
+}
+
+// Auto timer
+function startEmgAutoTimer(){
+  if(emgAutoTimer){clearInterval(emgAutoTimer);emgAutoTimer=null;}
+  if(!S.emgAutoMin||S.emgAutoMin<=0||!S.emgStartedAt)return;
+  emgAutoTimer=setInterval(()=>{
+    if(!S.emergency){clearInterval(emgAutoTimer);emgAutoTimer=null;return;}
+    const elapsed=(Date.now()-(S.emgStartedAt||Date.now()))/1000;
+    const remain=S.emgAutoMin*60-elapsed;
+    const remEl=document.getElementById("emgAutoRemain");
+    if(remEl)remEl.textContent=remain>0?fmtMmSs(remain):"00:00";
+    if(remain<=0){clearInterval(emgAutoTimer);emgAutoTimer=null;save({emergency:false});}
+  },500);
+}
+
+// Resume countdown
+function startResumeCountdown(){
+  const overlay=document.getElementById("resumeOverlay");
+  const numEl=document.getElementById("resumeNum");
+  overlay.classList.add("show");
+  let n=5;numEl.textContent=String(n);playResumeBeep(n);
+  resumeTimer=setInterval(()=>{
+    n--;
+    if(n>0){numEl.textContent=String(n);numEl.style.animation="none";requestAnimationFrame(()=>{numEl.style.animation="";numEl.className="resume-num";});playResumeBeep(n);}
+    else{clearInterval(resumeTimer);resumeTimer=null;beep(880,0.4,0.4,'sine');overlay.classList.remove("show");}
+  },1000);
+}
+
+// ── Schedule ──────────────────────────────────────────────────
 function startSchedChecker(){
   if(schedChecker){clearInterval(schedChecker);schedChecker=null;}
   schedChecker=setInterval(checkSchedule,500);
@@ -767,121 +938,99 @@ function checkSchedule(){
   const startMs=timeStrToMs(sch.startTime);
   const endMs=timeStrToMs(sch.endTime);
   const si=document.getElementById("schedInfo");
-  if(si){if(sch.startTime||sch.endTime)si.textContent=`${sch.startTime||"--:--"} → ${sch.endTime||"--:--"}`;else si.textContent="スケジュール未設定";}
+  if(si){si.textContent=(sch.startTime||sch.endTime)?`${sch.startTime||"--:--"} → ${sch.endTime||"--:--"}`:"スケジュール未設定";}
 
-  // Pre-broadcast alerts
+  // Pre-broadcast alert
   if(startMs&&S.status==="offair"){
     const diff=(startMs-now)/1000;
     const ss=document.getElementById("schedStatus");
-    if(diff>0&&diff<3600){
-      if(ss){ss.textContent=`放送開始まで ${fmtMmSs(diff)}`;ss.classList.add("show");}
-    }else{if(ss)ss.classList.remove("show");}
+    if(diff>0&&diff<3600){if(ss){ss.textContent=`放送開始まで ${fmtMmSs(diff)}`;ss.classList.add("show");}}
+    else{if(ss)ss.classList.remove("show");}
 
-    // 60s alert (show once, then hide after 4s)
-    if(diff<=61&&diff>57&&!did60){
+    // 60s: show once for ~4s
+    if(diff<=60&&diff>56&&!did60){
       did60=true;
       showPreAlert(Math.round(diff),"once");
+      beep(880,0.2,0.3,'sine');
     }
-    // 30s countdown (persistent until start)
-    if(diff<=31&&diff>0){
+    // 30s: persistent
+    if(diff<=30&&diff>0){
       if(!did30){did30=true;}
       showPreAlert(Math.round(diff),"persist");
     }
-    if(diff<=0){
-      hidePreAlert();
-      did60=false;did30=false;
-    }
-  }else{
-    const ss=document.getElementById("schedStatus");
-    if(ss)ss.classList.remove("show");
-    if(S.status!=="offair"||!startMs){did60=false;did30=false;hidePreAlert();}
+    if(diff<=0){forceHidePreAlert();did60=false;did30=false;}
+  } else {
+    const ss=document.getElementById("schedStatus");if(ss)ss.classList.remove("show");
+    if(S.status!=="offair"||!startMs){did60=false;did30=false;forceHidePreAlert();}
   }
 
   // Auto start
   if(sch.autoStart&&sch.startTime&&S.status==="offair"&&!didAutoStart&&startMs){
-    const diff=Math.abs(now-startMs);
-    if(diff<1200){didAutoStart=true;save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});addLog("on-air","スケジュール自動 ON AIR");}
-  }else if(S.status!=="offair"){didAutoStart=false;}
+    if(Math.abs(now-startMs)<1200){didAutoStart=true;forceHidePreAlert();save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});addLog("sched","スケジュール自動 ON AIR");}
+  } else if(S.status!=="offair"){didAutoStart=false;}
 
   // Auto end
   if(sch.autoEnd&&sch.endTime&&(S.status==="live"||S.status==="cm")&&!didAutoEnd&&endMs){
-    const diff=now-endMs;
-    if(diff>=0&&diff<1200){didAutoEnd=true;save({status:"offair",paused:false});addLog("off-air","スケジュール自動 OFF AIR");}
-  }else if(S.status==="offair"){didAutoEnd=false;}
+    if(now-endMs>=0&&now-endMs<1200){didAutoEnd=true;save({status:"offair",paused:false});addLog("sched","スケジュール自動 OFF AIR");}
+  } else if(S.status==="offair"){didAutoEnd=false;}
 
-  // Auto seg
-  if(S.autoSeg&&S.status==="live"&&S.startedAt){
+  // Auto seg (with CM type handling) — only change if actually moved
+  if(S.autoSeg&&S.status!=="offair"&&S.startedAt){
     const elapsed=getElapsedMs()/1000;
     const segs=S.segments;
+    let target=S.currentSegment;
     for(let i=segs.length-1;i>=0;i--){
-      if(elapsed>=parseMmSs(segs[i].start)&&i!==S.currentSegment){save({currentSegment:i});break;}
+      if(elapsed>=parseMmSs(segs[i].start)){target=i;break;}
+    }
+    if(target!==S.currentSegment){
+      const patch={currentSegment:target};
+      // CM type auto-switch
+      if(segs[target]?.type==="cm")patch.status="cm";
+      else if(S.status==="cm")patch.status="live";
+      save(patch);
     }
   }
+
+  // Emergency auto timer (from Firestore)
+  if(S.emergency&&S.emgAutoMin>0&&S.emgStartedAt&&!emgAutoTimer){startEmgAutoTimer();}
 
   // End remain warn
   if(endMs&&S.status==="live"){
     const rem=(endMs-now)/1000;
     const el=document.getElementById("clkRemain");
-    if(el){el.className=rem<120?"clk-val remain warn":"clk-val remain";}
+    if(el)el.className=rem<120?"clk-val remain warn":"clk-val remain";
   }
 }
 
-let preAlertMode=null; // "once"|"persist"
-let preAlertTimeout=null;
-
+// ── Pre-broadcast alert ───────────────────────────────────────
 function showPreAlert(seconds,mode){
+  if(mode==="once"&&preAlertMode==="persist")return;
+  preAlertMode=mode;
   const overlay=document.getElementById("cdOverlay");
   const numEl=document.getElementById("cdNum");
   const labelEl=document.getElementById("cdLabel");
   const subEl=document.getElementById("cdSub");
   const barEl=document.getElementById("cdBarFill");
-
-  if(mode==="once"&&preAlertMode==="persist")return;
-  preAlertMode=mode;
   overlay.classList.add("show");
-
   if(seconds>30){
-    // 60s - amber, big
-    numEl.className="cd-num pre60";
-    numEl.textContent=`${seconds}s`;
-    labelEl.textContent="放送開始まで";
-    labelEl.className="cd-label amber";
+    numEl.className="cd-num pre60";numEl.textContent=`${seconds}s`;
+    labelEl.textContent="放送開始まで";labelEl.className="cd-label amber";
     subEl.textContent="BROADCAST STARTING SOON";
-    barEl.className="cd-bar-fill amber";
-    barEl.style.width="100%";
-    if(mode==="once"){
-      if(preAlertTimeout)clearTimeout(preAlertTimeout);
-      preAlertTimeout=setTimeout(()=>{preAlertMode=null;hidePreAlert();},4000);
-    }
-  }else{
-    // 30s - red, bigger, persistent
-    numEl.className="cd-num pre30";
-    numEl.textContent=`${seconds}`;
-    labelEl.textContent="放送開始まで（秒）";
-    labelEl.className="cd-label red";
+    barEl.className="cd-bar-fill amber";barEl.style.width="100%";
+    if(mode==="once"){if(preAlertTimeout)clearTimeout(preAlertTimeout);preAlertTimeout=setTimeout(()=>{preAlertMode=null;overlay.classList.remove("show");},4000);}
+  } else {
+    numEl.className="cd-num pre30";numEl.textContent=`${seconds}`;
+    labelEl.textContent="放送開始まで（秒）";labelEl.className="cd-label red";
     subEl.textContent="ON AIR COUNTDOWN";
-    barEl.className="cd-bar-fill red";
-    barEl.style.width=`${(seconds/30)*100}%`;
+    barEl.className="cd-bar-fill red";barEl.style.width=`${(seconds/30)*100}%`;
   }
 }
-
-function hidePreAlert(){
-  if(preAlertMode==="persist")return; // will be hidden when broadcast starts
-  document.getElementById("cdOverlay").classList.remove("show");
-  preAlertMode=null;
-}
-
-function forceHidePreAlert(){
-  document.getElementById("cdOverlay").classList.remove("show");
-  preAlertMode=null;
-  did60=false;did30=false;
-}
+function forceHidePreAlert(){document.getElementById("cdOverlay").classList.remove("show");preAlertMode=null;did60=false;did30=false;}
 
 // ── STBY countdown ────────────────────────────────────────────
 function stopCountdown(){
   if(cdTimer){clearInterval(cdTimer);cdTimer=null;}
   cdRunning=false;
-  // only hide if not pre-broadcast
   if(preAlertMode!=="persist")document.getElementById("cdOverlay").classList.remove("show");
   save({cue:null});
 }
@@ -895,21 +1044,17 @@ function startCountdown(countFrom,action){
   const labelEl=document.getElementById("cdLabel");
   const subEl=document.getElementById("cdSub");
   const barEl=document.getElementById("cdBarFill");
-  const actionLabels={live:"→ LIVE",nextseg:"→ 次セグ + LIVE",cm:"→ CM",none:""};
-
+  const aLabel={live:"→ LIVE",nextseg:"→ 次セグ + LIVE",cm:"→ CM",none:""};
   save({cue:"stby"});
   overlay.classList.add("show");
   numEl.className="cd-num stby";numEl.textContent="STBY";
   labelEl.textContent="STANDBY";labelEl.className="cd-label amber";
-  subEl.textContent=actionLabels[action]||"";
+  subEl.textContent=aLabel[action]||"";
   barEl.className="cd-bar-fill amber";barEl.style.width="100%";
-  addLog("stby",`STANDBY開始 → アクション:${actionLabels[action]||"none"}`);
+  addLog("stby",`STANDBY → ${aLabel[action]||"none"}`);
 
   if(countFrom===0){
-    setTimeout(()=>{
-      numEl.className="cd-num q";numEl.textContent="Q";save({cue:"q"});
-      setTimeout(()=>{doAction(action);stopCountdown();},1000);
-    },2000);
+    setTimeout(()=>{numEl.className="cd-num q";numEl.textContent="Q";save({cue:"q"});setTimeout(()=>{doAction(action);stopCountdown();},1000);},2000);
     return;
   }
 
@@ -918,11 +1063,11 @@ function startCountdown(countFrom,action){
     numEl.className="cd-num cnt";numEl.textContent=String(cur);
     labelEl.textContent="COUNTDOWN";labelEl.className="cd-label red";
     barEl.className="cd-bar-fill red";
-    save({cue:String(cur)});
+    save({cue:String(cur)});beep(660,0.1,0.2,'square');
     cdTimer=setInterval(()=>{
       cur--;
-      if(cur>0){numEl.className="cd-num cnt";numEl.textContent=String(cur);barEl.style.width=`${(cur/countFrom)*100}%`;save({cue:String(cur)});}
-      else if(cur===0){numEl.className="cd-num q";numEl.textContent="Q";barEl.style.width="0%";save({cue:"q"});}
+      if(cur>0){numEl.className="cd-num cnt";numEl.textContent=String(cur);barEl.style.width=`${(cur/countFrom)*100}%`;save({cue:String(cur)});beep(660,0.1,0.2,'square');}
+      else if(cur===0){numEl.className="cd-num q";numEl.textContent="Q";barEl.style.width="0%";save({cue:"q"});beep(880,0.3,0.3,'sine');}
       else{clearInterval(cdTimer);cdTimer=null;doAction(action);stopCountdown();}
     },1000);
   },2000);
@@ -930,7 +1075,7 @@ function startCountdown(countFrom,action){
 
 async function doAction(action){
   if(action==="live"&&S.status!=="live"){await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});forceHidePreAlert();}
-  else if(action==="nextseg"){const next=Math.min(S.currentSegment+1,S.segments.length-1);const p={currentSegment:next};if(S.status!=="live"){p.status="live";p.startedAt=serverTimestamp();p.paused=false;p.pausedAt=null;p.pauseAccum=0;}await save(p);forceHidePreAlert();}
+  else if(action==="nextseg"){const next=Math.min(S.currentSegment+1,S.segments.length-1);const p={currentSegment:next};if(S.status!=="live"){p.status="live";p.startedAt=serverTimestamp();p.paused=false;p.pausedAt=null;p.pauseAccum=0;}if(S.segments[next]?.type==="cm")p.status="cm";await save(p);forceHidePreAlert();}
   else if(action==="cm"){await save({status:"cm"});}
 }
 
@@ -949,18 +1094,18 @@ function renderBadge(){
 }
 
 function renderButtons(){
-  const go=document.getElementById("btnGo");
-  const pau=document.getElementById("btnPau");
-  const cm=document.getElementById("btnCm");
-  const emgBtn=document.getElementById("btnEmg");
+  const go=document.getElementById("btnGo"),pau=document.getElementById("btnPau"),cm=document.getElementById("btnCm");
   const st=S.status;
   go.disabled=false;pau.disabled=(st!=="live");cm.disabled=(st!=="live"&&st!=="standby");
   if(S.paused){go.textContent="▶ RESUME";go.className="cbtn go";}
   else if(st==="live"){go.textContent="● ON AIR";go.className="cbtn go active";}
   else{go.textContent="▶ GO ON AIR";go.className="cbtn go";}
   pau.textContent=S.paused?"▶ RESUME":"⏸ PAUSE";
-  emgBtn.className="cbtn emg-btn"+(S.emergency?" active":"");
-  emgBtn.textContent=S.emergency?"⚠ CANCEL EMERGENCY":"⚠ EMERGENCY MODE";
+  const emgBtn=document.getElementById("btnEmg");
+  if(emgBtn){emgBtn.className="cbtn emg-btn"+(S.emergency?" active":"");emgBtn.textContent=S.emergency?"⚠ CANCEL EMERGENCY":"⚠ EMERGENCY MODE";}
+  // Sub go button
+  const subGo=document.getElementById("subBtnGo");
+  if(subGo)subGo.className="sub-ctrl-btn go"+(st==="live"&&!S.paused?" active":"");
 }
 
 function renderCue(){
@@ -971,32 +1116,31 @@ function renderCue(){
 }
 
 function renderSegs(){
-  const wrap=document.getElementById("segRows");
-  wrap.innerHTML="";
+  const wrap=document.getElementById("segRows");wrap.innerHTML="";
   S.segments.forEach((seg,i)=>{
     const isAct=i===S.currentSegment;
+    const type=seg.type||"normal";
     const row=document.createElement("div");
-    row.className="seg-row"+(isAct?" act":"");
+    row.className=`seg-row type-${type}${isAct?" act":""}`;
     let diffStr="—",diffCls="ok";
     if((S.status==="live"||S.status==="cm")&&isAct){
-      const el=getElapsedMs()/1000;
-      const d=el-parseMmSs(seg.start)-parseMmSs(seg.len);
+      const el=getElapsedMs()/1000,d=el-parseMmSs(seg.start)-parseMmSs(seg.len);
       if(Math.abs(d)<5){diffStr="±0";diffCls="ok";}else if(d>0){diffStr="+"+fmtMmSs(d);diffCls="over";}else{diffStr="-"+fmtMmSs(-d);diffCls="under";}
     }
-    row.innerHTML=`<span class="s-num">${String(i+1).padStart(2,"0")}</span><span class="s-name">${seg.name}</span><span class="s-t">${seg.start}</span><span class="s-t">${seg.len}</span><span class="s-diff ${diffCls}">${diffStr}</span><span class="s-actions"><button class="s-act-btn" data-action="edit" data-i="${i}">編集</button><button class="s-act-btn del" data-action="del" data-i="${i}">削除</button></span>`;
-    row.querySelector("[data-action=edit]").addEventListener("click",e=>{e.stopPropagation();openSegEdit(i);});
-    row.querySelector("[data-action=del]").addEventListener("click",e=>{e.stopPropagation();delSeg(i);});
+    row.innerHTML=`<span class="s-num">${String(i+1).padStart(2,"0")}</span><span class="s-name">${seg.name}</span><span class="s-t">${seg.start}</span><span class="s-t">${seg.len}</span><span class="s-type ${type}">${type.toUpperCase()}</span><span class="s-diff ${diffCls}">${diffStr}</span><span class="s-acts"><button class="s-act-btn" data-i="${i}" data-a="edit">編集</button><button class="s-act-btn del" data-i="${i}" data-a="del">削除</button></span>`;
+    row.querySelector("[data-a=edit]").addEventListener("click",e=>{e.stopPropagation();openSegEdit(i);});
+    row.querySelector("[data-a=del]").addEventListener("click",e=>{e.stopPropagation();delSeg(i);});
     row.addEventListener("click",()=>{if(S.autoSeg){if(!confirm("自動切替をOFFにして切り替えますか？"))return;save({autoSeg:false,currentSegment:i});}else save({currentSegment:i});});
     wrap.appendChild(row);
   });
 }
 
 function renderSqList(){
-  const wrap=document.getElementById("sqList");
-  wrap.innerHTML="";
+  const wrap=document.getElementById("sqList");wrap.innerHTML="";
   S.segments.forEach((seg,i)=>{
+    const type=seg.type||"normal";
     const b=document.createElement("button");
-    b.className="sq-btn"+(i===S.currentSegment?" act":"");
+    b.className=`sq-btn${i===S.currentSegment?" act":""}${type==="cm"?" cm-type":""}`;
     b.textContent=`${String(i+1).padStart(2,"0")} ${seg.name}`;
     b.addEventListener("click",()=>save({currentSegment:i,autoSeg:false}));
     wrap.appendChild(b);
@@ -1004,55 +1148,31 @@ function renderSqList(){
 }
 
 // ── Timeline ──────────────────────────────────────────────────
-const TL_PX_PER_SEC=4; // 4px per second
-const TL_HEIGHT=100;
-
+const TL_PX=4;
 function renderTimeline(){
-  const canvas=document.getElementById("tlCanvas");
-  if(!canvas)return;
+  const canvas=document.getElementById("tlCanvas");if(!canvas)return;
   const segs=S.segments;
-  if(!segs.length){canvas.innerHTML='<div style="padding:20px;font-family:var(--mono);font-size:9px;color:var(--t3)">NO SEGMENTS</div>';return;}
+  if(!segs.length){canvas.innerHTML='<div style="padding:16px;font-family:var(--mono);font-size:9px;color:var(--t3)">NO SEGMENTS</div>';return;}
   const totalSec=segs.reduce((mx,s)=>Math.max(mx,parseMmSs(s.start)+parseMmSs(s.len)),0)||1800;
-  const totalPx=totalSec*TL_PX_PER_SEC;
-  canvas.style.width=totalPx+"px";
-  canvas.style.height=TL_HEIGHT+"px";
-  canvas.innerHTML="";
-
-  // Ruler
-  const ruler=document.createElement("div");
-  ruler.className="tl-ruler";
-  ruler.style.width=totalPx+"px";
-  for(let t=0;t<=totalSec;t+=60){
-    const tick=document.createElement("div");
-    tick.className="tl-ruler-tick";
-    tick.style.left=(t*TL_PX_PER_SEC)+"px";
-    tick.textContent=fmtMmSs(t);
-    ruler.appendChild(tick);
-  }
+  const totalPx=totalSec*TL_PX;
+  canvas.style.width=totalPx+"px";canvas.style.height="100%";canvas.innerHTML="";
+  const ruler=document.createElement("div");ruler.className="tl-ruler";ruler.style.width=totalPx+"px";
+  for(let t=0;t<=totalSec;t+=60){const tick=document.createElement("div");tick.className="tl-ruler-tick";tick.style.left=(t*TL_PX)+"px";tick.textContent=fmtMmSs(t);ruler.appendChild(tick);}
   canvas.appendChild(ruler);
-
-  // Segment blocks
-  const colors=["#cc2200","#cc7700","#0077cc","#007755","#6600cc","#cc0066"];
+  const colors={normal:"#444",cm:"#006688",opening:"#224400",ending:"#440044"};
+  const bcolors={normal:"#666",cm:"#00ccff",opening:"#00ff88",ending:"#cc44ff"};
   segs.forEach((seg,i)=>{
-    const left=parseMmSs(seg.start)*TL_PX_PER_SEC;
-    const width=Math.max(parseMmSs(seg.len)*TL_PX_PER_SEC,2);
+    const type=seg.type||"normal";
+    const left=parseMmSs(seg.start)*TL_PX,width=Math.max(parseMmSs(seg.len)*TL_PX,2);
     const isAct=i===S.currentSegment;
-    const blk=document.createElement("div");
-    blk.className="tl-seg";
-    blk.style.cssText=`left:${left}px;width:${width}px;border-color:${colors[i%colors.length]};background:${isAct?"rgba(255,26,26,.15)":"rgba(255,255,255,.03)"}`;
-    blk.innerHTML=`<div><div class="tl-seg-name" style="color:${isAct?"var(--red)":"var(--t2)"}">${seg.name}</div><div class="tl-seg-len">${seg.start} • ${seg.len}</div></div>`;
+    const blk=document.createElement("div");blk.className="tl-seg";
+    blk.style.cssText=`left:${left}px;width:${width}px;border-color:${bcolors[type]||"#444"};background:${isAct?"rgba(255,26,26,.18)":colors[type]||"rgba(255,255,255,.03)"}`;
+    blk.innerHTML=`<div><div class="tl-seg-name" style="color:${isAct?"var(--red)":bcolors[type]||"var(--t2)"}">${seg.name}</div><div class="tl-seg-len">${seg.start} • ${seg.len}</div></div>`;
     blk.addEventListener("click",()=>save({currentSegment:i}));
     canvas.appendChild(blk);
   });
-
-  // Playhead
   if(S.startedAt&&(S.status==="live"||S.status==="cm")){
-    const elapsed=getElapsedMs()/1000;
-    const ph=document.createElement("div");
-    ph.className="tl-playhead";
-    ph.id="tlPlayhead";
-    ph.style.left=(elapsed*TL_PX_PER_SEC)+"px";
-    canvas.appendChild(ph);
+    const ph=document.createElement("div");ph.className="tl-playhead";ph.id="tlPlayhead";ph.style.left=(getElapsedMs()/1000*TL_PX)+"px";canvas.appendChild(ph);
   }
 }
 
@@ -1060,22 +1180,18 @@ function renderTimeline(){
 function clockLoop(){
   const now=new Date();
   const h=String(now.getHours()).padStart(2,"0"),m=String(now.getMinutes()).padStart(2,"0"),s=String(now.getSeconds()).padStart(2,"0");
-  const wallStr=`${h}:${m}:${s}`;
-  document.getElementById("cwH").textContent=h;
-  document.getElementById("cwM").textContent=m;
-  document.getElementById("cwS").textContent=s;
-  document.getElementById("hdrClk").textContent=wallStr;
-  document.getElementById("subWall").textContent=wallStr;
-  const wall=document.getElementById("clkWall");
-  now.getSeconds()===0?wall.classList.add("zero"):wall.classList.remove("zero");
+  const ws=`${h}:${m}:${s}`;
+  document.getElementById("cwH").textContent=h;document.getElementById("cwM").textContent=m;document.getElementById("cwS").textContent=s;
+  document.getElementById("hdrClk").textContent=ws;
+  document.getElementById("subWall").textContent=ws;
+  if(document.getElementById("emgClock"))document.getElementById("emgClock").textContent=ws;
+  const wall=document.getElementById("clkWall");now.getSeconds()===0?wall.classList.add("zero"):wall.classList.remove("zero");
 
   // Elapsed
   const isActive=S.status==="live"||S.status==="cm"||(S.paused&&S.startedAt);
-  const elEl=document.getElementById("clkEl");
-  const msEl=document.getElementById("clkMs");
+  const elEl=document.getElementById("clkEl"),msEl=document.getElementById("clkMs");
   if(isActive){
-    const eMs=getElapsedMs();
-    const es=Math.floor(eMs/1000),ms=Math.floor(eMs%1000);
+    const eMs=getElapsedMs(),es=Math.floor(eMs/1000),ms=Math.floor(eMs%1000);
     const hh=Math.floor(es/3600),mm=Math.floor((es%3600)/60),ss=es%60;
     const str=hh>0?`${hh}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
     elEl.textContent=str;msEl.textContent=`.${String(ms).padStart(3,"0")}`;
@@ -1084,7 +1200,7 @@ function clockLoop(){
     document.getElementById("subElapsed").textContent=str;
     document.getElementById("subElapsed").className="sub-val elapsed"+(S.paused?" paused":"");
     document.getElementById("subMs").textContent=`.${String(ms).padStart(3,"0")}`;
-  }else{
+  } else {
     const na="--:--:--";
     elEl.textContent=na;elEl.className="clk-val elapsed off";msEl.textContent=".---";
     document.getElementById("bEl").textContent=na;
@@ -1093,38 +1209,30 @@ function clockLoop(){
 
   // Talk clock
   const curSeg=S.segments[S.currentSegment];
-  const tkName=document.getElementById("talkSegName");
-  const tkEl=document.getElementById("talkElapsed");
-  const tkRem=document.getElementById("talkRemain");
-  const tkBar=document.getElementById("talkBar");
+  const tkName=document.getElementById("talkSegName"),tkEl=document.getElementById("talkElapsed"),tkRem=document.getElementById("talkRemain"),tkBar=document.getElementById("talkBar");
+  const cmBadge=document.getElementById("cmBadge");
+  if(cmBadge)cmBadge.style.display=(curSeg?.type==="cm")?"flex":"none";
   if(curSeg&&isActive){
     if(tkName)tkName.textContent=curSeg.name;
-    const segStartSec=parseMmSs(curSeg.start);
-    const segLenSec=parseMmSs(curSeg.len);
-    const elSec=getElapsedMs()/1000;
-    const segElSec=Math.max(0,elSec-segStartSec);
-    const segRemSec=segLenSec-segElSec;
-    const pct=Math.min(100,(segElSec/segLenSec)*100);
-    if(tkEl)tkEl.textContent=fmtMmSs(segElSec);
-    if(tkRem){tkRem.textContent=segRemSec>0?fmtMmSs(segRemSec):`+${fmtMmSs(-segRemSec)}`;tkRem.className="talk-val"+(segRemSec<0?" over":segRemSec<30?" remain warn":" remain");}
+    const sStart=parseMmSs(curSeg.start),sLen=parseMmSs(curSeg.len),elSec=getElapsedMs()/1000;
+    const segEl=Math.max(0,elSec-sStart),segRem=sLen-segEl,pct=Math.min(100,(segEl/sLen)*100);
+    if(tkEl)tkEl.textContent=fmtMmSs(segEl);
+    if(tkRem){tkRem.textContent=segRem>0?fmtMmSs(segRem):`+${fmtMmSs(-segRem)}`;tkRem.className="talk-val"+(segRem<0?" over":segRem<30?" tr warn":" tr");}
     if(tkBar){tkBar.style.width=pct+"%";tkBar.className="talk-bar"+(pct>90?" over":pct>70?" warn":"");}
-  }else{
+  } else {
     if(tkName)tkName.textContent=curSeg?curSeg.name:"-- SELECT SEGMENT --";
     if(tkEl)tkEl.textContent="--:--";if(tkRem)tkRem.textContent="--:--";if(tkBar)tkBar.style.width="0%";
   }
 
   // Remain
-  const sch=S.schedule||{};
-  const endMs=timeStrToMs(sch.endTime);
-  const remEl=document.getElementById("clkRemain");
-  const subRemEl=document.getElementById("subRemain");
+  const sch=S.schedule||{};const endMs=timeStrToMs(sch.endTime);
+  const remEl=document.getElementById("clkRemain"),subRemEl=document.getElementById("subRemain");
   if(endMs&&(S.status==="live"||S.status==="standby"||S.status==="cm")){
-    const rem=endMs-Date.now();
-    const rs=rem>0?fmtMmSs(rem/1000):"00:00";
+    const rem=endMs-Date.now();const rs=rem>0?fmtMmSs(rem/1000):"00:00";
     if(remEl){remEl.textContent=rs;remEl.className="clk-val remain"+(rem<120000?" warn":"");}
     if(subRemEl)subRemEl.textContent=rs;
     const ea=document.getElementById("clkEndAt");if(ea)ea.textContent=sch.endTime;
-  }else{
+  } else {
     if(remEl){remEl.textContent="--:--";remEl.className="clk-val remain off";}
     if(subRemEl)subRemEl.textContent="--:--";
     const ea=document.getElementById("clkEndAt");if(ea)ea.textContent="";
@@ -1132,80 +1240,80 @@ function clockLoop(){
 
   // Sub next seg
   const nSeg=S.segments[S.currentSegment+1];
-  const nTimeEl=document.getElementById("subNextTime");
-  const nNameEl=document.getElementById("subNextName");
+  const nTimeEl=document.getElementById("subNextTime"),nNameEl=document.getElementById("subNextName");
   if(nSeg&&S.startedAt){
     const toNext=parseMmSs(nSeg.start)-getElapsedMs()/1000;
     if(nTimeEl)nTimeEl.textContent=toNext>0?fmtMmSs(toNext):"NOW";
     if(nNameEl)nNameEl.textContent=nSeg.name;
-  }else{if(nTimeEl)nTimeEl.textContent="--";if(nNameEl)nNameEl.textContent=nSeg?"(最終)":"--";}
-  const subSegName=document.getElementById("subSegName");
-  if(subSegName)subSegName.textContent=curSeg?curSeg.name:"--";
+  } else {
+    if(nTimeEl)nTimeEl.textContent="--";if(nNameEl)nNameEl.textContent="--";
+  }
+  const sn=document.getElementById("subSegName");if(sn)sn.textContent=curSeg?curSeg.name:"--";
 
-  // Playhead update (cheap)
+  // Playhead
   const ph=document.getElementById("tlPlayhead");
-  if(ph&&S.startedAt&&(S.status==="live"||S.status==="cm")){ph.style.left=(getElapsedMs()/1000*TL_PX_PER_SEC)+"px";}
+  if(ph&&S.startedAt&&(S.status==="live"||S.status==="cm"))ph.style.left=(getElapsedMs()/1000*TL_PX)+"px";
 
-  // Pre-broadcast persist countdown update
+  // Pre-broadcast persist update
   if(preAlertMode==="persist"&&S.status==="offair"){
     const startMs=timeStrToMs((S.schedule||{}).startTime);
     if(startMs){const diff=(startMs-Date.now())/1000;if(diff>0)document.getElementById("cdNum").textContent=String(Math.round(diff));}
   }
 
+  // Emergency elapsed
+  if(S.emergency&&S.emgStartedAt){
+    const emgEl=document.getElementById("emgElapsed");
+    if(emgEl)emgEl.textContent=fmtMmSs((Date.now()-S.emgStartedAt)/1000);
+  }
+
   raf=requestAnimationFrame(clockLoop);
 }
 
-// ── Segment CRUD ──────────────────────────────────────────────
+// ── Seg CRUD ──────────────────────────────────────────────────
 let editingSegIdx=null;
-
 function openSegEdit(i){
-  editingSegIdx=i;
-  const seg=S.segments[i];
+  editingSegIdx=i;const seg=S.segments[i];
   document.getElementById("segModalTitle").textContent="EDIT SEGMENT";
   document.getElementById("segName").value=seg.name;
   document.getElementById("segStart").value=seg.start;
   document.getElementById("segLen").value=seg.len;
+  document.getElementById("segType").value=seg.type||"normal";
   document.getElementById("segModal").classList.add("on");
 }
-
 function openSegAdd(){
   editingSegIdx=null;
   document.getElementById("segModalTitle").textContent="ADD SEGMENT";
-  document.getElementById("segName").value="";
-  document.getElementById("segStart").value="";
-  document.getElementById("segLen").value="";
+  document.getElementById("segName").value="";document.getElementById("segStart").value="";document.getElementById("segLen").value="";document.getElementById("segType").value="normal";
   document.getElementById("segModal").classList.add("on");
 }
-
 async function delSeg(i){
   if(!confirm(`「${S.segments[i].name}」を削除しますか？`))return;
-  const segs=[...S.segments];segs.splice(i,1);
+  const segs=[...S.segments];const name=segs[i].name;segs.splice(i,1);
   const cur=S.currentSegment>=segs.length?Math.max(0,segs.length-1):S.currentSegment;
-  await save({segments:segs,currentSegment:cur});
-  addLog("seg",`セグメント削除: ${S.segments[i].name}`);
+  await save({segments:segs,currentSegment:cur});addLog("seg",`削除: ${name}`);
 }
-
 document.getElementById("addSegBtn").addEventListener("click",openSegAdd);
 document.getElementById("segSave").addEventListener("click",async()=>{
   const name=document.getElementById("segName").value.trim()||"Untitled";
   const start=document.getElementById("segStart").value.trim()||"00:00";
   const len=document.getElementById("segLen").value.trim()||"05:00";
+  const type=document.getElementById("segType").value||"normal";
   const segs=[...S.segments];
-  if(editingSegIdx!==null){segs[editingSegIdx]={name,start,len};addLog("seg",`セグメント編集: ${name}`);}
-  else{segs.push({name,start,len});addLog("seg",`セグメント追加: ${name}`);}
+  if(editingSegIdx!==null){segs[editingSegIdx]={name,start,len,type};addLog("seg",`編集: ${name}`);}
+  else{segs.push({name,start,len,type});addLog("seg",`追加: ${name} [${type}]`);}
   await save({segments:segs});
   document.getElementById("segModal").classList.remove("on");
 });
 document.getElementById("segModalCancel").addEventListener("click",()=>document.getElementById("segModal").classList.remove("on"));
 
-// ── Buttons ───────────────────────────────────────────────────
+// ── Broadcast buttons ─────────────────────────────────────────
 document.getElementById("btnGo").addEventListener("click",async()=>{
-  if(S.paused&&S.pausedAt){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("on-air","一時停止解除・再開");}
+  if(S.paused&&S.pausedAt){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("on-air","再開");}
   else if(S.status!=="live"){await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});forceHidePreAlert();addLog("on-air","手動 ON AIR");}
 });
 document.getElementById("btnStby").addEventListener("click",()=>document.getElementById("stbyModal").classList.add("on"));
 document.getElementById("btnPau").addEventListener("click",async()=>{
-  if(S.paused){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("pause","一時停止解除");}
+  if(S.paused){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("pause","再開");}
   else{await save({status:"live",paused:true,pausedAt:serverTimestamp()});addLog("pause","一時停止");}
 });
 document.getElementById("btnCm").addEventListener("click",()=>{save({status:"cm"});addLog("cm","CM BREAK");});
@@ -1215,9 +1323,40 @@ document.getElementById("btnRst").addEventListener("click",async()=>{
   await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,emergency:false});
   addLog("off-air","リセット");
 });
-document.getElementById("btnEmg").addEventListener("click",()=>{save({emergency:!S.emergency});});
-document.getElementById("emgBtn").addEventListener("click",()=>{save({emergency:!S.emergency});});
-document.getElementById("emgCancelBtn").addEventListener("click",()=>{save({emergency:false});});
+
+// Emergency
+async function toggleEmergency(){
+  if(S.emergency){
+    await save({emergency:false});
+  } else {
+    await save({emergency:true,emgLevel:"critical",emgMessage:"緊急放送中",emgStartedAt:serverTimestamp(),emgAutoMin:0});
+    addLog("emergency","緊急放送モード 発動");
+  }
+}
+document.getElementById("btnEmg").addEventListener("click",toggleEmergency);
+document.getElementById("emgBtn").addEventListener("click",toggleEmergency);
+document.getElementById("emgCancelBtn").addEventListener("click",()=>save({emergency:false}));
+
+// Emg level
+document.querySelectorAll(".emg-level-btn").forEach(b=>{
+  b.addEventListener("click",()=>{save({emgLevel:b.dataset.level});});
+});
+
+// Emg message
+document.getElementById("emgMsgSend").addEventListener("click",()=>{
+  const msg=document.getElementById("emgMsgInput").value.trim()||"緊急放送中";
+  save({emgMessage:msg});addLog("emergency",`メッセージ更新: ${msg}`);
+});
+
+// Emg auto timer
+document.getElementById("emgAutoSet").addEventListener("click",()=>{
+  const min=parseInt(document.getElementById("emgAutoMin").value)||0;
+  save({emgAutoMin:min,emgStartedAt:serverTimestamp()});
+  if(emgAutoTimer){clearInterval(emgAutoTimer);emgAutoTimer=null;}
+  const lbl=document.getElementById("emgAutoLabel");
+  if(lbl)lbl.textContent=min>0?`${min}分後に自動復帰`:"タイマー未設定";
+  if(min>0)startEmgAutoTimer();
+});
 
 // STBY
 document.getElementById("stbyStart").addEventListener("click",()=>{
@@ -1229,9 +1368,7 @@ document.getElementById("stbyStart").addEventListener("click",()=>{
 document.getElementById("stbyCancel").addEventListener("click",()=>document.getElementById("stbyModal").classList.remove("on"));
 
 // CUE
-document.querySelectorAll(".cue-btn").forEach(b=>{
-  b.addEventListener("click",()=>{if(cdRunning)return;const c=b.dataset.cue;save({cue:S.cue===c?null:c});});
-});
+document.querySelectorAll(".cue-btn").forEach(b=>{b.addEventListener("click",()=>{if(cdRunning)return;const c=b.dataset.cue;save({cue:S.cue===c?null:c});});});
 
 // Auto seg
 document.getElementById("autoSegToggle").addEventListener("change",e=>save({autoSeg:e.target.checked}));
@@ -1239,44 +1376,44 @@ document.getElementById("autoSegToggle").addEventListener("change",e=>save({auto
 // Schedule
 document.getElementById("btnSched").addEventListener("click",()=>{
   const sch=S.schedule||{};
-  document.getElementById("schedStart").value=sch.startTime||"";
-  document.getElementById("schedEnd").value=sch.endTime||"";
-  document.getElementById("schedAutoStart").checked=sch.autoStart!==false;
-  document.getElementById("schedAutoEnd").checked=sch.autoEnd!==false;
+  document.getElementById("schedStart").value=sch.startTime||"";document.getElementById("schedEnd").value=sch.endTime||"";
+  document.getElementById("schedAutoStart").checked=sch.autoStart!==false;document.getElementById("schedAutoEnd").checked=sch.autoEnd!==false;
   document.getElementById("schedModal").classList.add("on");
 });
 document.getElementById("schedSave").addEventListener("click",()=>{
   const sched={startTime:document.getElementById("schedStart").value,endTime:document.getElementById("schedEnd").value,autoStart:document.getElementById("schedAutoStart").checked,autoEnd:document.getElementById("schedAutoEnd").checked};
-  save({schedule:sched});
-  document.getElementById("schedModal").classList.remove("on");
-  didAutoStart=false;didAutoEnd=false;did60=false;did30=false;
-  addLog("seg",`スケジュール設定: ${sched.startTime}→${sched.endTime}`);
+  save({schedule:sched});document.getElementById("schedModal").classList.remove("on");
+  didAutoStart=false;didAutoEnd=false;did60=false;did30=false;forceHidePreAlert();
+  addLog("sched",`スケジュール: ${sched.startTime}→${sched.endTime}`);
 });
 document.getElementById("schedCancel").addEventListener("click",()=>document.getElementById("schedModal").classList.remove("on"));
 
-// Log clear
-document.getElementById("logClearBtn").addEventListener("click",()=>{if(confirm("ログをクリアしますか？")){broadcastLog=[];renderLog();document.getElementById("bLogCount").textContent="LOG: 0";}});
+// Log
+document.getElementById("logClearBtn").addEventListener("click",()=>{if(confirm("ログをクリア？")){broadcastLog=[];renderLog();document.getElementById("bLogCount").textContent="LOG: 0";}});
+
+// Sub buttons
+document.getElementById("subBtnGo").addEventListener("click",async()=>{
+  if(S.paused&&S.pausedAt){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});}
+  else if(S.status!=="live"){await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});forceHidePreAlert();}
+});
+document.getElementById("subBtnStby").addEventListener("click",()=>{save({status:"standby",cue:"stby"});});
+document.getElementById("subBtnCm").addEventListener("click",()=>save({status:"cm"}));
+document.getElementById("subBtnEmg").addEventListener("click",toggleEmergency);
 
 // Tabs
 document.querySelectorAll(".tab").forEach(tab=>{
   tab.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    tab.classList.add("active");
-    const name=tab.dataset.tab;
-    document.getElementById("tabBroadcast").style.display=name==="broadcast"?"flex":"none";
-    const tl=document.getElementById("tabTimeline");
-    tl.style.display=name==="timeline"?"flex":"none";tl.className=name==="timeline"?"show":"";
-    const lg=document.getElementById("tabLog");
-    lg.style.display=name==="log"?"flex":"none";lg.className=name==="log"?"show":"";
-    if(name==="timeline")renderTimeline();
-    if(name==="log")renderLog();
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));tab.classList.add("active");
+    const n=tab.dataset.tab;
+    document.getElementById("tabBroadcast").style.display=n==="broadcast"?"flex":"none";
+    const tl=document.getElementById("tabTimeline");tl.style.display=n==="timeline"?"flex":"none";tl.className=n==="timeline"?"show":"";
+    const lg=document.getElementById("tabLog");lg.style.display=n==="log"?"flex":"none";lg.className=n==="log"?"show":"";
+    if(n==="timeline")renderTimeline();if(n==="log")renderLog();
   });
 });
 
-// Modals close on overlay
-["stbyModal","segModal","schedModal"].forEach(id=>{
-  document.getElementById(id).addEventListener("click",e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove("on");});
-});
+// Modals
+["stbyModal","segModal","schedModal"].forEach(id=>{document.getElementById(id).addEventListener("click",e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove("on");});});
 
 // ── Mode ──────────────────────────────────────────────────────
 function setMode(m){
@@ -1294,10 +1431,8 @@ document.getElementById("switchModeBtn").addEventListener("click",()=>document.g
 document.getElementById("lBtn").addEventListener("click",async()=>{
   const e=document.getElementById("lEmail").value.trim(),p=document.getElementById("lPass").value;
   const err=document.getElementById("lErr");err.textContent="";
-  try{await signInWithEmailAndPassword(auth,e,p);}catch(ex){
-    const m={"auth/user-not-found":"ユーザーが見つかりません","auth/wrong-password":"パスワードが違います","auth/invalid-email":"メールアドレスの形式が違います","auth/invalid-credential":"認証情報が無効です","auth/too-many-requests":"試行回数超過。しばらく待ってください"};
-    err.textContent=m[ex.code]||`エラー: ${ex.message}`;
-  }
+  try{await signInWithEmailAndPassword(auth,e,p);}
+  catch(ex){const m={"auth/user-not-found":"ユーザーが見つかりません","auth/wrong-password":"パスワードが違います","auth/invalid-email":"メールアドレスの形式が違います","auth/invalid-credential":"認証情報が無効です","auth/too-many-requests":"試行回数超過"};err.textContent=m[ex.code]||`エラー: ${ex.message}`;}
 });
 document.getElementById("lPass").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("lBtn").click();});
 document.getElementById("logoutBtn").addEventListener("click",()=>signOut(auth));
@@ -1312,21 +1447,21 @@ onAuthStateChanged(auth,user=>{
     startListener();if(!raf)clockLoop();
     const saved=sessionStorage.getItem("bcastMode");
     if(saved)setMode(saved);else document.getElementById("modeSelect").classList.add("show");
-  }else{
+  } else {
     document.getElementById("login").classList.remove("hide");
     document.getElementById("app").classList.remove("on");
     document.getElementById("modeSelect").classList.remove("show");
     stopListener();stopCountdown();forceHidePreAlert();
     if(schedChecker){clearInterval(schedChecker);schedChecker=null;}
+    if(emgAutoTimer){clearInterval(emgAutoTimer);emgAutoTimer=null;}
+    if(resumeTimer){clearInterval(resumeTimer);resumeTimer=null;}
     if(raf){cancelAnimationFrame(raf);raf=null;}
     setSyncUI(false);
-    S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],schedule:{},autoSeg:false,emergency:false};
   }
 });
 
-// Keyboard shortcuts
 document.addEventListener("keydown",e=>{
-  if(document.activeElement.tagName==="INPUT"||document.activeElement.tagName==="SELECT")return;
+  if(document.activeElement.tagName==="INPUT"||document.activeElement.tagName==="TEXTAREA"||document.activeElement.tagName==="SELECT")return;
   if(e.key==="f"||e.key==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});}
   if(e.key==="Escape"){if(cdRunning)stopCountdown();document.getElementById("modeSelect").classList.remove("show");}
 });
