@@ -12,6 +12,7 @@
   --amber:#ffb700;--amber-g:rgba(255,183,0,.3);
   --green:#00ff88;--green-g:rgba(0,255,136,.3);
   --cyan:#00ccff;--cyan-g:rgba(0,204,255,.3);
+  --purple:#cc44ff;--purple-g:rgba(204,68,255,.3);
   --bg:#080808;--bg2:#111;--bg3:#181818;--bg4:#1e1e1e;
   --b1:#222;--b2:#333;--b3:#444;
   --t1:#f0f0f0;--t2:#999;--t3:#555;
@@ -20,7 +21,7 @@
   --disp:'Orbitron',sans-serif;
 }
 html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--bar);overflow:hidden;-webkit-font-smoothing:antialiased}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9999}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:9998}
 
 /* ══ LOGIN ══ */
 #login{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900}
@@ -37,69 +38,107 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .l-err{font-family:var(--mono);font-size:10px;color:var(--red);margin-top:10px;min-height:14px;text-align:center}
 
 /* MODE SELECT */
-#modeSelect{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:850;gap:12px}
+#modeSelect{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:850;gap:10px}
 #modeSelect.show{display:flex}
 .ms-title{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.4em;color:var(--t2);margin-bottom:20px}
-.ms-btn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.25em;padding:18px 40px;border:1px solid;background:transparent;cursor:pointer;transition:all .15s;width:280px}
+.ms-btn{font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.25em;padding:16px 40px;border:1px solid;background:transparent;cursor:pointer;transition:all .15s;width:280px}
 .ms-btn.main{border-color:var(--red);color:var(--red)}
-.ms-btn.main:hover{background:rgba(255,26,26,.08);box-shadow:0 0 20px var(--red-g)}
+.ms-btn.main:hover{background:rgba(255,26,26,.08)}
 .ms-btn.sub{border-color:var(--cyan);color:var(--cyan)}
-.ms-btn.sub:hover{background:rgba(0,204,255,.08);box-shadow:0 0 20px var(--cyan-g)}
-.ms-note{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.15em;margin-top:6px}
+.ms-btn.sub:hover{background:rgba(0,204,255,.08)}
+.ms-note{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.12em}
 
-/* ══ MAIN APP ══ */
+/* ══ APP ══ */
 #app{display:none;height:100vh;flex-direction:column}
 #app.on{display:flex}
 
 /* HEADER */
-.hdr{height:38px;background:var(--bg2);border-bottom:2px solid var(--b1);display:flex;align-items:center;padding:0 12px;gap:10px;flex-shrink:0}
-.hdr-logo{font-family:var(--disp);font-size:9px;font-weight:900;letter-spacing:.4em;color:var(--red);text-shadow:0 0 10px var(--red-g)}
-.hdr-div{width:1px;height:16px;background:var(--b2)}
-.badge{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.2em;padding:3px 9px;border:1px solid currentColor}
+.hdr{height:38px;background:var(--bg2);border-bottom:2px solid var(--b1);display:flex;align-items:center;padding:0 10px;gap:8px;flex-shrink:0;overflow:hidden}
+.hdr-logo{font-family:var(--disp);font-size:8px;font-weight:900;letter-spacing:.4em;color:var(--red);text-shadow:0 0 10px var(--red-g);white-space:nowrap}
+.hdr-div{width:1px;height:16px;background:var(--b2);flex-shrink:0}
+.badge{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.2em;padding:3px 8px;border:1px solid currentColor;white-space:nowrap}
 .badge.offair{color:var(--t3);border-color:var(--b2)}
 .badge.standby{color:var(--amber);border-color:var(--amber);box-shadow:0 0 8px var(--amber-g)}
 .badge.live{color:var(--red);border-color:var(--red);box-shadow:0 0 12px var(--red-g);animation:blk 1s step-start infinite}
 .badge.cm{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px var(--cyan-g)}
+.badge.emergency{color:#fff;background:var(--red);border-color:var(--red);box-shadow:0 0 20px var(--red-g);animation:blk .5s step-start infinite}
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
-.mode-tag{font-family:var(--mono);font-size:8px;letter-spacing:.2em;padding:2px 7px;border:1px solid var(--b2);color:var(--t3)}
-.hdr-r{margin-left:auto;display:flex;align-items:center;gap:10px}
-.hdr-clock{font-family:var(--mono);font-size:14px;color:var(--t2);letter-spacing:.08em}
-.hdr-user{font-family:var(--mono);font-size:9px;color:var(--t3)}
-.xbtn{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.15em;padding:3px 9px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
+.mode-tag{font-family:var(--mono);font-size:8px;letter-spacing:.2em;padding:2px 6px;border:1px solid var(--b2);color:var(--t3);white-space:nowrap}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hdr-clock{font-family:var(--mono);font-size:13px;color:var(--t2);letter-spacing:.06em;white-space:nowrap}
+.hdr-user{font-family:var(--mono);font-size:9px;color:var(--t3);white-space:nowrap}
+.xbtn{font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.12em;padding:3px 8px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;white-space:nowrap}
 .xbtn:hover{border-color:var(--red);color:var(--red)}
+.xbtn.emg{border-color:var(--red);color:var(--red)}
+.xbtn.emg:hover{background:var(--red);color:#fff}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green-g);animation:sp 2s ease-in-out infinite;flex-shrink:0}
 .sdot.off{background:var(--red);animation:none}
 @keyframes sp{0%,100%{opacity:1}50%{opacity:.3}}
+.sched-status{font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:.1em;white-space:nowrap;display:none}
+.sched-status.show{display:block}
 
-/* ══ MAIN MODE LAYOUT ══ */
-.main-body{flex:1;display:grid;grid-template-columns:1fr 300px;min-height:0;overflow:hidden}
-.main-left{display:flex;flex-direction:column;border-right:1px solid var(--b1);overflow:hidden}
+/* ══ PRE-BROADCAST ALERT OVERLAY ══ */
+#preAlert{position:fixed;inset:0;z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.96);pointer-events:none;opacity:0;transition:opacity .4s}
+#preAlert.show{opacity:1}
+.pre-label{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.4em;margin-bottom:16px}
+.pre-num{font-family:var(--disp);font-size:clamp(80px,18vw,180px);font-weight:900;color:var(--amber);text-shadow:0 0 60px var(--amber-g);line-height:1;transition:all .3s}
+.pre-num.red{color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.pre-sub{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.3em;margin-top:12px}
+.pre-bar{width:300px;height:3px;background:var(--b2);margin-top:20px;overflow:hidden}
+.pre-bar-fill{height:100%;background:var(--amber);transition:width 1s linear}
+
+/* ══ MAIN LAYOUT ══ */
+.main-body{flex:1;display:grid;grid-template-columns:1fr 290px;min-height:0;overflow:hidden}
+.main-left{display:flex;flex-direction:column;overflow:hidden}
+
+/* TABS */
+.tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
+.tab{font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:7px 14px;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:var(--t2)}
+.tab.active{color:var(--t1);border-bottom-color:var(--red)}
+
+/* ── BROADCAST TAB ── */
+#tabBroadcast{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0}
 
 /* clock area */
-.clock-area{background:var(--bg);padding:16px 24px 12px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:28px;flex-shrink:0}
-.clk-block{display:flex;flex-direction:column;align-items:center;gap:3px}
-.clk-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.3em}
-.clk-wall{font-family:var(--disp);font-size:clamp(32px,4.5vw,58px);font-weight:700;color:var(--t1);letter-spacing:.04em;line-height:1}
+.clock-area{background:var(--bg);padding:12px 16px 10px;border-bottom:1px solid var(--b1);display:flex;align-items:stretch;gap:0;flex-shrink:0}
+.clk-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16px;border-right:1px solid var(--b1)}
+.clk-cell:first-child{padding-left:0}
+.clk-cell:last-child{border-right:none}
+.clk-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em}
+.clk-wall{font-family:var(--disp);font-size:clamp(28px,4vw,52px);font-weight:700;color:var(--t1);letter-spacing:.03em;line-height:1}
 .clk-wall .cn{animation:cnb 1s step-start infinite;color:var(--t3)}
 @keyframes cnb{0%,100%{opacity:1}50%{opacity:0}}
 .clk-wall.zero{color:#fff;text-shadow:0 0 30px rgba(255,26,26,.7)}
-.clk-vdiv{width:1px;height:52px;background:var(--b2);flex-shrink:0}
-.clk-elapsed{font-family:var(--disp);font-size:clamp(24px,3.5vw,46px);font-weight:700;line-height:1;color:var(--red);text-shadow:0 0 14px var(--red-g)}
-.clk-elapsed.paused{color:var(--amber);text-shadow:0 0 14px var(--amber-g)}
-.clk-elapsed.off{color:var(--t3);text-shadow:none}
-.clk-ms{font-family:var(--mono);font-size:clamp(10px,1.3vw,16px);color:var(--t3);letter-spacing:.15em;margin-top:2px}
+.clk-val{font-family:var(--disp);font-size:clamp(22px,3vw,40px);font-weight:700;line-height:1}
+.clk-val.elapsed{color:var(--red);text-shadow:0 0 12px var(--red-g)}
+.clk-val.paused{color:var(--amber);text-shadow:0 0 12px var(--amber-g)}
+.clk-val.off{color:var(--t3);text-shadow:none}
+.clk-val.remain{color:var(--amber)}
+.clk-val.warn{color:var(--red);text-shadow:0 0 12px var(--red-g);animation:blk .8s step-start infinite}
+.clk-ms{font-family:var(--mono);font-size:12px;color:var(--t3);letter-spacing:.1em}
 
-/* schedule status in header */
-.sched-status{font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:.12em;display:none}
-.sched-status.show{display:block}
+/* TALK CLOCK */
+.talk-clock{background:var(--bg2);border-bottom:1px solid var(--b1);padding:8px 16px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.talk-seg-name{font-family:var(--bar);font-size:16px;font-weight:700;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.talk-block{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:80px}
+.talk-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.2em}
+.talk-val{font-family:var(--disp);font-size:20px;font-weight:700;line-height:1}
+.talk-val.elapsed{color:var(--green)}
+.talk-val.remain{color:var(--amber)}
+.talk-val.over{color:var(--red);animation:blk .5s step-start infinite}
+.talk-bar-wrap{flex:1;height:6px;background:var(--b1);min-width:60px;max-width:200px}
+.talk-bar{height:100%;background:var(--green);transition:width .5s linear;max-width:100%}
+.talk-bar.warn{background:var(--amber)}
+.talk-bar.over{background:var(--red)}
 
 /* cue bar */
-.cue-bar{display:flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
-.cue-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.25em;margin-right:4px}
-.cue-btn{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.08em;width:44px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .12s;flex-shrink:0}
+.cue-bar{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);flex-shrink:0}
+.cue-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.22em;margin-right:3px}
+.cue-btn{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.08em;width:42px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .12s}
 .cue-btn:hover{border-color:var(--b3);color:var(--t2)}
 .cue-btn.c-stby{border-color:var(--amber)!important;color:var(--amber)!important;box-shadow:0 0 10px var(--amber-g);background:rgba(255,183,0,.06)}
-.cue-btn.c-num{border-color:var(--red)!important;color:var(--red)!important;box-shadow:0 0 12px var(--red-g);background:rgba(255,26,26,.08);font-size:15px}
+.cue-btn.c-num{border-color:var(--red)!important;color:var(--red)!important;box-shadow:0 0 12px var(--red-g);background:rgba(255,26,26,.08);font-size:14px}
 .cue-btn.c-q{border-color:var(--green)!important;color:var(--green)!important;box-shadow:0 0 16px var(--green-g);background:rgba(0,255,136,.08);animation:qp .6s ease-in-out infinite alternate}
 @keyframes qp{from{box-shadow:0 0 8px var(--green-g)}to{box-shadow:0 0 24px rgba(0,255,136,.8)}}
 
@@ -107,118 +146,179 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .seg-wrap{flex:1;overflow-y:auto;min-height:0}
 .seg-wrap::-webkit-scrollbar{width:3px}
 .seg-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
-.seg-hdr{display:grid;grid-template-columns:28px 1fr 60px 54px 68px;padding:6px 12px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--bg3);z-index:5}
-.seg-hdr span{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.2em}
-.seg-row{display:grid;grid-template-columns:28px 1fr 60px 54px 68px;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;align-items:center;transition:background .1s}
-.seg-row:hover{background:rgba(255,255,255,.03)}
-.seg-row.act{background:rgba(255,26,26,.05);border-bottom:1px solid rgba(255,26,26,.15)}
-.seg-row.auto-next{border-left:2px solid var(--amber)}
-.s-num{font-family:var(--mono);font-size:10px;color:var(--t3)}
-.s-name{font-family:var(--bar);font-size:14px;font-weight:600;color:var(--t1)}
+.seg-hdr{display:grid;grid-template-columns:24px 1fr 56px 50px 62px 72px;padding:5px 10px;border-bottom:1px solid var(--b1);position:sticky;top:0;background:var(--bg3);z-index:5}
+.seg-hdr span{font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.18em}
+.seg-row{display:grid;grid-template-columns:24px 1fr 56px 50px 62px 72px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;align-items:center;transition:background .1s;position:relative}
+.seg-row:hover{background:rgba(255,255,255,.025)}
+.seg-row.act{background:rgba(255,26,26,.05);border-bottom:1px solid rgba(255,26,26,.12)}
+.s-num{font-family:var(--mono);font-size:9px;color:var(--t3)}
+.s-name{font-family:var(--bar);font-size:13px;font-weight:600;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .seg-row.act .s-name{color:var(--red)}
-.s-t{font-family:var(--mono);font-size:10px;color:var(--t2)}
-.s-diff{font-family:var(--mono);font-size:10px}
+.s-t{font-family:var(--mono);font-size:9px;color:var(--t2)}
+.s-diff{font-family:var(--mono);font-size:9px}
 .s-diff.over{color:var(--red)}.s-diff.under{color:var(--green)}.s-diff.ok{color:var(--t3)}
-.auto-badge{font-family:var(--mono);font-size:7px;color:var(--amber);border:1px solid var(--amber);padding:1px 4px;letter-spacing:.1em;margin-left:4px;vertical-align:middle}
-.seg-add-row{padding:7px 12px;border-top:1px solid var(--b1)}
-.seg-add-btn{font-family:var(--mono);font-size:9px;letter-spacing:.2em;padding:6px;width:100%;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer}
+.s-actions{display:flex;gap:3px;justify-content:flex-end}
+.s-act-btn{font-family:var(--mono);font-size:8px;padding:2px 5px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;transition:all .1s}
+.s-act-btn:hover{border-color:var(--amber);color:var(--amber)}
+.s-act-btn.del:hover{border-color:var(--red);color:var(--red)}
+.seg-add-row{padding:7px 10px;border-top:1px solid var(--b1);display:flex;gap:6px}
+.seg-add-btn{font-family:var(--mono);font-size:9px;letter-spacing:.18em;padding:5px;flex:1;border:1px solid var(--b1);background:transparent;color:var(--t3);cursor:pointer}
 .seg-add-btn:hover{border-color:var(--b2);color:var(--t2)}
 
-/* right panel */
-.main-right{background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;padding:10px;gap:8px}
+/* ── TIMELINE TAB ── */
+#tabTimeline{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0;padding:12px}
+#tabTimeline.show{display:flex}
+.tl-wrap{flex:1;overflow-x:auto;overflow-y:hidden;position:relative;background:var(--bg);border:1px solid var(--b1)}
+.tl-wrap::-webkit-scrollbar{height:4px}
+.tl-wrap::-webkit-scrollbar-thumb{background:var(--b2)}
+.tl-canvas-area{position:relative;height:100%;min-width:100%}
+/* ruler */
+.tl-ruler{position:sticky;top:0;height:24px;background:var(--bg3);border-bottom:1px solid var(--b1);display:flex;align-items:center;z-index:2}
+.tl-ruler-tick{position:absolute;height:100%;border-left:1px solid var(--b2);display:flex;align-items:center;padding-left:4px;font-family:var(--mono);font-size:8px;color:var(--t3)}
+/* seg blocks */
+.tl-seg{position:absolute;top:30px;height:50px;border:1px solid;display:flex;align-items:center;padding:0 6px;overflow:hidden;cursor:pointer;transition:filter .1s}
+.tl-seg:hover{filter:brightness(1.2)}
+.tl-seg-name{font-family:var(--bar);font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-seg-len{font-family:var(--mono);font-size:8px;opacity:.7;margin-top:2px}
+/* playhead */
+.tl-playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--red);box-shadow:0 0 8px var(--red-g);z-index:3;pointer-events:none}
+.tl-playhead::before{content:'▼';position:absolute;top:0;left:-5px;font-size:10px;color:var(--red)}
+.tl-info{font-family:var(--mono);font-size:9px;color:var(--t3);padding:6px 0;letter-spacing:.15em}
+
+/* ── LOG TAB ── */
+#tabLog{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
+#tabLog.show{display:flex}
+.log-hdr{display:flex;align-items:center;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--b1);gap:10px;flex-shrink:0}
+.log-hdr-title{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.2em}
+.log-clear-btn{font-family:var(--mono);font-size:8px;padding:3px 8px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer;margin-left:auto}
+.log-clear-btn:hover{border-color:var(--red);color:var(--red)}
+.log-body{flex:1;overflow-y:auto;padding:8px 0}
+.log-body::-webkit-scrollbar{width:3px}
+.log-body::-webkit-scrollbar-thumb{background:var(--b2)}
+.log-row{display:grid;grid-template-columns:90px 80px 1fr;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.03);align-items:center}
+.log-time{font-family:var(--mono);font-size:9px;color:var(--t3)}
+.log-type{font-family:var(--mono);font-size:8px;letter-spacing:.15em;padding:2px 5px;border:1px solid currentColor}
+.log-type.on-air{color:var(--red);border-color:var(--red)}
+.log-type.off-air{color:var(--t3);border-color:var(--b2)}
+.log-type.seg{color:var(--cyan);border-color:var(--cyan)}
+.log-type.pause{color:var(--amber);border-color:var(--amber)}
+.log-type.cm{color:var(--cyan);border-color:var(--cyan)}
+.log-type.emergency{color:var(--red);border-color:var(--red);background:rgba(255,26,26,.1)}
+.log-type.stby{color:var(--amber);border-color:var(--amber)}
+.log-msg{font-family:var(--bar);font-size:12px;color:var(--t2);padding-left:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-empty{font-family:var(--mono);font-size:10px;color:var(--t3);text-align:center;padding:40px;letter-spacing:.2em}
+
+/* RIGHT PANEL */
+.main-right{background:var(--bg2);display:flex;flex-direction:column;overflow-y:auto;padding:8px;gap:7px;border-left:1px solid var(--b1)}
 .main-right::-webkit-scrollbar{width:3px}
 .main-right::-webkit-scrollbar-thumb{background:var(--b2)}
-.ctrl-box{border:1px solid var(--b1);background:var(--bg3);padding:9px 9px 7px}
-.ctrl-title{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.3em;text-transform:uppercase;margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
-.cbtn{width:100%;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.16em;padding:10px 8px;border:1px solid;background:transparent;cursor:pointer;text-transform:uppercase;margin-bottom:5px;transition:all .12s;position:relative;overflow:hidden}
+.ctrl-box{border:1px solid var(--b1);background:var(--bg3);padding:8px 8px 6px}
+.ctrl-title{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em;text-transform:uppercase;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--b1)}
+.cbtn{width:100%;font-family:var(--disp);font-size:8px;font-weight:700;letter-spacing:.15em;padding:9px 6px;border:1px solid;background:transparent;cursor:pointer;text-transform:uppercase;margin-bottom:4px;transition:all .12s;position:relative;overflow:hidden}
 .cbtn:last-child{margin-bottom:0}
 .cbtn:disabled{opacity:.25;cursor:not-allowed;pointer-events:none}
 .cbtn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s}
 .cbtn:hover:not(:disabled)::after{opacity:.07}
 .cbtn.go{border-color:var(--red);color:var(--red)}
-.cbtn.go.active{background:var(--red2);color:#fff;box-shadow:0 0 16px var(--red-g)}
+.cbtn.go.active{background:var(--red2);color:#fff;box-shadow:0 0 14px var(--red-g)}
 .cbtn.stby{border-color:var(--amber);color:var(--amber)}
 .cbtn.pau{border-color:var(--amber);color:var(--amber)}
 .cbtn.cm{border-color:var(--cyan);color:var(--cyan)}
 .cbtn.rst{border-color:var(--b2);color:var(--t3)}
 .cbtn.sched-btn{border-color:var(--green);color:var(--green)}
-.sq-btn{width:100%;font-family:var(--mono);font-size:10px;padding:6px 8px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;text-align:left;transition:all .1s;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cbtn.emg-btn{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.05)}
+.cbtn.emg-btn.active{background:var(--red);color:#fff;animation:blk .5s step-start infinite}
+.sq-btn{width:100%;font-family:var(--mono);font-size:9px;padding:5px 7px;border:1px solid var(--b1);background:transparent;color:var(--t2);cursor:pointer;text-align:left;transition:all .1s;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sq-btn:last-child{margin-bottom:0}
 .sq-btn:hover{border-color:var(--b2);color:var(--t1)}
 .sq-btn.act{border-color:var(--red);color:var(--red);background:rgba(255,26,26,.06)}
-.sys-row{font-family:var(--mono);font-size:9px;color:var(--t3);display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.auto-toggle{display:flex;align-items:center;gap:8px;padding:6px 0}
-.toggle-lbl{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.1em}
-.tog{position:relative;width:36px;height:18px;cursor:pointer;flex-shrink:0}
+.sys-row{font-family:var(--mono);font-size:9px;color:var(--t3);display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.auto-toggle{display:flex;align-items:center;gap:7px;padding:4px 0}
+.toggle-lbl{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.08em}
+.tog{position:relative;width:34px;height:17px;cursor:pointer;flex-shrink:0}
 .tog input{opacity:0;width:0;height:0}
 .tog-sl{position:absolute;inset:0;background:var(--b2);border:1px solid var(--b2);transition:.2s}
-.tog-sl::before{content:'';position:absolute;width:12px;height:12px;left:2px;top:2px;background:var(--t3);transition:.2s}
-.tog input:checked + .tog-sl{background:rgba(255,183,0,.15);border-color:var(--amber)}
-.tog input:checked + .tog-sl::before{transform:translateX(17px);background:var(--amber)}
+.tog-sl::before{content:'';position:absolute;width:11px;height:11px;left:2px;top:2px;background:var(--t3);transition:.2s}
+.tog input:checked+.tog-sl{background:rgba(255,183,0,.15);border-color:var(--amber)}
+.tog input:checked+.tog-sl::before{transform:translateX(16px);background:var(--amber)}
 
-/* status bar */
-.sbar{height:26px;background:var(--bg2);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 14px;gap:18px;flex-shrink:0}
-.sinfo{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.15em}
+/* STATUS BAR */
+.sbar{height:24px;background:var(--bg2);border-top:1px solid var(--b1);display:flex;align-items:center;padding:0 12px;gap:16px;flex-shrink:0}
+.sinfo{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.13em}
 .sinfo span{color:var(--t2)}
 
-/* ══ SUB MODE LAYOUT ══ */
-.sub-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:20px;background:var(--bg);position:relative;overflow:hidden}
-
-/* countdown overlay */
-.cdown-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.92);z-index:10;opacity:0;pointer-events:none;transition:opacity .3s}
-.cdown-overlay.show{opacity:1;pointer-events:auto}
-.cdown-num{font-family:var(--disp);font-size:clamp(120px,25vw,240px);font-weight:900;line-height:1;animation:cdbig .4s ease-out}
-.cdown-num.stby-txt{font-size:clamp(60px,12vw,120px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
-.cdown-num.cnt{color:var(--red);text-shadow:0 0 60px var(--red-g)}
-.cdown-num.q-txt{color:var(--green);text-shadow:0 0 60px var(--green-g)}
-.cdown-sub{font-family:var(--mono);font-size:14px;color:var(--t3);letter-spacing:.3em;margin-top:12px;text-align:center}
-@keyframes cdbig{from{transform:scale(1.3);opacity:0}to{transform:scale(1);opacity:1}}
-
-/* sub info grid */
-.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;width:100%;max-width:900px;background:var(--b1)}
-.sub-cell{background:var(--bg2);padding:20px 24px;display:flex;flex-direction:column;gap:6px}
+/* ══ SUB MODE ══ */
+.sub-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;background:var(--bg);position:relative;overflow:hidden}
+.sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;width:100%;max-width:860px;background:var(--b1)}
+.sub-cell{background:var(--bg2);padding:16px 20px;display:flex;flex-direction:column;gap:4px}
 .sub-cell.wide{grid-column:1/-1}
-.sub-cell-lbl{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:.3em}
-.sub-cell-val{font-family:var(--disp);font-size:clamp(28px,4vw,52px);font-weight:700;line-height:1}
-.sub-cell-val.wall{color:var(--t1)}
-.sub-cell-val.elapsed{color:var(--red);text-shadow:0 0 12px var(--red-g)}
-.sub-cell-val.elapsed.paused{color:var(--amber)}
-.sub-cell-val.remain{color:var(--amber);text-shadow:0 0 10px var(--amber-g)}
-.sub-cell-val.nextseg{color:var(--cyan);text-shadow:0 0 10px var(--cyan-g);font-size:clamp(18px,2.5vw,30px)}
-.sub-seg-name{font-family:var(--bar);font-size:clamp(16px,2.5vw,28px);font-weight:700;color:var(--t1);margin-top:4px}
-.sub-next-name{font-family:var(--bar);font-size:clamp(13px,1.8vw,20px);font-weight:600;color:var(--t2);margin-top:2px}
-.sub-ms{font-family:var(--mono);font-size:14px;color:var(--t3);letter-spacing:.1em}
+.sub-lbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.28em}
+.sub-val{font-family:var(--disp);font-size:clamp(24px,3.5vw,48px);font-weight:700;line-height:1}
+.sub-val.wall{color:var(--t1)}
+.sub-val.elapsed{color:var(--red);text-shadow:0 0 10px var(--red-g)}
+.sub-val.elapsed.paused{color:var(--amber)}
+.sub-val.remain{color:var(--amber)}
+.sub-val.nextseg{color:var(--cyan);font-size:clamp(16px,2.3vw,28px)}
+.sub-ms{font-family:var(--mono);font-size:12px;color:var(--t3)}
+.sub-seg-name{font-family:var(--bar);font-size:clamp(14px,2.2vw,26px);font-weight:700;color:var(--t1);margin-top:3px}
+.sub-next-name{font-family:var(--bar);font-size:clamp(12px,1.6vw,18px);color:var(--t2);margin-top:2px}
+
+/* ══ COUNTDOWN / ALERT OVERLAY ══ */
+#cdOverlay{position:fixed;inset:0;z-index:850;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.95);opacity:0;pointer-events:none;transition:opacity .3s}
+#cdOverlay.show{opacity:1;pointer-events:auto}
+.cd-label{font-family:var(--mono);font-size:11px;letter-spacing:.4em;margin-bottom:14px}
+.cd-label.amber{color:var(--amber)}
+.cd-label.red{color:var(--red)}
+.cd-num{font-family:var(--disp);font-weight:900;line-height:1;animation:cdbig .35s ease-out}
+.cd-num.stby{font-size:clamp(60px,12vw,120px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
+.cd-num.cnt{font-size:clamp(100px,20vw,200px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.cd-num.q{font-size:clamp(100px,20vw,200px);color:var(--green);text-shadow:0 0 60px var(--green-g)}
+.cd-num.pre60{font-size:clamp(60px,10vw,100px);color:var(--amber);text-shadow:0 0 40px var(--amber-g)}
+.cd-num.pre30{font-size:clamp(80px,14vw,140px);color:var(--red);text-shadow:0 0 60px var(--red-g)}
+.cd-sub{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.28em;margin-top:10px}
+.cd-bar{width:280px;height:3px;background:var(--b2);margin-top:18px;overflow:hidden}
+.cd-bar-fill{height:100%;transition:width 1s linear}
+.cd-bar-fill.amber{background:var(--amber)}
+.cd-bar-fill.red{background:var(--red)}
+@keyframes cdbig{from{transform:scale(1.25);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* EMERGENCY OVERLAY */
+#emgOverlay{position:fixed;inset:0;z-index:870;background:rgba(180,0,0,.96);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+#emgOverlay.show{display:flex}
+.emg-title{font-family:var(--disp);font-size:clamp(28px,5vw,60px);font-weight:900;color:#fff;letter-spacing:.2em;text-shadow:0 0 40px rgba(255,255,255,.5);animation:blk .4s step-start infinite}
+.emg-sub{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.7);letter-spacing:.3em}
+.emg-cancel{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.25em;padding:12px 32px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer;margin-top:20px}
+.emg-cancel:hover{background:rgba(255,255,255,.15)}
 
 /* ══ MODALS ══ */
 .moverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:800}
 .moverlay.on{display:flex}
-.mbox{background:var(--bg2);border:1px solid var(--b2);padding:22px;width:360px;position:relative;max-height:90vh;overflow-y:auto}
+.mbox{background:var(--bg2);border:1px solid var(--b2);padding:20px;width:360px;position:relative;max-height:88vh;overflow-y:auto}
 .mbox::-webkit-scrollbar{width:3px}
 .mbox::-webkit-scrollbar-thumb{background:var(--b2)}
-.mbox.wide{width:480px}
-.mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber)}
+.mbox.wide{width:460px}
+.mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.mbox.amber::before{background:var(--amber)}
 .mbox.red::before{background:var(--red)}
+.mbox.green::before{background:var(--green)}
 .mtitle{font-family:var(--disp);font-size:10px;font-weight:700;letter-spacing:.2em;margin-bottom:14px;color:var(--t1)}
+.mfield{margin-bottom:9px}
+.mfield label{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.18em;display:block;margin-bottom:3px}
+.minput{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:7px 8px;outline:none}
+.minput:focus{border-color:var(--amber)}
+.mselect{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:7px 8px;outline:none;cursor:pointer}
+.mselect:focus{border-color:var(--amber)}
+.msep{height:1px;background:var(--b1);margin:10px 0}
+.mcheck-row{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.mcheck-row label{font-family:var(--mono);font-size:10px;color:var(--t2);cursor:pointer}
+.mcheck-row input[type=checkbox]{width:13px;height:13px;accent-color:var(--amber);cursor:pointer}
 .mrow{display:flex;gap:6px;margin-top:10px}
-.mbtn{flex:1;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.2em;padding:10px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
+.mbtn{flex:1;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:.18em;padding:9px;border:1px solid var(--b2);background:transparent;color:var(--t3);cursor:pointer}
 .mbtn:hover{background:rgba(255,255,255,.04)}
 .mbtn.ok{border-color:var(--amber);color:var(--amber)}
 .mbtn.red{border-color:var(--red);color:var(--red)}
-.mfield{margin-bottom:10px}
-.mfield label{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.2em;display:block;margin-bottom:4px}
-.minput{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:8px 9px;outline:none}
-.minput:focus{border-color:var(--amber)}
-.mselect{width:100%;background:var(--bg3);border:1px solid var(--b1);color:var(--t1);font-family:var(--mono);font-size:12px;padding:8px 9px;outline:none;cursor:pointer}
-.mselect:focus{border-color:var(--amber)}
-.msep{height:1px;background:var(--b1);margin:12px 0}
-.mcheck-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.mcheck-row label{font-family:var(--mono);font-size:10px;color:var(--t2);cursor:pointer}
-.mcheck-row input[type=checkbox]{width:14px;height:14px;accent-color:var(--amber);cursor:pointer}
-.mgrid3{display:grid;grid-template-columns:1fr 72px 64px;gap:6px;margin-bottom:4px}
-.mhlbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.15em;text-align:center;margin-bottom:8px}
-
-/* stby countdown bar */
-.stby-bar{height:4px;background:var(--red);transform-origin:left;transition:none;margin-top:2px}
+.mgrid3{display:grid;grid-template-columns:1fr 68px 60px;gap:5px;margin-bottom:3px}
+.mhlbl{font-family:var(--mono);font-size:8px;color:var(--t3);letter-spacing:.13em;text-align:center;margin-bottom:8px}
 
 @media(max-width:700px){
   .main-body{grid-template-columns:1fr}
@@ -233,10 +333,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- LOGIN -->
 <div id="login">
   <div class="l-logo">BROADCAST OS</div>
-  <div class="l-sub">放送進行管理システム v2.1</div>
+  <div class="l-sub">Professional Broadcast Management System v3.0</div>
   <div class="l-box">
     <label class="l-label">EMAIL</label>
-    <input type="email" id="lEmail" class="l-input" placeholder="operator@school.ac.jp" autocomplete="email">
+    <input type="email" id="lEmail" class="l-input" placeholder="operator@broadcaster.co.jp" autocomplete="email">
     <label class="l-label">PASSWORD</label>
     <input type="password" id="lPass" class="l-input" placeholder="••••••••" autocomplete="current-password">
     <button class="l-btn" id="lBtn">AUTHENTICATE →</button>
@@ -248,15 +348,15 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <div id="modeSelect">
   <div class="ms-title">SELECT DISPLAY MODE</div>
   <button class="ms-btn main" id="msMain">MAIN — 操作卓</button>
-  <div class="ms-note">放送進行・セグメント管理・全操作</div>
-  <div style="height:16px"></div>
+  <div class="ms-note">全操作・タイムライン・ログ管理</div>
+  <div style="height:14px"></div>
   <button class="ms-btn sub" id="msSub">SUB — サブモニター</button>
-  <div class="ms-note">時計・経過時間・カウントダウン表示専用</div>
+  <div class="ms-note">時計・経過・次セグ・カウントダウン専用</div>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <!-- HEADER (shared) -->
+  <!-- HEADER -->
   <div class="hdr">
     <div class="hdr-logo">BROADCAST OS</div>
     <div class="hdr-div"></div>
@@ -267,58 +367,103 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="hdr-r">
       <div class="hdr-clock" id="hdrClk">--:--:--</div>
       <div class="hdr-user" id="hdrUser"></div>
-      <button class="xbtn" id="switchModeBtn">SWITCH MODE</button>
+      <button class="xbtn emg" id="emgBtn">⚠ EMERGENCY</button>
+      <button class="xbtn" id="switchModeBtn">MODE</button>
       <button class="xbtn" id="logoutBtn">LOGOUT</button>
     </div>
   </div>
 
-  <!-- ── MAIN MODE ── -->
+  <!-- MAIN MODE -->
   <div class="main-body" id="mainBody">
     <div class="main-left">
-      <!-- CLOCK -->
-      <div class="clock-area">
-        <div class="clk-block">
-          <div class="clk-lbl">WALL CLOCK</div>
-          <div class="clk-wall" id="clkWall">
-            <span id="cwH">--</span><span class="cn">:</span><span id="cwM">--</span><span class="cn">:</span><span id="cwS">--</span>
+      <!-- TABS -->
+      <div class="tab-bar">
+        <div class="tab active" data-tab="broadcast">BROADCAST</div>
+        <div class="tab" data-tab="timeline">TIMELINE</div>
+        <div class="tab" data-tab="log">LOG</div>
+      </div>
+
+      <!-- BROADCAST TAB -->
+      <div id="tabBroadcast">
+        <!-- CLOCKS -->
+        <div class="clock-area">
+          <div class="clk-cell">
+            <div class="clk-lbl">WALL CLOCK</div>
+            <div class="clk-wall" id="clkWall">
+              <span id="cwH">--</span><span class="cn">:</span><span id="cwM">--</span><span class="cn">:</span><span id="cwS">--</span>
+            </div>
+          </div>
+          <div class="clk-cell">
+            <div class="clk-lbl">ELAPSED</div>
+            <div class="clk-val elapsed off" id="clkEl">--:--:--</div>
+            <div class="clk-ms" id="clkMs">.---</div>
+          </div>
+          <div class="clk-cell">
+            <div class="clk-lbl">BROADCAST END</div>
+            <div class="clk-val remain off" id="clkRemain">--:--</div>
+            <div class="clk-lbl" id="clkEndAt" style="margin-top:2px"></div>
           </div>
         </div>
-        <div class="clk-vdiv"></div>
-        <div class="clk-block">
-          <div class="clk-lbl">ELAPSED</div>
-          <div class="clk-elapsed off" id="clkEl">--:--:--</div>
-          <div class="clk-ms" id="clkMs">.---</div>
+
+        <!-- TALK CLOCK -->
+        <div class="talk-clock" id="talkClock">
+          <div class="talk-seg-name" id="talkSegName">-- SELECT SEGMENT --</div>
+          <div class="talk-block">
+            <div class="talk-lbl">SEG ELAPSED</div>
+            <div class="talk-val elapsed" id="talkElapsed">--:--</div>
+          </div>
+          <div class="talk-bar-wrap"><div class="talk-bar" id="talkBar" style="width:0%"></div></div>
+          <div class="talk-block">
+            <div class="talk-lbl">SEG REMAIN</div>
+            <div class="talk-val remain" id="talkRemain">--:--</div>
+          </div>
         </div>
-        <div class="clk-vdiv"></div>
-        <div class="clk-block">
-          <div class="clk-lbl">BROADCAST END</div>
-          <div class="clk-elapsed off" id="clkRemain" style="font-size:clamp(18px,2.5vw,34px)">--:--</div>
-          <div class="clk-lbl" style="margin-top:2px" id="clkEndAt"></div>
+
+        <!-- CUE BAR -->
+        <div class="cue-bar">
+          <span class="cue-lbl">CUE</span>
+          <button class="cue-btn" data-cue="stby">STBY</button>
+          <button class="cue-btn" data-cue="5">5</button>
+          <button class="cue-btn" data-cue="4">4</button>
+          <button class="cue-btn" data-cue="3">3</button>
+          <button class="cue-btn" data-cue="2">2</button>
+          <button class="cue-btn" data-cue="1">1</button>
+          <button class="cue-btn" data-cue="q">Q</button>
+        </div>
+
+        <!-- SEGMENT TABLE -->
+        <div class="seg-wrap">
+          <div class="seg-hdr">
+            <span>#</span><span>SEGMENT</span><span>START</span><span>LEN</span><span>DIFF</span><span>ACTIONS</span>
+          </div>
+          <div id="segRows"></div>
+          <div class="seg-add-row">
+            <button class="seg-add-btn" id="addSegBtn">＋ ADD SEGMENT</button>
+          </div>
         </div>
       </div>
-      <!-- CUE -->
-      <div class="cue-bar">
-        <span class="cue-lbl">CUE</span>
-        <button class="cue-btn" data-cue="stby" id="cueBtnStby">STBY</button>
-        <button class="cue-btn" data-cue="5">5</button>
-        <button class="cue-btn" data-cue="4">4</button>
-        <button class="cue-btn" data-cue="3">3</button>
-        <button class="cue-btn" data-cue="2">2</button>
-        <button class="cue-btn" data-cue="1">1</button>
-        <button class="cue-btn" data-cue="q">Q</button>
-      </div>
-      <!-- SEGMENT TABLE -->
-      <div class="seg-wrap">
-        <div class="seg-hdr">
-          <span>#</span><span>SEGMENT</span><span>START</span><span>LEN</span><span>DIFF</span>
+
+      <!-- TIMELINE TAB -->
+      <div id="tabTimeline">
+        <div class="tl-info" id="tlInfo">ズーム: タイムライン幅 = 全セグメント時間</div>
+        <div class="tl-wrap" id="tlWrap">
+          <div class="tl-canvas-area" id="tlCanvas"></div>
         </div>
-        <div id="segRows"></div>
-        <div class="seg-add-row">
-          <button class="seg-add-btn" id="addSegBtn">＋ ADD SEGMENT</button>
+      </div>
+
+      <!-- LOG TAB -->
+      <div id="tabLog">
+        <div class="log-hdr">
+          <div class="log-hdr-title">BROADCAST LOG</div>
+          <button class="log-clear-btn" id="logClearBtn">CLEAR</button>
+        </div>
+        <div class="log-body" id="logBody">
+          <div class="log-empty" id="logEmpty">NO LOG ENTRIES</div>
         </div>
       </div>
     </div>
-    <!-- RIGHT -->
+
+    <!-- RIGHT PANEL -->
     <div class="main-right">
       <div class="ctrl-box">
         <div class="ctrl-title">BROADCAST CTRL</div>
@@ -329,13 +474,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <button class="cbtn rst" id="btnRst">⏹ RESET</button>
       </div>
       <div class="ctrl-box">
+        <div class="ctrl-title">⚠ EMERGENCY</div>
+        <button class="cbtn emg-btn" id="btnEmg">⚠ EMERGENCY MODE</button>
+      </div>
+      <div class="ctrl-box">
         <div class="ctrl-title">SCHEDULE</div>
         <button class="cbtn sched-btn" id="btnSched">⏰ BROADCAST SCHEDULE</button>
         <div class="auto-toggle">
           <label class="tog"><input type="checkbox" id="autoSegToggle"><span class="tog-sl"></span></label>
           <span class="toggle-lbl">セグメント自動切替</span>
         </div>
-        <div class="sys-row" id="schedInfo" style="font-size:9px;color:var(--t3)">スケジュール未設定</div>
+        <div class="sys-row" id="schedInfo" style="font-size:9px">スケジュール未設定</div>
       </div>
       <div class="ctrl-box">
         <div class="ctrl-title">SEGMENTS</div>
@@ -350,37 +499,29 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
   </div>
 
-  <!-- ── SUB MODE ── -->
+  <!-- SUB MODE -->
   <div class="sub-body" id="subBody" style="display:none">
-    <!-- Countdown overlay -->
-    <div class="cdown-overlay" id="cdownOverlay">
-      <div style="display:flex;flex-direction:column;align-items:center">
-        <div class="cdown-num" id="cdownNum">STBY</div>
-        <div class="cdown-sub" id="cdownSub"></div>
-      </div>
-    </div>
-    <!-- Info grid -->
     <div class="sub-grid">
       <div class="sub-cell">
-        <div class="sub-cell-lbl">WALL CLOCK</div>
-        <div class="sub-cell-val wall" id="subWall">--:--:--</div>
+        <div class="sub-lbl">WALL CLOCK</div>
+        <div class="sub-val wall" id="subWall">--:--:--</div>
       </div>
       <div class="sub-cell">
-        <div class="sub-cell-lbl">BROADCAST ELAPSED</div>
-        <div class="sub-cell-val elapsed" id="subElapsed">--:--:--</div>
+        <div class="sub-lbl">BROADCAST ELAPSED</div>
+        <div class="sub-val elapsed" id="subElapsed">--:--:--</div>
         <div class="sub-ms" id="subMs">.---</div>
       </div>
       <div class="sub-cell">
-        <div class="sub-cell-lbl">放送終了まで</div>
-        <div class="sub-cell-val remain" id="subRemain">--:--</div>
+        <div class="sub-lbl">放送終了まで</div>
+        <div class="sub-val remain" id="subRemain">--:--</div>
       </div>
       <div class="sub-cell">
-        <div class="sub-cell-lbl">次のセグメントまで</div>
-        <div class="sub-cell-val nextseg" id="subNextTime">--:--</div>
+        <div class="sub-lbl">次のセグメントまで</div>
+        <div class="sub-val nextseg" id="subNextTime">--</div>
         <div class="sub-next-name" id="subNextName">--</div>
       </div>
       <div class="sub-cell wide">
-        <div class="sub-cell-lbl">NOW — 現在のセグメント</div>
+        <div class="sub-lbl">NOW — 現在のセグメント</div>
         <div class="sub-seg-name" id="subSegName">--</div>
       </div>
     </div>
@@ -391,19 +532,34 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="sinfo">SEG: <span id="bSeg">--</span></div>
     <div class="sinfo">ELAPSED: <span id="bEl">--:--:--</span></div>
     <div class="sinfo">STATUS: <span id="bSt">OFF AIR</span></div>
-    <div class="sinfo" style="margin-left:auto">BROADCAST OS 2.1</div>
+    <div class="sinfo" id="bLogCount" style="margin-left:auto">LOG: 0</div>
   </div>
 </div>
 
-<!-- STBY CUE MODAL -->
+<!-- PRE-BROADCAST ALERT -->
+<div id="cdOverlay">
+  <div class="cd-label amber" id="cdLabel">放送開始まで</div>
+  <div class="cd-num stby" id="cdNum">--</div>
+  <div class="cd-sub" id="cdSub"></div>
+  <div class="cd-bar"><div class="cd-bar-fill amber" id="cdBarFill" style="width:100%"></div></div>
+</div>
+
+<!-- EMERGENCY OVERLAY -->
+<div id="emgOverlay">
+  <div class="emg-title">⚠ EMERGENCY</div>
+  <div class="emg-sub">緊急放送モード — 通常放送を中断しています</div>
+  <button class="emg-cancel" id="emgCancelBtn">CANCEL EMERGENCY</button>
+</div>
+
+<!-- STBY MODAL -->
 <div class="moverlay" id="stbyModal">
   <div class="mbox red">
     <div class="mtitle">STANDBY / CUE 設定</div>
     <div class="mfield">
-      <label>カウントダウン開始</label>
+      <label>カウントダウン</label>
       <select class="mselect" id="stbyCount">
-        <option value="5">5 → 4 → 3 → 2 → 1 → Q</option>
-        <option value="3">3 → 2 → 1 → Q</option>
+        <option value="5">5→4→3→2→1→Q</option>
+        <option value="3">3→2→1→Q</option>
         <option value="0">カウントなし（STBYのみ）</option>
       </select>
     </div>
@@ -412,62 +568,62 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <select class="mselect" id="stbyAction">
         <option value="live">LIVE に切り替え</option>
         <option value="nextseg">次のセグメントへ + LIVE</option>
-        <option value="cm">CM BREAK に切り替え</option>
-        <option value="none">何もしない（キューのみ）</option>
+        <option value="cm">CM BREAK</option>
+        <option value="none">何もしない</option>
       </select>
     </div>
     <div class="mrow">
-      <button class="mbtn red" id="stbyStart">▶ STBY START</button>
+      <button class="mbtn red" id="stbyStart">▶ START</button>
       <button class="mbtn" id="stbyCancel">CANCEL</button>
     </div>
   </div>
 </div>
 
-<!-- ADD SEGMENT MODAL -->
-<div class="moverlay" id="addSegModal">
-  <div class="mbox">
-    <div class="mtitle">ADD SEGMENT</div>
-    <div class="mgrid3">
-      <input class="minput" id="mName" placeholder="セグメント名">
-      <input class="minput" id="mStart" placeholder="00:00">
-      <input class="minput" id="mLen" placeholder="05:00">
+<!-- ADD/EDIT SEGMENT MODAL -->
+<div class="moverlay" id="segModal">
+  <div class="mbox amber">
+    <div class="mtitle" id="segModalTitle">ADD SEGMENT</div>
+    <div class="mfield">
+      <label>セグメント名</label>
+      <input class="minput" id="segName" placeholder="オープニング">
     </div>
-    <div style="display:grid;grid-template-columns:1fr 72px 64px;gap:6px;margin-bottom:12px">
-      <div class="mhlbl">NAME</div><div class="mhlbl">START</div><div class="mhlbl">LENGTH</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="mfield">
+        <label>開始時刻 (mm:ss)</label>
+        <input class="minput" id="segStart" placeholder="00:00">
+      </div>
+      <div class="mfield">
+        <label>長さ (mm:ss)</label>
+        <input class="minput" id="segLen" placeholder="05:00">
+      </div>
     </div>
     <div class="mrow">
-      <button class="mbtn ok" id="mOk">ADD</button>
-      <button class="mbtn" id="mCancel">CANCEL</button>
+      <button class="mbtn ok" id="segSave">SAVE</button>
+      <button class="mbtn" id="segModalCancel">CANCEL</button>
     </div>
   </div>
 </div>
 
 <!-- SCHEDULE MODAL -->
 <div class="moverlay" id="schedModal">
-  <div class="mbox wide">
+  <div class="mbox wide green">
     <div class="mtitle">放送スケジュール設定</div>
     <div class="mfield">
-      <label>放送開始時刻（自動ON AIR）</label>
+      <label>放送開始時刻</label>
       <input class="minput" type="time" id="schedStart" step="1">
     </div>
     <div class="mfield">
-      <label>放送終了時刻（自動OFF AIR）</label>
+      <label>放送終了時刻</label>
       <input class="minput" type="time" id="schedEnd" step="1">
     </div>
     <div class="msep"></div>
-    <div class="mcheck-row">
-      <input type="checkbox" id="schedAutoStart" checked>
-      <label for="schedAutoStart">開始時刻に自動 ON AIR</label>
-    </div>
-    <div class="mcheck-row">
-      <input type="checkbox" id="schedAutoEnd" checked>
-      <label for="schedAutoEnd">終了時刻に自動 OFF AIR</label>
-    </div>
+    <div class="mcheck-row"><input type="checkbox" id="schedAutoStart" checked><label for="schedAutoStart">開始時刻に自動 ON AIR</label></div>
+    <div class="mcheck-row"><input type="checkbox" id="schedAutoEnd" checked><label for="schedAutoEnd">終了時刻に自動 OFF AIR</label></div>
     <div class="msep"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.7">
-      ・開始前は「放送開始まで XX:XX」と表示されます<br>
-      ・セグメント自動切替をONにすると、START時刻に合わせて自動で進みます<br>
-      ・スケジュールをクリアするには両欄を空にしてSAVEしてください
+    <div style="font-family:var(--mono);font-size:9px;color:var(--t3);line-height:1.8">
+      ・1分前: 大きく予告表示（一度）<br>
+      ・30秒前〜開始まで: 常時カウントダウン表示<br>
+      ・空にしてSAVEでスケジュールをクリア
     </div>
     <div class="mrow">
       <button class="mbtn ok" id="schedSave">SAVE</button>
@@ -483,528 +639,604 @@ import { getFirestore, doc, onSnapshot, setDoc, serverTimestamp }
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-const cfg = {
-  apiKey:"AIzaSyArN55s79iTSsmtGNjKMXzm6BuLdlbUitY",
-  authDomain:"broadcast-d1581.firebaseapp.com",
-  projectId:"broadcast-d1581",
-  storageBucket:"broadcast-d1581.firebasestorage.app",
-  messagingSenderId:"695136212605",
-  appId:"1:695136212605:web:f9ad30187e31967fd98314"
-};
-const fbApp = initializeApp(cfg);
-const db    = getFirestore(fbApp);
-const auth  = getAuth(fbApp);
-const BDOC  = doc(db, "broadcast", "main");
+const cfg={apiKey:"AIzaSyArN55s79iTSsmtGNjKMXzm6BuLdlbUitY",authDomain:"broadcast-d1581.firebaseapp.com",projectId:"broadcast-d1581",storageBucket:"broadcast-d1581.firebasestorage.app",messagingSenderId:"695136212605",appId:"1:695136212605:web:f9ad30187e31967fd98314"};
+const fbApp=initializeApp(cfg);
+const db=getFirestore(fbApp);
+const auth=getAuth(fbApp);
+const BDOC=doc(db,"broadcast","main");
 
-// ── State ───────────────────────────────────────────────────────
-let S = {
-  status:"offair", startedAt:null, paused:false,
-  pausedAt:null, pauseAccum:0, currentSegment:0,
-  cue:null, segments:[], updatedAt:null,
-  schedule:{ startTime:"", endTime:"", autoStart:true, autoEnd:true },
-  autoSeg:false
-};
-
-const DEF_SEGS = [
-  {name:"オープニング",   start:"00:00",len:"03:00"},
-  {name:"校長挨拶",       start:"03:00",len:"05:00"},
-  {name:"生徒会報告",     start:"08:00",len:"10:00"},
-  {name:"CM BREAK",      start:"18:00",len:"02:00"},
-  {name:"クラブ活動報告", start:"20:00",len:"08:00"},
-  {name:"エンディング",   start:"28:00",len:"02:00"},
+// ── State ─────────────────────────────────────────────────────
+let S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false};
+const DEF_SEGS=[
+  {name:"オープニング",start:"00:00",len:"03:00"},
+  {name:"メインコーナー",start:"03:00",len:"10:00"},
+  {name:"CM BREAK",start:"13:00",len:"02:00"},
+  {name:"特集",start:"15:00",len:"10:00"},
+  {name:"エンディング",start:"25:00",len:"05:00"},
 ];
 
-let mode = "main"; // "main" | "sub"
-let tOffset = 0, tSamples = [];
-let unsub = null, raf = null;
+let mode="main";
+let tOffset=0,tSamples=[];
+let unsub=null,raf=null;
+let cdTimer=null,cdRunning=false;
+let schedChecker=null;
+let didAutoStart=false,didAutoEnd=false;
+let did60=false,did30=false;
+let isEmergency=false;
 
-// Countdown state
-let cdTimer = null;  // setInterval id
-let cdRunning = false;
+// Local log (not Firestore to avoid writes)
+let broadcastLog=[];
 
-// Schedule checker
-let schedChecker = null;
+// ── Helpers ───────────────────────────────────────────────────
+function parseMmSs(str){const p=(str||"00:00").split(":").map(Number);return(p[0]||0)*60+(p[1]||0);}
+function fmtMmSs(s){s=Math.max(0,Math.floor(s));return`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+function fmtHhMmSs(ms){const s=Math.floor(Math.max(0,ms)/1000);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?`${h}:${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;}
+function timeStrToMs(str){if(!str)return null;const[h,m]=str.split(":").map(Number);const d=new Date();d.setHours(h,m,0,0);return d.getTime();}
+function applyOffset(sMs){if(!sMs)return;tSamples.push(sMs-Date.now());if(tSamples.length>8)tSamples.shift();const s=[...tSamples].sort((a,b)=>a-b);tOffset=s[Math.floor(s.length/2)];const el=document.getElementById("sysOffset");if(el)el.textContent=`OFFSET: ${tOffset>=0?"+":""}${Math.round(tOffset)}ms`;}
+function sNow(){return Date.now()+tOffset;}
+function getElapsedMs(){if(!S.startedAt)return 0;if(S.paused&&S.pausedAt)return Math.max(0,S.pausedAt-S.startedAt-S.pauseAccum);return Math.max(0,sNow()-S.startedAt-S.pauseAccum);}
 
-// ── Time offset ──────────────────────────────────────────────────
-function applyOffset(sMs) {
-  if (!sMs) return;
-  tSamples.push(sMs - Date.now());
-  if (tSamples.length > 8) tSamples.shift();
-  const s = [...tSamples].sort((a,b)=>a-b);
-  tOffset = s[Math.floor(s.length/2)];
-  const el = document.getElementById("sysOffset");
-  if (el) el.textContent = `OFFSET: ${tOffset>=0?"+":""}${Math.round(tOffset)}ms`;
-}
-function sNow() { return Date.now() + tOffset; }
-
-// ── Helpers ──────────────────────────────────────────────────────
-function parseMmSs(str) {
-  const p = (str||"00:00").split(":").map(Number);
-  return (p[0]||0)*60+(p[1]||0);
-}
-function fmtMmSs(s) {
-  s = Math.max(0, Math.floor(s));
-  return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
-}
-function fmtHhMmSs(ms) {
-  const s = Math.floor(Math.max(0,ms)/1000);
-  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), ss=s%60;
-  if(h>0) return `${h}:${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
-  return `${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+// ── Log ───────────────────────────────────────────────────────
+function addLog(type,msg){
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString("ja-JP",{hour12:false});
+  const elapsed=S.startedAt?fmtHhMmSs(getElapsedMs()):"--:--:--";
+  broadcastLog.unshift({time:timeStr,elapsed,type,msg});
+  if(broadcastLog.length>200)broadcastLog.pop();
+  renderLog();
+  const lc=document.getElementById("bLogCount");
+  if(lc)lc.textContent=`LOG: ${broadcastLog.length}`;
 }
 
-// Time string "HH:MM" → today's Date ms
-function timeStrToMs(str) {
-  if (!str) return null;
-  const [h,m] = str.split(":").map(Number);
-  const d = new Date();
-  d.setHours(h, m, 0, 0);
-  return d.getTime();
-}
-
-function getElapsedMs() {
-  if (!S.startedAt) return 0;
-  if (S.paused && S.pausedAt) return Math.max(0, S.pausedAt - S.startedAt - S.pauseAccum);
-  return Math.max(0, sNow() - S.startedAt - S.pauseAccum);
-}
-
-// ── Save ─────────────────────────────────────────────────────────
-async function save(patch) {
-  try { await setDoc(BDOC, {...patch, updatedAt:serverTimestamp()}, {merge:true}); }
-  catch(e){ console.error(e); }
-}
-
-// ── Listener ─────────────────────────────────────────────────────
-function startListener() {
-  if (unsub) { unsub(); unsub = null; }
-  unsub = onSnapshot(BDOC, snap => {
-    setSyncUI(true);
-    if (!snap.exists()) { initDoc(); return; }
-    const d = snap.data();
-    const sMs = d.updatedAt?.toMillis?.();
-    if (sMs) applyOffset(sMs);
-
-    S.status         = d.status         || "offair";
-    S.startedAt      = d.startedAt?.toMillis?.() || null;
-    S.paused         = d.paused         || false;
-    S.pausedAt       = d.pausedAt?.toMillis?.() || null;
-    S.pauseAccum     = d.pauseAccum     || 0;
-    S.currentSegment = d.currentSegment ?? 0;
-    S.cue            = d.cue            || null;
-    S.segments       = d.segments?.length ? d.segments : DEF_SEGS;
-    S.schedule       = d.schedule       || {startTime:"",endTime:"",autoStart:true,autoEnd:true};
-    S.autoSeg        = d.autoSeg        || false;
-    S.updatedAt      = sMs || null;
-
-    const u = document.getElementById("sysUpd");
-    if (u && sMs) u.textContent = `UPDATED: ${new Date(sMs).toLocaleTimeString("ja-JP")}`;
-
-    // sync autoSeg toggle
-    const tog = document.getElementById("autoSegToggle");
-    if (tog) tog.checked = S.autoSeg;
-
-    renderAll();
-    startSchedChecker();
-  }, err => { console.error(err); setSyncUI(false); });
-}
-
-function stopListener() { if (unsub) { unsub(); unsub=null; } }
-
-async function initDoc() {
-  await save({
-    status:"offair",startedAt:null,paused:false,pausedAt:null,
-    pauseAccum:0,currentSegment:0,cue:null,segments:DEF_SEGS,
-    schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false
+function renderLog(){
+  const body=document.getElementById("logBody");
+  const empty=document.getElementById("logEmpty");
+  if(broadcastLog.length===0){if(empty)empty.style.display="block";if(body){body.querySelectorAll(".log-row").forEach(r=>r.remove());}return;}
+  if(empty)empty.style.display="none";
+  body.innerHTML="";
+  broadcastLog.forEach(e=>{
+    const row=document.createElement("div");
+    row.className="log-row";
+    row.innerHTML=`<span class="log-time">${e.time}<br><span style="font-size:8px;color:var(--t3)">${e.elapsed}</span></span><span class="log-type ${e.type}">${e.type.toUpperCase()}</span><span class="log-msg">${e.msg}</span>`;
+    body.appendChild(row);
   });
 }
 
-// ── Schedule checker ─────────────────────────────────────────────
-function startSchedChecker() {
-  if (schedChecker) { clearInterval(schedChecker); schedChecker=null; }
-  schedChecker = setInterval(checkSchedule, 1000);
+// ── Save ──────────────────────────────────────────────────────
+async function save(patch){try{await setDoc(BDOC,{...patch,updatedAt:serverTimestamp()},{merge:true});}catch(e){console.error(e);}}
+
+// ── Listener ──────────────────────────────────────────────────
+function startListener(){
+  if(unsub){unsub();unsub=null;}
+  unsub=onSnapshot(BDOC,snap=>{
+    setSyncUI(true);
+    if(!snap.exists()){initDoc();return;}
+    const d=snap.data();
+    const sMs=d.updatedAt?.toMillis?.();
+    if(sMs)applyOffset(sMs);
+    const prevStatus=S.status;
+    const prevSeg=S.currentSegment;
+    S.status=d.status||"offair";
+    S.startedAt=d.startedAt?.toMillis?.()||null;
+    S.paused=d.paused||false;
+    S.pausedAt=d.pausedAt?.toMillis?.()||null;
+    S.pauseAccum=d.pauseAccum||0;
+    S.currentSegment=d.currentSegment??0;
+    S.cue=d.cue||null;
+    S.segments=d.segments?.length?d.segments:DEF_SEGS;
+    S.schedule=d.schedule||{startTime:"",endTime:"",autoStart:true,autoEnd:true};
+    S.autoSeg=d.autoSeg||false;
+    S.emergency=d.emergency||false;
+    S.updatedAt=sMs||null;
+    const u=document.getElementById("sysUpd");
+    if(u&&sMs)u.textContent=`UPDATED: ${new Date(sMs).toLocaleTimeString("ja-JP")}`;
+    const tog=document.getElementById("autoSegToggle");
+    if(tog)tog.checked=S.autoSeg;
+    // Log status changes
+    if(prevStatus!==S.status){
+      const msgs={live:"ON AIR 開始",offair:"OFF AIR",standby:"STANDBY",cm:"CM BREAK 開始"};
+      addLog(S.status==="live"?"on-air":S.status==="offair"?"off-air":S.status,msgs[S.status]||S.status);
+    }
+    if(prevSeg!==S.currentSegment&&S.segments[S.currentSegment]){
+      addLog("seg",`セグメント → ${S.segments[S.currentSegment].name}`);
+    }
+    // Emergency
+    if(S.emergency!==isEmergency){
+      isEmergency=S.emergency;
+      document.getElementById("emgOverlay").className=isEmergency?"show":"";
+      if(isEmergency)addLog("emergency","緊急放送モード 開始");
+      else addLog("emergency","緊急放送モード 解除");
+    }
+    renderAll();
+    startSchedChecker();
+  },err=>{console.error(err);setSyncUI(false);});
+}
+function stopListener(){if(unsub){unsub();unsub=null;}}
+
+async function initDoc(){await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:DEF_SEGS,schedule:{startTime:"",endTime:"",autoStart:true,autoEnd:true},autoSeg:false,emergency:false});}
+
+// ── Schedule / pre-alert ──────────────────────────────────────
+function startSchedChecker(){
+  if(schedChecker){clearInterval(schedChecker);schedChecker=null;}
+  schedChecker=setInterval(checkSchedule,500);
 }
 
-let didAutoStart = false, didAutoEnd = false;
+function checkSchedule(){
+  const sch=S.schedule||{};
+  const now=Date.now();
+  const startMs=timeStrToMs(sch.startTime);
+  const endMs=timeStrToMs(sch.endTime);
+  const si=document.getElementById("schedInfo");
+  if(si){if(sch.startTime||sch.endTime)si.textContent=`${sch.startTime||"--:--"} → ${sch.endTime||"--:--"}`;else si.textContent="スケジュール未設定";}
 
-function checkSchedule() {
-  const sch = S.schedule;
-  if (!sch) return;
+  // Pre-broadcast alerts
+  if(startMs&&S.status==="offair"){
+    const diff=(startMs-now)/1000;
+    const ss=document.getElementById("schedStatus");
+    if(diff>0&&diff<3600){
+      if(ss){ss.textContent=`放送開始まで ${fmtMmSs(diff)}`;ss.classList.add("show");}
+    }else{if(ss)ss.classList.remove("show");}
 
-  const now = new Date();
-  const nowMs = now.getTime();
-  const startMs = timeStrToMs(sch.startTime);
-  const endMs   = timeStrToMs(sch.endTime);
-
-  // Show schedule status in header
-  const el = document.getElementById("schedStatus");
-  if (startMs && S.status === "offair") {
-    const diff = startMs - nowMs;
-    if (diff > 0 && diff < 3600000) {
-      el.textContent = `放送開始まで ${fmtMmSs(diff/1000)}`;
-      el.classList.add("show");
-    } else { el.classList.remove("show"); }
-  } else { el.classList.remove("show"); }
-
-  // schedInfo in right panel
-  const si = document.getElementById("schedInfo");
-  if (si) {
-    if (sch.startTime || sch.endTime) {
-      si.textContent = `${sch.startTime||"--:--"} → ${sch.endTime||"--:--"}`;
-    } else { si.textContent = "スケジュール未設定"; }
+    // 60s alert (show once, then hide after 4s)
+    if(diff<=61&&diff>57&&!did60){
+      did60=true;
+      showPreAlert(Math.round(diff),"once");
+    }
+    // 30s countdown (persistent until start)
+    if(diff<=31&&diff>0){
+      if(!did30){did30=true;}
+      showPreAlert(Math.round(diff),"persist");
+    }
+    if(diff<=0){
+      hidePreAlert();
+      did60=false;did30=false;
+    }
+  }else{
+    const ss=document.getElementById("schedStatus");
+    if(ss)ss.classList.remove("show");
+    if(S.status!=="offair"||!startMs){did60=false;did30=false;hidePreAlert();}
   }
 
   // Auto start
-  if (sch.autoStart && sch.startTime && S.status === "offair") {
-    if (!didAutoStart && startMs) {
-      const diff = Math.abs(nowMs - startMs);
-      if (diff < 1500) {
-        didAutoStart = true;
-        save({status:"live", startedAt:serverTimestamp(), paused:false, pausedAt:null, pauseAccum:0});
-      }
-    }
-  } else if (S.status !== "offair") { didAutoStart = false; }
+  if(sch.autoStart&&sch.startTime&&S.status==="offair"&&!didAutoStart&&startMs){
+    const diff=Math.abs(now-startMs);
+    if(diff<1200){didAutoStart=true;save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});addLog("on-air","スケジュール自動 ON AIR");}
+  }else if(S.status!=="offair"){didAutoStart=false;}
 
   // Auto end
-  if (sch.autoEnd && sch.endTime && (S.status === "live" || S.status === "cm")) {
-    if (!didAutoEnd && endMs) {
-      const diff = nowMs - endMs;
-      if (diff >= 0 && diff < 1500) {
-        didAutoEnd = true;
-        save({status:"offair", paused:false});
-      }
-    }
-  } else if (S.status === "offair") { didAutoEnd = false; }
+  if(sch.autoEnd&&sch.endTime&&(S.status==="live"||S.status==="cm")&&!didAutoEnd&&endMs){
+    const diff=now-endMs;
+    if(diff>=0&&diff<1200){didAutoEnd=true;save({status:"offair",paused:false});addLog("off-air","スケジュール自動 OFF AIR");}
+  }else if(S.status==="offair"){didAutoEnd=false;}
 
-  // Auto segment switching
-  if (S.autoSeg && S.status === "live" && S.startedAt) {
-    const elapsed = getElapsedMs() / 1000;
-    const segs = S.segments;
-    for (let i = segs.length-1; i >= 0; i--) {
-      const segStart = parseMmSs(segs[i].start);
-      if (elapsed >= segStart && i !== S.currentSegment) {
-        save({currentSegment: i});
-        break;
-      }
+  // Auto seg
+  if(S.autoSeg&&S.status==="live"&&S.startedAt){
+    const elapsed=getElapsedMs()/1000;
+    const segs=S.segments;
+    for(let i=segs.length-1;i>=0;i--){
+      if(elapsed>=parseMmSs(segs[i].start)&&i!==S.currentSegment){save({currentSegment:i});break;}
     }
+  }
+
+  // End remain warn
+  if(endMs&&S.status==="live"){
+    const rem=(endMs-now)/1000;
+    const el=document.getElementById("clkRemain");
+    if(el){el.className=rem<120?"clk-val remain warn":"clk-val remain";}
   }
 }
 
-// ── STBY Countdown ───────────────────────────────────────────────
-function stopCountdown() {
-  if (cdTimer) { clearInterval(cdTimer); cdTimer=null; }
-  cdRunning = false;
-  document.getElementById("cdownOverlay").classList.remove("show");
-  // clear cue
+let preAlertMode=null; // "once"|"persist"
+let preAlertTimeout=null;
+
+function showPreAlert(seconds,mode){
+  const overlay=document.getElementById("cdOverlay");
+  const numEl=document.getElementById("cdNum");
+  const labelEl=document.getElementById("cdLabel");
+  const subEl=document.getElementById("cdSub");
+  const barEl=document.getElementById("cdBarFill");
+
+  if(mode==="once"&&preAlertMode==="persist")return;
+  preAlertMode=mode;
+  overlay.classList.add("show");
+
+  if(seconds>30){
+    // 60s - amber, big
+    numEl.className="cd-num pre60";
+    numEl.textContent=`${seconds}s`;
+    labelEl.textContent="放送開始まで";
+    labelEl.className="cd-label amber";
+    subEl.textContent="BROADCAST STARTING SOON";
+    barEl.className="cd-bar-fill amber";
+    barEl.style.width="100%";
+    if(mode==="once"){
+      if(preAlertTimeout)clearTimeout(preAlertTimeout);
+      preAlertTimeout=setTimeout(()=>{preAlertMode=null;hidePreAlert();},4000);
+    }
+  }else{
+    // 30s - red, bigger, persistent
+    numEl.className="cd-num pre30";
+    numEl.textContent=`${seconds}`;
+    labelEl.textContent="放送開始まで（秒）";
+    labelEl.className="cd-label red";
+    subEl.textContent="ON AIR COUNTDOWN";
+    barEl.className="cd-bar-fill red";
+    barEl.style.width=`${(seconds/30)*100}%`;
+  }
+}
+
+function hidePreAlert(){
+  if(preAlertMode==="persist")return; // will be hidden when broadcast starts
+  document.getElementById("cdOverlay").classList.remove("show");
+  preAlertMode=null;
+}
+
+function forceHidePreAlert(){
+  document.getElementById("cdOverlay").classList.remove("show");
+  preAlertMode=null;
+  did60=false;did30=false;
+}
+
+// ── STBY countdown ────────────────────────────────────────────
+function stopCountdown(){
+  if(cdTimer){clearInterval(cdTimer);cdTimer=null;}
+  cdRunning=false;
+  // only hide if not pre-broadcast
+  if(preAlertMode!=="persist")document.getElementById("cdOverlay").classList.remove("show");
   save({cue:null});
 }
 
-function startCountdown(countFrom, action) {
-  if (cdRunning) stopCountdown();
-  cdRunning = true;
+function startCountdown(countFrom,action){
+  if(cdRunning)stopCountdown();
+  forceHidePreAlert();
+  cdRunning=true;
+  const overlay=document.getElementById("cdOverlay");
+  const numEl=document.getElementById("cdNum");
+  const labelEl=document.getElementById("cdLabel");
+  const subEl=document.getElementById("cdSub");
+  const barEl=document.getElementById("cdBarFill");
+  const actionLabels={live:"→ LIVE",nextseg:"→ 次セグ + LIVE",cm:"→ CM",none:""};
 
-  const overlay = document.getElementById("cdownOverlay");
-  const numEl   = document.getElementById("cdownNum");
-  const subEl   = document.getElementById("cdownSub");
-
-  const actionLabels = {
-    live:"→ LIVE", nextseg:"→ 次セグ + LIVE", cm:"→ CM BREAK", none:""
-  };
-
-  // Show STBY first
   save({cue:"stby"});
   overlay.classList.add("show");
-  numEl.className = "cdown-num stby-txt";
-  numEl.textContent = "STBY";
-  subEl.textContent = actionLabels[action] || "";
+  numEl.className="cd-num stby";numEl.textContent="STBY";
+  labelEl.textContent="STANDBY";labelEl.className="cd-label amber";
+  subEl.textContent=actionLabels[action]||"";
+  barEl.className="cd-bar-fill amber";barEl.style.width="100%";
+  addLog("stby",`STANDBY開始 → アクション:${actionLabels[action]||"none"}`);
 
-  if (countFrom === 0) {
-    // No count, just STBY then Q
-    setTimeout(() => {
-      numEl.className = "cdown-num q-txt";
-      numEl.textContent = "Q";
-      save({cue:"q"});
-      setTimeout(() => { doAction(action); stopCountdown(); }, 1000);
-    }, 2000);
+  if(countFrom===0){
+    setTimeout(()=>{
+      numEl.className="cd-num q";numEl.textContent="Q";save({cue:"q"});
+      setTimeout(()=>{doAction(action);stopCountdown();},1000);
+    },2000);
     return;
   }
 
-  let cur = countFrom;
-  // Wait 2s on STBY then start count
-  setTimeout(() => {
-    save({cue: String(cur)});
-    numEl.className = "cdown-num cnt";
-    numEl.textContent = String(cur);
-    subEl.textContent = actionLabels[action]||"";
-
-    cdTimer = setInterval(() => {
+  let cur=countFrom;
+  setTimeout(()=>{
+    numEl.className="cd-num cnt";numEl.textContent=String(cur);
+    labelEl.textContent="COUNTDOWN";labelEl.className="cd-label red";
+    barEl.className="cd-bar-fill red";
+    save({cue:String(cur)});
+    cdTimer=setInterval(()=>{
       cur--;
-      if (cur > 0) {
-        numEl.className = "cdown-num cnt";
-        numEl.textContent = String(cur);
-        save({cue: String(cur)});
-      } else if (cur === 0) {
-        numEl.className = "cdown-num q-txt";
-        numEl.textContent = "Q";
-        save({cue:"q"});
-      } else {
-        clearInterval(cdTimer); cdTimer=null;
-        doAction(action);
-        stopCountdown();
-      }
-    }, 1000);
-  }, 2000);
+      if(cur>0){numEl.className="cd-num cnt";numEl.textContent=String(cur);barEl.style.width=`${(cur/countFrom)*100}%`;save({cue:String(cur)});}
+      else if(cur===0){numEl.className="cd-num q";numEl.textContent="Q";barEl.style.width="0%";save({cue:"q"});}
+      else{clearInterval(cdTimer);cdTimer=null;doAction(action);stopCountdown();}
+    },1000);
+  },2000);
 }
 
-async function doAction(action) {
-  if (action === "live") {
-    if (S.status !== "live") {
-      await save({status:"live", startedAt:serverTimestamp(), paused:false, pausedAt:null, pauseAccum:0});
-    }
-  } else if (action === "nextseg") {
-    const next = S.currentSegment + 1;
-    const patch = {currentSegment: Math.min(next, S.segments.length-1)};
-    if (S.status !== "live") {
-      patch.status = "live";
-      patch.startedAt = serverTimestamp();
-      patch.paused = false; patch.pausedAt = null; patch.pauseAccum = 0;
-    }
-    await save(patch);
-  } else if (action === "cm") {
-    await save({status:"cm"});
-  }
+async function doAction(action){
+  if(action==="live"&&S.status!=="live"){await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});forceHidePreAlert();}
+  else if(action==="nextseg"){const next=Math.min(S.currentSegment+1,S.segments.length-1);const p={currentSegment:next};if(S.status!=="live"){p.status="live";p.startedAt=serverTimestamp();p.paused=false;p.pausedAt=null;p.pauseAccum=0;}await save(p);forceHidePreAlert();}
+  else if(action==="cm"){await save({status:"cm"});}
 }
 
-// ── Render ───────────────────────────────────────────────────────
-function renderAll() {
-  renderBadge();
-  renderButtons();
-  renderCue();
-  renderSegs();
-  renderSqList();
-  const cur = S.segments[S.currentSegment];
-  document.getElementById("bSeg").textContent = cur ? cur.name : "--";
+// ── Render ────────────────────────────────────────────────────
+function renderAll(){renderBadge();renderButtons();renderCue();renderSegs();renderSqList();renderTimeline();const cur=S.segments[S.currentSegment];document.getElementById("bSeg").textContent=cur?cur.name:"--";}
+
+const BCLS={offair:"offair",standby:"standby",live:"live",cm:"cm"};
+const BLBL={offair:"OFF AIR",standby:"STANDBY",live:"● LIVE",cm:"CM BREAK"};
+
+function renderBadge(){
+  const el=document.getElementById("badge");
+  const cls=S.emergency?"emergency":(BCLS[S.status]||"offair");
+  el.className="badge "+cls;
+  el.textContent=S.emergency?"⚠ EMERGENCY":(BLBL[S.status]||"OFF AIR");
+  document.getElementById("bSt").textContent=S.emergency?"EMERGENCY":(BLBL[S.status]||"OFF AIR");
 }
 
-const BCLS = {offair:"offair",standby:"standby",live:"live",cm:"cm"};
-const BLBL = {offair:"OFF AIR",standby:"STANDBY",live:"● LIVE",cm:"CM BREAK"};
-
-function renderBadge() {
-  const el = document.getElementById("badge");
-  el.className = "badge "+(BCLS[S.status]||"offair");
-  el.textContent = BLBL[S.status]||"OFF AIR";
-  document.getElementById("bSt").textContent = BLBL[S.status]||"OFF AIR";
+function renderButtons(){
+  const go=document.getElementById("btnGo");
+  const pau=document.getElementById("btnPau");
+  const cm=document.getElementById("btnCm");
+  const emgBtn=document.getElementById("btnEmg");
+  const st=S.status;
+  go.disabled=false;pau.disabled=(st!=="live");cm.disabled=(st!=="live"&&st!=="standby");
+  if(S.paused){go.textContent="▶ RESUME";go.className="cbtn go";}
+  else if(st==="live"){go.textContent="● ON AIR";go.className="cbtn go active";}
+  else{go.textContent="▶ GO ON AIR";go.className="cbtn go";}
+  pau.textContent=S.paused?"▶ RESUME":"⏸ PAUSE";
+  emgBtn.className="cbtn emg-btn"+(S.emergency?" active":"");
+  emgBtn.textContent=S.emergency?"⚠ CANCEL EMERGENCY":"⚠ EMERGENCY MODE";
 }
 
-function renderButtons() {
-  const go  = document.getElementById("btnGo");
-  const pau = document.getElementById("btnPau");
-  const cm  = document.getElementById("btnCm");
-  const st  = S.status;
-  go.disabled = false;
-  pau.disabled = (st !== "live");
-  cm.disabled  = (st !== "live" && st !== "standby");
-  if (S.paused) { go.textContent="▶ RESUME"; go.className="cbtn go"; }
-  else if (st==="live") { go.textContent="● ON AIR"; go.className="cbtn go active"; }
-  else { go.textContent="▶ GO ON AIR"; go.className="cbtn go"; }
-  pau.textContent = S.paused ? "▶ RESUME" : "⏸ PAUSE";
-}
-
-function renderCue() {
-  document.querySelectorAll(".cue-btn").forEach(b => {
-    const c = b.dataset.cue;
-    b.className = "cue-btn";
-    if (S.cue === c) {
-      if (c==="stby") b.classList.add("c-stby");
-      else if (c==="q") b.classList.add("c-q");
-      else b.classList.add("c-num");
-    }
+function renderCue(){
+  document.querySelectorAll(".cue-btn").forEach(b=>{
+    const c=b.dataset.cue;b.className="cue-btn";
+    if(S.cue===c){if(c==="stby")b.classList.add("c-stby");else if(c==="q")b.classList.add("c-q");else b.classList.add("c-num");}
   });
 }
 
-function renderSegs() {
-  const wrap = document.getElementById("segRows");
-  wrap.innerHTML = "";
-  S.segments.forEach((seg,i) => {
-    const isAct = i===S.currentSegment;
-    const row = document.createElement("div");
-    row.className = "seg-row"+(isAct?" act":"");
-
-    let diffStr="—", diffCls="ok";
-    if ((S.status==="live"||S.status==="cm") && isAct) {
-      const el = getElapsedMs()/1000;
-      const d  = el - parseMmSs(seg.start) - parseMmSs(seg.len);
-      if (Math.abs(d)<5) { diffStr="±0"; diffCls="ok"; }
-      else if (d>0) { diffStr="+"+fmtMmSs(d); diffCls="over"; }
-      else { diffStr="-"+fmtMmSs(-d); diffCls="under"; }
+function renderSegs(){
+  const wrap=document.getElementById("segRows");
+  wrap.innerHTML="";
+  S.segments.forEach((seg,i)=>{
+    const isAct=i===S.currentSegment;
+    const row=document.createElement("div");
+    row.className="seg-row"+(isAct?" act":"");
+    let diffStr="—",diffCls="ok";
+    if((S.status==="live"||S.status==="cm")&&isAct){
+      const el=getElapsedMs()/1000;
+      const d=el-parseMmSs(seg.start)-parseMmSs(seg.len);
+      if(Math.abs(d)<5){diffStr="±0";diffCls="ok";}else if(d>0){diffStr="+"+fmtMmSs(d);diffCls="over";}else{diffStr="-"+fmtMmSs(-d);diffCls="under";}
     }
-    const autoLabel = S.autoSeg ? '<span class="auto-badge">AUTO</span>' : "";
-    row.innerHTML = `
-      <span class="s-num">${String(i+1).padStart(2,"0")}</span>
-      <span class="s-name">${seg.name}${isAct?autoLabel:""}</span>
-      <span class="s-t">${seg.start}</span>
-      <span class="s-t">${seg.len}</span>
-      <span class="s-diff ${diffCls}">${diffStr}</span>`;
-    row.addEventListener("click", () => {
-      if (S.autoSeg) { if(!confirm("自動切替をOFFにしてセグメントを切り替えますか？")) return; save({autoSeg:false, currentSegment:i}); }
-      else save({currentSegment:i});
-    });
+    row.innerHTML=`<span class="s-num">${String(i+1).padStart(2,"0")}</span><span class="s-name">${seg.name}</span><span class="s-t">${seg.start}</span><span class="s-t">${seg.len}</span><span class="s-diff ${diffCls}">${diffStr}</span><span class="s-actions"><button class="s-act-btn" data-action="edit" data-i="${i}">編集</button><button class="s-act-btn del" data-action="del" data-i="${i}">削除</button></span>`;
+    row.querySelector("[data-action=edit]").addEventListener("click",e=>{e.stopPropagation();openSegEdit(i);});
+    row.querySelector("[data-action=del]").addEventListener("click",e=>{e.stopPropagation();delSeg(i);});
+    row.addEventListener("click",()=>{if(S.autoSeg){if(!confirm("自動切替をOFFにして切り替えますか？"))return;save({autoSeg:false,currentSegment:i});}else save({currentSegment:i});});
     wrap.appendChild(row);
   });
 }
 
-function renderSqList() {
-  const wrap = document.getElementById("sqList");
-  wrap.innerHTML = "";
+function renderSqList(){
+  const wrap=document.getElementById("sqList");
+  wrap.innerHTML="";
   S.segments.forEach((seg,i)=>{
-    const b = document.createElement("button");
+    const b=document.createElement("button");
     b.className="sq-btn"+(i===S.currentSegment?" act":"");
     b.textContent=`${String(i+1).padStart(2,"0")} ${seg.name}`;
-    b.addEventListener("click",()=>save({currentSegment:i, autoSeg:false}));
+    b.addEventListener("click",()=>save({currentSegment:i,autoSeg:false}));
     wrap.appendChild(b);
   });
 }
 
-function setSyncUI(ok) {
-  ["sdot","sdot2"].forEach(id=>{const el=document.getElementById(id);if(el)el.className="sdot"+(ok?"":" off");});
-  const lb=document.getElementById("sLabel"); if(lb)lb.textContent=ok?"FIRESTORE SYNC":"DISCONNECTED";
+// ── Timeline ──────────────────────────────────────────────────
+const TL_PX_PER_SEC=4; // 4px per second
+const TL_HEIGHT=100;
+
+function renderTimeline(){
+  const canvas=document.getElementById("tlCanvas");
+  if(!canvas)return;
+  const segs=S.segments;
+  if(!segs.length){canvas.innerHTML='<div style="padding:20px;font-family:var(--mono);font-size:9px;color:var(--t3)">NO SEGMENTS</div>';return;}
+  const totalSec=segs.reduce((mx,s)=>Math.max(mx,parseMmSs(s.start)+parseMmSs(s.len)),0)||1800;
+  const totalPx=totalSec*TL_PX_PER_SEC;
+  canvas.style.width=totalPx+"px";
+  canvas.style.height=TL_HEIGHT+"px";
+  canvas.innerHTML="";
+
+  // Ruler
+  const ruler=document.createElement("div");
+  ruler.className="tl-ruler";
+  ruler.style.width=totalPx+"px";
+  for(let t=0;t<=totalSec;t+=60){
+    const tick=document.createElement("div");
+    tick.className="tl-ruler-tick";
+    tick.style.left=(t*TL_PX_PER_SEC)+"px";
+    tick.textContent=fmtMmSs(t);
+    ruler.appendChild(tick);
+  }
+  canvas.appendChild(ruler);
+
+  // Segment blocks
+  const colors=["#cc2200","#cc7700","#0077cc","#007755","#6600cc","#cc0066"];
+  segs.forEach((seg,i)=>{
+    const left=parseMmSs(seg.start)*TL_PX_PER_SEC;
+    const width=Math.max(parseMmSs(seg.len)*TL_PX_PER_SEC,2);
+    const isAct=i===S.currentSegment;
+    const blk=document.createElement("div");
+    blk.className="tl-seg";
+    blk.style.cssText=`left:${left}px;width:${width}px;border-color:${colors[i%colors.length]};background:${isAct?"rgba(255,26,26,.15)":"rgba(255,255,255,.03)"}`;
+    blk.innerHTML=`<div><div class="tl-seg-name" style="color:${isAct?"var(--red)":"var(--t2)"}">${seg.name}</div><div class="tl-seg-len">${seg.start} • ${seg.len}</div></div>`;
+    blk.addEventListener("click",()=>save({currentSegment:i}));
+    canvas.appendChild(blk);
+  });
+
+  // Playhead
+  if(S.startedAt&&(S.status==="live"||S.status==="cm")){
+    const elapsed=getElapsedMs()/1000;
+    const ph=document.createElement("div");
+    ph.className="tl-playhead";
+    ph.id="tlPlayhead";
+    ph.style.left=(elapsed*TL_PX_PER_SEC)+"px";
+    canvas.appendChild(ph);
+  }
 }
 
-// ── RAF loop ─────────────────────────────────────────────────────
-function clockLoop() {
-  const now = new Date();
-  const h=String(now.getHours()).padStart(2,"0");
-  const m=String(now.getMinutes()).padStart(2,"0");
-  const s=String(now.getSeconds()).padStart(2,"0");
-
+// ── RAF loop ──────────────────────────────────────────────────
+function clockLoop(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,"0"),m=String(now.getMinutes()).padStart(2,"0"),s=String(now.getSeconds()).padStart(2,"0");
+  const wallStr=`${h}:${m}:${s}`;
   document.getElementById("cwH").textContent=h;
   document.getElementById("cwM").textContent=m;
   document.getElementById("cwS").textContent=s;
-  document.getElementById("hdrClk").textContent=`${h}:${m}:${s}`;
-  document.getElementById("subWall").textContent=`${h}:${m}:${s}`;
-
+  document.getElementById("hdrClk").textContent=wallStr;
+  document.getElementById("subWall").textContent=wallStr;
   const wall=document.getElementById("clkWall");
   now.getSeconds()===0?wall.classList.add("zero"):wall.classList.remove("zero");
 
-  const isActive = S.status==="live"||S.status==="cm"||(S.paused&&S.startedAt);
+  // Elapsed
+  const isActive=S.status==="live"||S.status==="cm"||(S.paused&&S.startedAt);
   const elEl=document.getElementById("clkEl");
   const msEl=document.getElementById("clkMs");
-
-  if (isActive) {
+  if(isActive){
     const eMs=getElapsedMs();
-    const es=Math.floor(eMs/1000), ms=Math.floor(eMs%1000);
-    const hh=Math.floor(es/3600), mm=Math.floor((es%3600)/60), ss=es%60;
+    const es=Math.floor(eMs/1000),ms=Math.floor(eMs%1000);
+    const hh=Math.floor(es/3600),mm=Math.floor((es%3600)/60),ss=es%60;
     const str=hh>0?`${hh}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
-    elEl.textContent=str;
-    msEl.textContent=`.${String(ms).padStart(3,"0")}`;
-    elEl.className="clk-elapsed"+(S.paused?" paused":"");
+    elEl.textContent=str;msEl.textContent=`.${String(ms).padStart(3,"0")}`;
+    elEl.className="clk-val elapsed"+(S.paused?" paused":"");
     document.getElementById("bEl").textContent=str;
     document.getElementById("subElapsed").textContent=str;
-    document.getElementById("subElapsed").className="sub-cell-val elapsed"+(S.paused?" paused":"");
+    document.getElementById("subElapsed").className="sub-val elapsed"+(S.paused?" paused":"");
     document.getElementById("subMs").textContent=`.${String(ms).padStart(3,"0")}`;
-  } else {
-    elEl.textContent="--:--:--"; elEl.className="clk-elapsed off";
-    msEl.textContent=".---"; document.getElementById("bEl").textContent="--:--:--";
-    document.getElementById("subElapsed").textContent="--:--:--";
-    document.getElementById("subMs").textContent=".---";
+  }else{
+    const na="--:--:--";
+    elEl.textContent=na;elEl.className="clk-val elapsed off";msEl.textContent=".---";
+    document.getElementById("bEl").textContent=na;
+    document.getElementById("subElapsed").textContent=na;document.getElementById("subMs").textContent=".---";
   }
 
-  // Broadcast remain time
-  const sch = S.schedule;
-  const endMs = timeStrToMs(sch?.endTime);
-  const remEl = document.getElementById("clkRemain");
-  const remSubEl = document.getElementById("subRemain");
-  if (endMs && (S.status==="live"||S.status==="standby"||S.status==="cm")) {
-    const rem = endMs - Date.now();
-    const remStr = rem > 0 ? fmtMmSs(rem/1000) : "00:00";
-    if (remEl) { remEl.textContent=remStr; remEl.className="clk-elapsed"+(rem<300000?" paused":""); }
-    if (remSubEl) remSubEl.textContent = remStr;
-    const ea = document.getElementById("clkEndAt");
-    if (ea) ea.textContent = sch.endTime;
-  } else {
-    if (remEl) { remEl.textContent="--:--"; remEl.className="clk-elapsed off"; }
-    if (remSubEl) remSubEl.textContent="--:--";
-    const ea=document.getElementById("clkEndAt"); if(ea)ea.textContent="";
+  // Talk clock
+  const curSeg=S.segments[S.currentSegment];
+  const tkName=document.getElementById("talkSegName");
+  const tkEl=document.getElementById("talkElapsed");
+  const tkRem=document.getElementById("talkRemain");
+  const tkBar=document.getElementById("talkBar");
+  if(curSeg&&isActive){
+    if(tkName)tkName.textContent=curSeg.name;
+    const segStartSec=parseMmSs(curSeg.start);
+    const segLenSec=parseMmSs(curSeg.len);
+    const elSec=getElapsedMs()/1000;
+    const segElSec=Math.max(0,elSec-segStartSec);
+    const segRemSec=segLenSec-segElSec;
+    const pct=Math.min(100,(segElSec/segLenSec)*100);
+    if(tkEl)tkEl.textContent=fmtMmSs(segElSec);
+    if(tkRem){tkRem.textContent=segRemSec>0?fmtMmSs(segRemSec):`+${fmtMmSs(-segRemSec)}`;tkRem.className="talk-val"+(segRemSec<0?" over":segRemSec<30?" remain warn":" remain");}
+    if(tkBar){tkBar.style.width=pct+"%";tkBar.className="talk-bar"+(pct>90?" over":pct>70?" warn":"");}
+  }else{
+    if(tkName)tkName.textContent=curSeg?curSeg.name:"-- SELECT SEGMENT --";
+    if(tkEl)tkEl.textContent="--:--";if(tkRem)tkRem.textContent="--:--";if(tkBar)tkBar.style.width="0%";
   }
 
-  // Next segment time (sub)
+  // Remain
+  const sch=S.schedule||{};
+  const endMs=timeStrToMs(sch.endTime);
+  const remEl=document.getElementById("clkRemain");
+  const subRemEl=document.getElementById("subRemain");
+  if(endMs&&(S.status==="live"||S.status==="standby"||S.status==="cm")){
+    const rem=endMs-Date.now();
+    const rs=rem>0?fmtMmSs(rem/1000):"00:00";
+    if(remEl){remEl.textContent=rs;remEl.className="clk-val remain"+(rem<120000?" warn":"");}
+    if(subRemEl)subRemEl.textContent=rs;
+    const ea=document.getElementById("clkEndAt");if(ea)ea.textContent=sch.endTime;
+  }else{
+    if(remEl){remEl.textContent="--:--";remEl.className="clk-val remain off";}
+    if(subRemEl)subRemEl.textContent="--:--";
+    const ea=document.getElementById("clkEndAt");if(ea)ea.textContent="";
+  }
+
+  // Sub next seg
+  const nSeg=S.segments[S.currentSegment+1];
   const nTimeEl=document.getElementById("subNextTime");
   const nNameEl=document.getElementById("subNextName");
-  const nSeg = S.segments[S.currentSegment+1];
-  if (nSeg && S.startedAt) {
-    const nextStart = parseMmSs(nSeg.start);
-    const elapsed   = getElapsedMs()/1000;
-    const toNext    = nextStart - elapsed;
-    nTimeEl.textContent = toNext > 0 ? fmtMmSs(toNext) : "NOW";
-    nNameEl.textContent = nSeg.name;
-  } else {
-    nTimeEl.textContent="--"; nNameEl.textContent=nSeg?"(最終セグメント)":"--";
+  if(nSeg&&S.startedAt){
+    const toNext=parseMmSs(nSeg.start)-getElapsedMs()/1000;
+    if(nTimeEl)nTimeEl.textContent=toNext>0?fmtMmSs(toNext):"NOW";
+    if(nNameEl)nNameEl.textContent=nSeg.name;
+  }else{if(nTimeEl)nTimeEl.textContent="--";if(nNameEl)nNameEl.textContent=nSeg?"(最終)":"--";}
+  const subSegName=document.getElementById("subSegName");
+  if(subSegName)subSegName.textContent=curSeg?curSeg.name:"--";
+
+  // Playhead update (cheap)
+  const ph=document.getElementById("tlPlayhead");
+  if(ph&&S.startedAt&&(S.status==="live"||S.status==="cm")){ph.style.left=(getElapsedMs()/1000*TL_PX_PER_SEC)+"px";}
+
+  // Pre-broadcast persist countdown update
+  if(preAlertMode==="persist"&&S.status==="offair"){
+    const startMs=timeStrToMs((S.schedule||{}).startTime);
+    if(startMs){const diff=(startMs-Date.now())/1000;if(diff>0)document.getElementById("cdNum").textContent=String(Math.round(diff));}
   }
 
-  // Current seg (sub)
-  const cur = S.segments[S.currentSegment];
-  document.getElementById("subSegName").textContent = cur ? cur.name : "--";
-
-  raf = requestAnimationFrame(clockLoop);
+  raf=requestAnimationFrame(clockLoop);
 }
 
-// ── Event handlers ───────────────────────────────────────────────
-document.getElementById("btnGo").addEventListener("click", async ()=>{
-  if (S.paused && S.pausedAt) {
-    const added = sNow()-S.pausedAt;
-    await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});
-  } else if (S.status!=="live") {
-    await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});
-  }
+// ── Segment CRUD ──────────────────────────────────────────────
+let editingSegIdx=null;
+
+function openSegEdit(i){
+  editingSegIdx=i;
+  const seg=S.segments[i];
+  document.getElementById("segModalTitle").textContent="EDIT SEGMENT";
+  document.getElementById("segName").value=seg.name;
+  document.getElementById("segStart").value=seg.start;
+  document.getElementById("segLen").value=seg.len;
+  document.getElementById("segModal").classList.add("on");
+}
+
+function openSegAdd(){
+  editingSegIdx=null;
+  document.getElementById("segModalTitle").textContent="ADD SEGMENT";
+  document.getElementById("segName").value="";
+  document.getElementById("segStart").value="";
+  document.getElementById("segLen").value="";
+  document.getElementById("segModal").classList.add("on");
+}
+
+async function delSeg(i){
+  if(!confirm(`「${S.segments[i].name}」を削除しますか？`))return;
+  const segs=[...S.segments];segs.splice(i,1);
+  const cur=S.currentSegment>=segs.length?Math.max(0,segs.length-1):S.currentSegment;
+  await save({segments:segs,currentSegment:cur});
+  addLog("seg",`セグメント削除: ${S.segments[i].name}`);
+}
+
+document.getElementById("addSegBtn").addEventListener("click",openSegAdd);
+document.getElementById("segSave").addEventListener("click",async()=>{
+  const name=document.getElementById("segName").value.trim()||"Untitled";
+  const start=document.getElementById("segStart").value.trim()||"00:00";
+  const len=document.getElementById("segLen").value.trim()||"05:00";
+  const segs=[...S.segments];
+  if(editingSegIdx!==null){segs[editingSegIdx]={name,start,len};addLog("seg",`セグメント編集: ${name}`);}
+  else{segs.push({name,start,len});addLog("seg",`セグメント追加: ${name}`);}
+  await save({segments:segs});
+  document.getElementById("segModal").classList.remove("on");
 });
+document.getElementById("segModalCancel").addEventListener("click",()=>document.getElementById("segModal").classList.remove("on"));
 
-document.getElementById("btnStby").addEventListener("click",()=>{
-  document.getElementById("stbyModal").classList.add("on");
+// ── Buttons ───────────────────────────────────────────────────
+document.getElementById("btnGo").addEventListener("click",async()=>{
+  if(S.paused&&S.pausedAt){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("on-air","一時停止解除・再開");}
+  else if(S.status!=="live"){await save({status:"live",startedAt:serverTimestamp(),paused:false,pausedAt:null,pauseAccum:0});forceHidePreAlert();addLog("on-air","手動 ON AIR");}
 });
-
-document.getElementById("btnPau").addEventListener("click", async ()=>{
-  if (S.paused) {
-    const added=sNow()-S.pausedAt;
-    await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});
-  } else {
-    await save({status:"live",paused:true,pausedAt:serverTimestamp()});
-  }
+document.getElementById("btnStby").addEventListener("click",()=>document.getElementById("stbyModal").classList.add("on"));
+document.getElementById("btnPau").addEventListener("click",async()=>{
+  if(S.paused){const added=sNow()-S.pausedAt;await save({status:"live",paused:false,pausedAt:null,pauseAccum:S.pauseAccum+added});addLog("pause","一時停止解除");}
+  else{await save({status:"live",paused:true,pausedAt:serverTimestamp()});addLog("pause","一時停止");}
 });
-
-document.getElementById("btnCm").addEventListener("click",()=>save({status:"cm"}));
-
-document.getElementById("btnRst").addEventListener("click", async ()=>{
-  if (!confirm("放送をリセットしますか？")) return;
-  stopCountdown();
-  await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null});
+document.getElementById("btnCm").addEventListener("click",()=>{save({status:"cm"});addLog("cm","CM BREAK");});
+document.getElementById("btnRst").addEventListener("click",async()=>{
+  if(!confirm("放送をリセットしますか？"))return;
+  stopCountdown();forceHidePreAlert();
+  await save({status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,emergency:false});
+  addLog("off-air","リセット");
 });
+document.getElementById("btnEmg").addEventListener("click",()=>{save({emergency:!S.emergency});});
+document.getElementById("emgBtn").addEventListener("click",()=>{save({emergency:!S.emergency});});
+document.getElementById("emgCancelBtn").addEventListener("click",()=>{save({emergency:false});});
 
-// STBY Modal
+// STBY
 document.getElementById("stbyStart").addEventListener("click",()=>{
-  const count  = parseInt(document.getElementById("stbyCount").value);
-  const action = document.getElementById("stbyAction").value;
+  const count=parseInt(document.getElementById("stbyCount").value);
+  const action=document.getElementById("stbyAction").value;
   document.getElementById("stbyModal").classList.remove("on");
-  save({status:"standby"});
-  startCountdown(count, action);
+  save({status:"standby"});startCountdown(count,action);
 });
-document.getElementById("stbyCancel").addEventListener("click",()=>{
-  document.getElementById("stbyModal").classList.remove("on");
-});
+document.getElementById("stbyCancel").addEventListener("click",()=>document.getElementById("stbyModal").classList.remove("on"));
 
-// CUE buttons (manual)
+// CUE
 document.querySelectorAll(".cue-btn").forEach(b=>{
-  b.addEventListener("click",()=>{
-    if (cdRunning) return; // ignore during auto countdown
-    const c=b.dataset.cue;
-    save({cue:S.cue===c?null:c});
-  });
+  b.addEventListener("click",()=>{if(cdRunning)return;const c=b.dataset.cue;save({cue:S.cue===c?null:c});});
 });
 
-// Auto seg toggle
-document.getElementById("autoSegToggle").addEventListener("change", e=>{
-  save({autoSeg: e.target.checked});
-});
+// Auto seg
+document.getElementById("autoSegToggle").addEventListener("change",e=>save({autoSeg:e.target.checked}));
 
-// Schedule modal
+// Schedule
 document.getElementById("btnSched").addEventListener("click",()=>{
   const sch=S.schedule||{};
   document.getElementById("schedStart").value=sch.startTime||"";
@@ -1014,104 +1246,89 @@ document.getElementById("btnSched").addEventListener("click",()=>{
   document.getElementById("schedModal").classList.add("on");
 });
 document.getElementById("schedSave").addEventListener("click",()=>{
-  const sched={
-    startTime: document.getElementById("schedStart").value,
-    endTime:   document.getElementById("schedEnd").value,
-    autoStart: document.getElementById("schedAutoStart").checked,
-    autoEnd:   document.getElementById("schedAutoEnd").checked,
-  };
+  const sched={startTime:document.getElementById("schedStart").value,endTime:document.getElementById("schedEnd").value,autoStart:document.getElementById("schedAutoStart").checked,autoEnd:document.getElementById("schedAutoEnd").checked};
   save({schedule:sched});
   document.getElementById("schedModal").classList.remove("on");
-  didAutoStart=false; didAutoEnd=false;
+  didAutoStart=false;didAutoEnd=false;did60=false;did30=false;
+  addLog("seg",`スケジュール設定: ${sched.startTime}→${sched.endTime}`);
 });
-document.getElementById("schedCancel").addEventListener("click",()=>{
-  document.getElementById("schedModal").classList.remove("on");
-});
+document.getElementById("schedCancel").addEventListener("click",()=>document.getElementById("schedModal").classList.remove("on"));
 
-// Add segment
-document.getElementById("addSegBtn").addEventListener("click",()=>document.getElementById("addSegModal").classList.add("on"));
-document.getElementById("mCancel").addEventListener("click",()=>document.getElementById("addSegModal").classList.remove("on"));
-document.getElementById("mOk").addEventListener("click", async()=>{
-  const name=document.getElementById("mName").value.trim()||"Untitled";
-  const start=document.getElementById("mStart").value.trim()||"00:00";
-  const len=document.getElementById("mLen").value.trim()||"05:00";
-  await save({segments:[...S.segments,{name,start,len}]});
-  document.getElementById("addSegModal").classList.remove("on");
-  document.getElementById("mName").value="";
-  document.getElementById("mStart").value="";
-  document.getElementById("mLen").value="";
-});
+// Log clear
+document.getElementById("logClearBtn").addEventListener("click",()=>{if(confirm("ログをクリアしますか？")){broadcastLog=[];renderLog();document.getElementById("bLogCount").textContent="LOG: 0";}});
 
-// Close modals on overlay click
-["stbyModal","addSegModal","schedModal"].forEach(id=>{
-  document.getElementById(id).addEventListener("click",e=>{
-    if(e.target===e.currentTarget) e.currentTarget.classList.remove("on");
+// Tabs
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    const name=tab.dataset.tab;
+    document.getElementById("tabBroadcast").style.display=name==="broadcast"?"flex":"none";
+    const tl=document.getElementById("tabTimeline");
+    tl.style.display=name==="timeline"?"flex":"none";tl.className=name==="timeline"?"show":"";
+    const lg=document.getElementById("tabLog");
+    lg.style.display=name==="log"?"flex":"none";lg.className=name==="log"?"show":"";
+    if(name==="timeline")renderTimeline();
+    if(name==="log")renderLog();
   });
 });
 
-// ── Mode switching ────────────────────────────────────────────────
-function setMode(m) {
-  mode = m;
-  sessionStorage.setItem("bcastMode", m);
-  document.getElementById("mainBody").style.display = m==="main" ? "" : "none";
-  document.getElementById("subBody").style.display  = m==="sub"  ? "" : "none";
-  document.getElementById("modeTag").textContent = m==="main"?"MAIN":"SUB";
-  document.getElementById("modeSelect").classList.remove("show");
-}
-
-document.getElementById("msMain").addEventListener("click",()=>setMode("main"));
-document.getElementById("msSub").addEventListener("click",()=>setMode("sub"));
-document.getElementById("switchModeBtn").addEventListener("click",()=>{
-  document.getElementById("modeSelect").classList.add("show");
+// Modals close on overlay
+["stbyModal","segModal","schedModal"].forEach(id=>{
+  document.getElementById(id).addEventListener("click",e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove("on");});
 });
 
-// ── Auth ──────────────────────────────────────────────────────────
-document.getElementById("lBtn").addEventListener("click", async()=>{
-  const e=document.getElementById("lEmail").value.trim();
-  const p=document.getElementById("lPass").value;
-  const err=document.getElementById("lErr");
-  err.textContent="";
-  try { await signInWithEmailAndPassword(auth,e,p); }
-  catch(ex){
-    const m={"auth/user-not-found":"ユーザーが見つかりません","auth/wrong-password":"パスワードが違います",
-      "auth/invalid-email":"メールアドレスの形式が違います","auth/invalid-credential":"認証情報が無効です",
-      "auth/too-many-requests":"試行回数が多すぎます。しばらく待ってください"};
+// ── Mode ──────────────────────────────────────────────────────
+function setMode(m){
+  mode=m;sessionStorage.setItem("bcastMode",m);
+  document.getElementById("mainBody").style.display=m==="main"?"grid":"none";
+  document.getElementById("subBody").style.display=m==="sub"?"flex":"none";
+  document.getElementById("modeTag").textContent=m==="main"?"MAIN":"SUB";
+  document.getElementById("modeSelect").classList.remove("show");
+}
+document.getElementById("msMain").addEventListener("click",()=>setMode("main"));
+document.getElementById("msSub").addEventListener("click",()=>setMode("sub"));
+document.getElementById("switchModeBtn").addEventListener("click",()=>document.getElementById("modeSelect").classList.add("show"));
+
+// ── Auth ──────────────────────────────────────────────────────
+document.getElementById("lBtn").addEventListener("click",async()=>{
+  const e=document.getElementById("lEmail").value.trim(),p=document.getElementById("lPass").value;
+  const err=document.getElementById("lErr");err.textContent="";
+  try{await signInWithEmailAndPassword(auth,e,p);}catch(ex){
+    const m={"auth/user-not-found":"ユーザーが見つかりません","auth/wrong-password":"パスワードが違います","auth/invalid-email":"メールアドレスの形式が違います","auth/invalid-credential":"認証情報が無効です","auth/too-many-requests":"試行回数超過。しばらく待ってください"};
     err.textContent=m[ex.code]||`エラー: ${ex.message}`;
   }
 });
 document.getElementById("lPass").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("lBtn").click();});
 document.getElementById("logoutBtn").addEventListener("click",()=>signOut(auth));
 
-onAuthStateChanged(auth, user=>{
-  if (user) {
+function setSyncUI(ok){["sdot","sdot2"].forEach(id=>{const el=document.getElementById(id);if(el)el.className="sdot"+(ok?"":" off");});const lb=document.getElementById("sLabel");if(lb)lb.textContent=ok?"FIRESTORE SYNC":"DISCONNECTED";}
+
+onAuthStateChanged(auth,user=>{
+  if(user){
     document.getElementById("login").classList.add("hide");
     document.getElementById("app").classList.add("on");
     document.getElementById("hdrUser").textContent=user.email;
-    startListener();
-    if (!raf) clockLoop();
-    // Restore mode or show selector
-    const saved = sessionStorage.getItem("bcastMode");
-    if (saved) setMode(saved);
-    else document.getElementById("modeSelect").classList.add("show");
-  } else {
+    startListener();if(!raf)clockLoop();
+    const saved=sessionStorage.getItem("bcastMode");
+    if(saved)setMode(saved);else document.getElementById("modeSelect").classList.add("show");
+  }else{
     document.getElementById("login").classList.remove("hide");
     document.getElementById("app").classList.remove("on");
     document.getElementById("modeSelect").classList.remove("show");
-    stopListener();
-    stopCountdown();
-    if (schedChecker){clearInterval(schedChecker);schedChecker=null;}
-    if (raf){cancelAnimationFrame(raf);raf=null;}
+    stopListener();stopCountdown();forceHidePreAlert();
+    if(schedChecker){clearInterval(schedChecker);schedChecker=null;}
+    if(raf){cancelAnimationFrame(raf);raf=null;}
     setSyncUI(false);
-    S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],updatedAt:null,schedule:{},autoSeg:false};
+    S={status:"offair",startedAt:null,paused:false,pausedAt:null,pauseAccum:0,currentSegment:0,cue:null,segments:[],schedule:{},autoSeg:false,emergency:false};
   }
 });
 
-// F = fullscreen
+// Keyboard shortcuts
 document.addEventListener("keydown",e=>{
-  if(e.key==="f"||e.key==="F"){
-    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});
-  }
-  if(e.key==="Escape"&&cdRunning){stopCountdown();}
+  if(document.activeElement.tagName==="INPUT"||document.activeElement.tagName==="SELECT")return;
+  if(e.key==="f"||e.key==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});}
+  if(e.key==="Escape"){if(cdRunning)stopCountdown();document.getElementById("modeSelect").classList.remove("show");}
 });
 </script>
 </body>
